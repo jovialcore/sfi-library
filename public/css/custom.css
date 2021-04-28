@@ -3,7 +3,7 @@
 /* force scrollbar */
 html { overflow-y: scroll; }
 
-body { font-family: sans-serif; }
+body { font-family: sans-serif;}
 
 /* ---- grid ---- */
 
@@ -36,7 +36,7 @@ body { font-family: sans-serif; }
 }
 
 .header {
-    background: url(images/header.jpg) no-repeat;
+    background: url(../images/header.jpg) no-repeat;
     background-size: cover;
     
    
@@ -61,5 +61,7 @@ font-weight: bold;
     margin-top: 8em;
     margin-bottom:5em;
 }
+
+
 
 
