@@ -1,0 +1,65 @@
+
+
+/* force scrollbar */
+html { overflow-y: scroll; }
+
+body { font-family: sans-serif; }
+
+/* ---- grid ---- */
+
+.grid {
+  background:white;
+}
+
+/* clear fix */
+.grid:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+/* ---- .grid-item ---- */
+
+.grid-sizer,
+.grid-item {
+  width: 33.333%;
+  margin-bottom: 10px;
+}
+
+.grid-item {
+  float: left;
+}
+
+.grid-item img {
+  display: block;
+  width: 100%;
+}
+
+.header {
+    background: url(images/header.jpg) no-repeat;
+    background-size: cover;
+    
+   
+}
+
+/* .has-search .form-control {
+    padding-left: 2.375rem;
+} */
+
+.search-icon {
+    border-right: 0;
+    font-size: 20px;
+    color:gray;
+    background-color: white;
+}
+
+.text-h {
+font-weight: bold;
+}
+
+.search-wrapper {
+    margin-top: 8em;
+    margin-bottom:5em;
+}
+
+
