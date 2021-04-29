@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+
+use Illuminate\Http\Request;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,3 +29,9 @@ Route::get('/pages', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('/upload', [App\Http\Controllers\UploadController::class, 'index'])->name('upload');
+
+
+Route::post('/submit', [App\Http\Controllers\UploadController::class, 'storeFile'])->name('uploadFile');

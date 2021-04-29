@@ -41,6 +41,7 @@
         </ul>
         
     <!-- search form version -->
+    <!-- check if current is equal to page and display stuff -->
        @if (\Route::current()->getName() == 'page') 
        
        <div class="mx-auto mb-n3" >
@@ -91,7 +92,7 @@
                         @else
 
                             <li >
-                            <a href="upload.html">
+                            <a href="{{route('upload')}}">
                                 <button class="btn btn-success ">
                                     Upload Image
                                 </button>
