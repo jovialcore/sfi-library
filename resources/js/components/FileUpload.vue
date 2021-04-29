@@ -4,7 +4,7 @@
     
                 <div class="form-group">
                     <label class="text-white">Form Title </label>
-                    <input type="file" multiple @change="uponUpload" class="form-control" placeholder="Select file..."> 
+                    <input type="file" multiple @change="uponUpload" id="upload-file" class="form-control" placeholder="Select file..."> 
                 </div>
                 <button class="btn btn-success" @click="submitFile" >Submit </button>
         </div>
@@ -47,7 +47,9 @@
                         
                                         'content-type': 'multipart/form-data' 
                                         } 
-                                    };  
+                                    }; 
+                                    //this should remove the name immediately  
+                    document.getElementById('upload-file').value=[];
 
                       // lets send the data to backend
                     axios.post('/submit', this.form, config).then(Response => {

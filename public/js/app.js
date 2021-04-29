@@ -1891,7 +1891,9 @@ __webpack_require__.r(__webpack_exports__);
         headers: {
           'content-type': 'multipart/form-data'
         }
-      }; // lets send the data to backend
+      }; //this should remove the name immediately  
+
+      document.getElementById('upload-file').value = []; // lets send the data to backend
 
       axios.post('/submit', this.form, config).then(function (Response) {
         //success
@@ -37466,7 +37468,12 @@ var render = function() {
       _vm._v(" "),
       _c("input", {
         staticClass: "form-control",
-        attrs: { type: "file", multiple: "", placeholder: "Select file..." },
+        attrs: {
+          type: "file",
+          multiple: "",
+          id: "upload-file",
+          placeholder: "Select file..."
+        },
         on: { change: _vm.uponUpload }
       })
     ]),
