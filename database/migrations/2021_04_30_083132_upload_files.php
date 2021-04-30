@@ -18,6 +18,7 @@ class UploadFiles extends Migration
             $table->id();
             $table->string('name');
             $table->string('file_type')->nullable();
+            $table->text('path')->nullable();
             $table->integer('size')->nullable();
 
             $table->unsignedBigInteger('user_id')->nullable();
@@ -27,7 +28,7 @@ class UploadFiles extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
-
+                    //if you delete a category, all child is deleted
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 
         });
