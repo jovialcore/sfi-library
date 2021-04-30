@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use app\Models\files;
+
 use Illuminate\Http\Request;
 
 class UploadController extends Controller
@@ -13,16 +15,34 @@ class UploadController extends Controller
 
 
 
-    public function storeFile (Request $rq){
+    public function storeFile (Request $req){
 
-        dd($request->hasFile('files'));
 
-        $theUploadedFiles = $rq->pics;
+        $validator = $req->validate([
+        'pics' => 'required|mimes:jpg,jpeg,png|max:2048'
+        ]);
+
+        if( $validator->fails()){
+            return response()->json(['errors' => $validator->errors()]);
+        }
+
+        $fileUpload = new files;
+
+        $theUploadedFiles = $req->pics;
 
         foreach($theUploadedFiles as $files) {
-            $files->store('dummy');
+            $fileName = '/uploads/'.$files->getClientOriginalName();
+
+            $filePath = $files->storeAs('uploads', $fileName, 'public');
+
+            $fileUpload->name = $fileName;
+            $fileUpload->path = '/storage/'. $filePath;
+            $fileUpload->save();
+            
+            
         }
-    return response(['status'=>'success'],200);
+
+    return response()->json(['success' => 'File was successfully uploaded', ]);
 
     }
 }

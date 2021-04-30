@@ -1857,11 +1857,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       attachments: [],
-      form: new FormData()
+      form: new FormData(),
+      success: '',
+      errors: ''
     };
   },
   methods: {
@@ -1877,11 +1885,10 @@ __webpack_require__.r(__webpack_exports__);
         //so here we are going to push eevryhting thh attachment array vaiable 
         this.attachments.push(selectedFiles[i]);
       }
-
-      console.log(this.attachments);
     },
     submitFile: function submitFile() {
-      //append all the file to the form data 
+      var existingObj = this; //append all the file to the form data 
+
       for (var i = 0; i < this.attachments.length; i++) {
         this.form.append('pics[]', this.attachments[i]);
       } //lets set the file to multipart/form data for content type
@@ -1889,17 +1896,17 @@ __webpack_require__.r(__webpack_exports__);
 
       var config = {
         headers: {
-          'content-type': 'multipart/form-data'
+          "content-type": "multipart/form-data"
         }
       }; //this should remove the name immediately  
 
       document.getElementById('upload-file').value = []; // lets send the data to backend
 
-      axios.post('/submit', this.form, config).then(function (Response) {
+      axios.post('/submit', this.form, config).then(function (Res) {
         //success
-        console.log(Response);
-      })["catch"](function (response) {
-        console.log(response);
+        existingObj.success = Res["this"].form.success;
+      })["catch"](function (Res) {
+        existingObj.success = Res["this"].form.success;
       });
     }
   },
@@ -37464,18 +37471,33 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid bg-dark p-5" }, [
     _c("div", { staticClass: "form-group" }, [
+      _c(
+        "div",
+        {
+          staticClass: "alert alert-success",
+          on: {
+            if: function($event) {
+              _vm.success != ""
+            }
+          }
+        },
+        [_vm._v(" " + _vm._s(_vm.success))]
+      ),
+      _vm._v(" "),
       _c("label", { staticClass: "text-white" }, [_vm._v("Form Title ")]),
       _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: {
-          type: "file",
-          multiple: "",
-          id: "upload-file",
-          placeholder: "Select file..."
-        },
-        on: { change: _vm.uponUpload }
-      })
+      _c("form", { attrs: { enctype: "multipart/form-data" } }, [
+        _c("input", {
+          staticClass: "form-control",
+          attrs: {
+            type: "file",
+            multiple: "",
+            id: "upload-file",
+            placeholder: "Select file..."
+          },
+          on: { change: _vm.uponUpload }
+        })
+      ])
     ]),
     _vm._v(" "),
     _c(
