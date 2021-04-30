@@ -15,8 +15,7 @@ class FileCategories extends Migration
     {
         //this is for the user the categories and also for the user that created the categories
             Schema::create('categories', function(Blueprint $table){
-
-                $table->increments('id');
+                $table->id();
                 //user that created catgories
                 $table->unsignedBigInteger('user_id')->nullable();
                 

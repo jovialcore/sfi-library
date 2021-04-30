@@ -15,13 +15,14 @@ class UploadController extends Controller
 
     public function storeFile (Request $rq){
 
-            $theUploadedFiles = $rq->pics;
+        dd($request->hasFile('files'));
 
-            foreach($theUploadedFiles as $files) {
-                $files->store('dummy');
-            }
+        $theUploadedFiles = $rq->pics;
 
-           return response(['status'=>'success'],200);
+        foreach($theUploadedFiles as $files) {
+            $files->store('dummy');
+        }
+    return response(['status'=>'success'],200);
 
     }
 }
