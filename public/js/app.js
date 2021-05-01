@@ -1863,13 +1863,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       attachments: [],
       form: new FormData(),
+      isActive: null,
+      hasError: null,
       success: '',
-      errors: ''
+      errors: {}
     };
   },
   methods: {
@@ -1887,6 +1893,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     submitFile: function submitFile() {
+      var _this = this;
+
       var existingObj = this; //append all the file to the form data 
 
       for (var i = 0; i < this.attachments.length; i++) {
@@ -1904,9 +1912,11 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post('/submit', this.form, config).then(function (Res) {
         //success
-        existingObj.success = Res["this"].form.success;
-      })["catch"](function (Res) {
-        existingObj.success = Res["this"].form.success;
+        _this.isActive = true;
+        _this.success = Res.data.success;
+      })["catch"](function (error) {
+        _this.hasError = true;
+        _this.errors = error.response.data.errors;
       });
     }
   },
@@ -37474,14 +37484,30 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "alert alert-success",
-          on: {
-            if: function($event) {
-              _vm.success != ""
-            }
+          staticClass: "ex-ccss",
+          class: {
+            "alert alert-success": _vm.isActive,
+            "alert alert-danger": _vm.hasError
           }
         },
-        [_vm._v(" " + _vm._s(_vm.success))]
+        _vm._l(_vm.errors, function(errorArray) {
+          return _c(
+            "div",
+            _vm._l(errorArray, function(allErrors) {
+              return _c("div", { key: allErrors }, [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.success) +
+                    "\n                    " +
+                    _vm._s(allErrors) +
+                    " \n                "
+                )
+              ])
+            }),
+            0
+          )
+        }),
+        0
       ),
       _vm._v(" "),
       _c("label", { staticClass: "text-white" }, [_vm._v("Form Title ")]),

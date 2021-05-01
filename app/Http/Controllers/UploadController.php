@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use app\Models\files;
+use App\Models\files;
 
 use Illuminate\Http\Request;
 
@@ -19,30 +19,34 @@ class UploadController extends Controller
 
 
         $validator = $req->validate([
-        'pics' => 'required|mimes:jpg,jpeg,png|max:2048'
+        'pics' => 'required|file|mimes:jpg,jpeg,png|max:2048'
         ]);
 
         if( $validator->fails()){
             return response()->json(['errors' => $validator->errors()]);
         }
 
-        $fileUpload = new files;
+        $fileUploadModel = new files;
 
         $theUploadedFiles = $req->pics;
 
         foreach($theUploadedFiles as $files) {
+
+
+        // dd($files->getClientMimeType());
+
             $fileName = '/uploads/'.$files->getClientOriginalName();
 
             $filePath = $files->storeAs('uploads', $fileName, 'public');
 
-            $fileUpload->name = $fileName;
-            $fileUpload->path = '/storage/'. $filePath;
-            $fileUpload->save();
+            $fileUploadModel->name = $fileName;
+            $fileUploadModel->path = '/storage/'. $filePath;
+            $fileUploadModel->save();
             
-            
+            return response()->json(['success' => 'File was successfully uploaded'], 200);
         }
 
-    return response()->json(['success' => 'File was successfully uploaded', ]);
+  
 
     }
 }
