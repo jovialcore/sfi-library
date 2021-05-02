@@ -47,7 +47,7 @@
                     
                 },
                 submitFile(){  
-                     let existingObj = this;
+                     
                      //append all the file to the form data 
                     for(let i =0; i < this.attachments.length; i++) {
                         this.form.append('pics[]', this.attachments[i])
@@ -55,7 +55,7 @@
                      //lets set the file to multipart/form data for content type
                     const config = { headers: { 
                         
-                                        "content-type" : "multipart/form-data" 
+                                        "Content-Type" : "multipart/form-data" 
                                         } 
                                     }
                                     //this should remove the name immediately  

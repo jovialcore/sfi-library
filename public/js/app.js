@@ -1895,16 +1895,15 @@ __webpack_require__.r(__webpack_exports__);
     submitFile: function submitFile() {
       var _this = this;
 
-      var existingObj = this; //append all the file to the form data 
-
+      //append all the file to the form data 
       for (var i = 0; i < this.attachments.length; i++) {
-        this.form.append('pics[]', this.attachments[i]);
+        this.form.append('pics[' + i + ']', this.attachments[i]);
       } //lets set the file to multipart/form data for content type
 
 
       var config = {
         headers: {
-          "content-type": "multipart/form-data"
+          "Content-Type": "multipart/form-data"
         }
       }; //this should remove the name immediately  
 

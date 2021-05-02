@@ -17,21 +17,18 @@ class UploadController extends Controller
 
     public function storeFile (Request $req){
 
-
+        
         $validator = $req->validate([
-        'pics' => 'required|file|mimes:jpg,jpeg,png|max:2048'
+        'pics' => 'required',
+        'pics.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048'
         ]);
 
-        if( $validator->fails()){
-            return response()->json(['errors' => $validator->errors()]);
-        }
-
         $fileUploadModel = new files;
+        if($req->hasFile('pics')) {
 
-        $theUploadedFiles = $req->pics;
+            $theUploadedFiles = $req->pics;
 
-        foreach($theUploadedFiles as $files) {
-
+            foreach($theUploadedFiles as $files) {
 
         // dd($files->getClientMimeType());
 
@@ -45,7 +42,7 @@ class UploadController extends Controller
             
             return response()->json(['success' => 'File was successfully uploaded'], 200);
         }
-
+    }
   
 
     }
