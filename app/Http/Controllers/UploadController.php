@@ -17,12 +17,12 @@ class UploadController extends Controller
 
     public function storeFile (Request $req){
 
-        
         $validator = $req->validate([
         'pics' => 'required',
         'pics.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048'
         ]);
 
+        $allowedExtension = [];
         $fileUploadModel = new files;
         if($req->hasFile('pics')) {
 
@@ -44,6 +44,5 @@ class UploadController extends Controller
         }
     }
   
-
     }
 }

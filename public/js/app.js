@@ -1875,7 +1875,7 @@ __webpack_require__.r(__webpack_exports__);
       isActive: null,
       hasError: null,
       success: '',
-      errors: {}
+      errors: null
     };
   },
   methods: {
@@ -1915,7 +1915,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.success = Res.data.success;
       })["catch"](function (error) {
         _this.hasError = true;
-        _this.errors = error.response.data.errors;
+        _this.errors = error.response.data.errors || error.response.data.message;
       });
     }
   },
@@ -37492,6 +37492,7 @@ var render = function() {
         _vm._l(_vm.errors, function(errorArray) {
           return _c(
             "div",
+            { key: errorArray },
             _vm._l(errorArray, function(allErrors) {
               return _c("div", { key: allErrors }, [
                 _vm._v(

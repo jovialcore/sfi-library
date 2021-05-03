@@ -4,7 +4,7 @@
     
                 <div class="form-group">
                       <div v-bind:class="{'alert alert-success': isActive, 'alert alert-danger': hasError }" class="ex-ccss" >
-                        <div  v-for="errorArray in errors" >
+                        <div  v-for="errorArray in errors" :key="errorArray" >
                             <div v-for="allErrors in errorArray" :key="allErrors">
                             {{success}}
                             {{allErrors}} 
@@ -29,7 +29,7 @@
                     isActive:null,
                     hasError:null,
                     success: '',
-                    errors: {}
+                    errors: null
                 }
         },
         methods: {
@@ -50,7 +50,7 @@
                      
                      //append all the file to the form data 
                     for(let i =0; i < this.attachments.length; i++) {
-                        this.form.append('pics[]', this.attachments[i])
+                        this.form.append('pics[' + i + ']', this.attachments[i])
                         }
                      //lets set the file to multipart/form data for content type
                     const config = { headers: { 
@@ -68,7 +68,7 @@
                     }).catch (error=> {
 
                         this.hasError = true
-                        this.errors = error.response.data.errors;
+                        this.errors = error.response.data.errors || error.response.data.message ;
                            
                     });
                 }

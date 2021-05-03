@@ -4,7 +4,7 @@
     
                 <div class="form-group">
                     <label class="text-white">Form Title </label>
-                    <input type="file" multiple @change="uponUpload" id="upload-file" class="form-control" placeholder="Select file..."> 
+                    <input type="file" multiple @change="uponUpload" id="upload-file" class="form-control" placeholder="Select file..." > 
                 </div>
                 <button class="btn btn-success" @click="submitFile" >Submit </button>
         </div>
