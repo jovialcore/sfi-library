@@ -22,7 +22,7 @@ class UploadController extends Controller
         'pics.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048'
         ]);
 
-        $allowedExtension = [];
+        
         $fileUploadModel = new files;
         if($req->hasFile('pics')) {
 

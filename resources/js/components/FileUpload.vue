@@ -4,16 +4,16 @@
     
                 <div class="form-group">
                       <div v-bind:class="{'alert alert-success': isActive, 'alert alert-danger': hasError }" class="ex-ccss" >
+                            {{success}}
                         <div  v-for="errorArray in errors" :key="errorArray" >
                             <div v-for="allErrors in errorArray" :key="allErrors">
-                            {{success}}
                             {{allErrors}} 
                         </div>
                      </div>
                     </div>
                     <label class="text-white">Form Title </label>
                 <form enctype="multipart/form-data">
-                    <input type="file" multiple @change="uponUpload" id="upload-file" class="form-control" placeholder="Select file..."> 
+                    <input type="file" multiple @change="uponUpload" id="upload-file" class="form-control" placeholder="Select file..." > 
                 </form>
                 </div>
                 <button class="btn btn-success" @click="submitFile" >Submit </button>
@@ -28,7 +28,7 @@
                     form: new FormData(),
                     isActive:null,
                     hasError:null,
-                    success: '',
+                    success: " ",
                     errors: null
                 }
         },
@@ -59,16 +59,18 @@
                                         } 
                                     }
                                     //this should remove the name immediately  
-                    document.getElementById('upload-file').value=[];
+            
                       // lets send the data to backend
                     axios.post('/submit', this.form, config).then(Res => {
                         //success
                         this.isActive = true
                         this.success = Res.data.success
+                         document.getElementById('upload-file').value = ""
                     }).catch (error=> {
 
                         this.hasError = true
                         this.errors = error.response.data.errors || error.response.data.message ;
+                        document.getElementById('upload-file').value = "";
                            
                     });
                 }

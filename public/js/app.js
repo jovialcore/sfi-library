@@ -1874,7 +1874,7 @@ __webpack_require__.r(__webpack_exports__);
       form: new FormData(),
       isActive: null,
       hasError: null,
-      success: '',
+      success: " ",
       errors: null
     };
   },
@@ -1906,16 +1906,17 @@ __webpack_require__.r(__webpack_exports__);
           "Content-Type": "multipart/form-data"
         }
       }; //this should remove the name immediately  
-
-      document.getElementById('upload-file').value = []; // lets send the data to backend
+      // lets send the data to backend
 
       axios.post('/submit', this.form, config).then(function (Res) {
         //success
         _this.isActive = true;
         _this.success = Res.data.success;
+        document.getElementById('upload-file').value = "";
       })["catch"](function (error) {
         _this.hasError = true;
         _this.errors = error.response.data.errors || error.response.data.message;
+        document.getElementById('upload-file').value = "";
       });
     }
   },
@@ -37489,25 +37490,30 @@ var render = function() {
             "alert alert-danger": _vm.hasError
           }
         },
-        _vm._l(_vm.errors, function(errorArray) {
-          return _c(
-            "div",
-            { key: errorArray },
-            _vm._l(errorArray, function(allErrors) {
-              return _c("div", { key: allErrors }, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.success) +
+        [
+          _vm._v(
+            "\n                    " +
+              _vm._s(_vm.success) +
+              "\n                "
+          ),
+          _vm._l(_vm.errors, function(errorArray) {
+            return _c(
+              "div",
+              { key: errorArray },
+              _vm._l(errorArray, function(allErrors) {
+                return _c("div", { key: allErrors }, [
+                  _vm._v(
                     "\n                    " +
-                    _vm._s(allErrors) +
-                    " \n                "
-                )
-              ])
-            }),
-            0
-          )
-        }),
-        0
+                      _vm._s(allErrors) +
+                      " \n                "
+                  )
+                ])
+              }),
+              0
+            )
+          })
+        ],
+        2
       ),
       _vm._v(" "),
       _c("label", { staticClass: "text-white" }, [_vm._v("Form Title ")]),
