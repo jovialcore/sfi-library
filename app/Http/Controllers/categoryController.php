@@ -10,8 +10,8 @@ class categoryController extends Controller
 {
     public function allCategory () {
 
-         $allCat = category::orderBy('created_at', DESC)->get();
-         return $allCat;
+         $allCat = category::orderBy('created_at', 'DESC')->get();
+        dd($allCat);
     }
 
 
@@ -21,6 +21,6 @@ class categoryController extends Controller
 
         $newCategory->name = $req->cat['name'];
 
-             
+
     }
 }

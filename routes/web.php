@@ -36,4 +36,7 @@ Route::get('/upload', [App\Http\Controllers\UploadController::class, 'index'])->
 
 Route::post('/submit', [App\Http\Controllers\UploadController::class, 'storeFile'])->name('uploadFile');
 
-Route::post('/storeCat', [App\Http\Controllers\category::class, 'storeCategory'])->name('storecategory');
+Route::get('/allCats', [App\Http\Controllers\categoryController::class, 'allCategory'])->name('allCats');
+
+
+

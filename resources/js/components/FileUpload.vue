@@ -13,10 +13,9 @@
 
                     <label class="text-white">Category: </label>
                 <form >
-                      <select  class="custom-select w-50 mb-4"  v-model="cat.name" value="dropdown" placeholder="add a category">
-                        <option selected >2021 convention</option>
-                        <option >Young Daughters</option>
-                        <option >Transformation Center</option>
+
+                      <select v-for ="allCat in categories" :key="allCat" class="custom-select w-50 mb-4"  v-model="cat.name" value="dropdown" placeholder="add a category">
+                        <option >{{ allCat }}</option>
                     </select>
 
                     <!-- <span class="text-white"> {{cat.name}}</span> -->
@@ -47,6 +46,8 @@
                     }
                 }
         },
+
+            props : ['categories'],
 
         methods: {
                 uponUpload(e){

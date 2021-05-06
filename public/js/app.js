@@ -1877,7 +1877,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1893,6 +1892,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
+  props: ['categories'],
   methods: {
     uponUpload: function uponUpload(e) {
       //i should have use computed properties here...so everything happens by default;
@@ -1976,12 +1976,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     fileupload: _FileUpload_vue__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  data: function data() {
+    return {
+      categories: []
+    };
+  },
+  methods: {
+    getCats: function getCats() {
+      var _this = this;
+
+      axios.get('/allCats').then(function (response) {
+        _this.categories = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  },
+  created: function created() {
+    this.getCats();
   }
 });
 
@@ -37651,64 +37668,63 @@ var render = function() {
       _vm._v(" "),
       _c("label", { staticClass: "text-white" }, [_vm._v("Category: ")]),
       _vm._v(" "),
-      _c("form", [
-        _c(
-          "select",
-          {
-            directives: [
+      _c(
+        "form",
+        [
+          _vm._l(_vm.categories, function(allCat) {
+            return _c(
+              "select",
               {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.cat.name,
-                expression: "cat.name"
-              }
-            ],
-            staticClass: "custom-select w-50 mb-4",
-            attrs: { value: "dropdown", placeholder: "add a category" },
-            on: {
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.$set(
-                  _vm.cat,
-                  "name",
-                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                )
-              }
-            }
-          },
-          [
-            _c("option", { attrs: { selected: "" } }, [
-              _vm._v("2021 convention")
-            ]),
-            _vm._v(" "),
-            _c("option", [_vm._v("Young Daughters")]),
-            _vm._v(" "),
-            _c("option", [_vm._v("Transformation Center")])
-          ]
-        ),
-        _vm._v(" "),
-        _c("br"),
-        _vm._v(" "),
-        _c("label", { staticClass: "text-white" }, [_vm._v("Select File: ")]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "w-50 form-control",
-          attrs: {
-            type: "file",
-            multiple: "",
-            id: "upload-file",
-            placeholder: "Select file..."
-          },
-          on: { change: _vm.uponUpload }
-        })
-      ])
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.cat.name,
+                    expression: "cat.name"
+                  }
+                ],
+                key: allCat,
+                staticClass: "custom-select w-50 mb-4",
+                attrs: { value: "dropdown", placeholder: "add a category" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.cat,
+                      "name",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
+                }
+              },
+              [_c("option", [_vm._v(_vm._s(allCat))])]
+            )
+          }),
+          _vm._v(" "),
+          _c("br"),
+          _vm._v(" "),
+          _c("label", { staticClass: "text-white" }, [_vm._v("Select File: ")]),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "w-50 form-control",
+            attrs: {
+              type: "file",
+              multiple: "",
+              id: "upload-file",
+              placeholder: "Select file..."
+            },
+            on: { change: _vm.uponUpload }
+          })
+        ],
+        2
+      )
     ]),
     _vm._v(" "),
     _c(
@@ -37741,7 +37757,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("file-upload")
+  return _c("file-upload", { attrs: { categories: _vm.categories } })
 }
 var staticRenderFns = []
 render._withStripped = true
