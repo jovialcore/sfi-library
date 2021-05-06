@@ -1867,6 +1867,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1874,12 +1888,21 @@ __webpack_require__.r(__webpack_exports__);
       form: new FormData(),
       isActive: null,
       hasError: null,
-      success: " ",
-      errors: null
+      success: "",
+      errors: null,
+      category: '',
+      cat: {
+        name: ""
+      }
     };
   },
   methods: {
     uponUpload: function uponUpload(e) {
+      //i should have use computed properties here...so everything happens by default;
+      this.success = "";
+      this.errors = "";
+      this.isActive = false;
+      this.hasError = false;
       var selectedFiles = e.target.files; //if there are no files
 
       if (!selectedFiles.length) {
@@ -1888,36 +1911,48 @@ __webpack_require__.r(__webpack_exports__);
 
 
       for (var i = 0; i < selectedFiles.length; i++) {
-        //so here we are going to push eevryhting thh attachment array vaiable 
+        //so here we are going to push eevryhting thh attachment array vaiable
         this.attachments.push(selectedFiles[i]);
       }
     },
     submitFile: function submitFile() {
       var _this = this;
 
-      //append all the file to the form data 
+      //append all the file to the form data
       for (var i = 0; i < this.attachments.length; i++) {
         this.form.append('pics[' + i + ']', this.attachments[i]);
-      } //lets set the file to multipart/form data for content type
+      } //without the JSON.stringify() you will have an object.object 'error'
 
+
+      this.form.append('cats', JSON.stringify(this.cat.name)); //lets set the file to multipart/form data for content type
 
       var config = {
         headers: {
           "Content-Type": "multipart/form-data"
         }
-      }; //this should remove the name immediately  
-      // lets send the data to backend
+      }; // lets get the first request
+      //   const fileUploadRequest = axios.post('/submit', this.form, config);
+      //   //lets get the second request
+      // const categoryRequest = axios.post('/store');
+      // axios.all([fileUploadRequest, ategoryRequest]).then(axios.spread((...responses) =>{
+      //     const fileUploadResponse = responses[0]
+      //     const categoryResponse = responses[1]
+      //     console.log(fileUploadResponse, categoryResponse)
+      //  } ))  .catch(errors => {
+      //         // react on errors.
+      //      console.error(errors);
+      //     })
 
       axios.post('/submit', this.form, config).then(function (Res) {
         //success
         _this.isActive = true;
         _this.success = Res.data.success;
-        document.getElementById('upload-file').value = "";
       })["catch"](function (error) {
         _this.hasError = true;
         _this.errors = error.response.data.errors || error.response.data.message;
-        document.getElementById('upload-file').value = "";
       });
+      this.attachments = [];
+      console.log(document.getElementById('upload-file').value = "");
     }
   },
   mounted: function mounted() {
@@ -37479,7 +37514,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-fluid bg-dark p-5" }, [
+  return _c("div", { staticClass: "container bg-dark p-5 mt-5" }, [
     _c("div", { staticClass: "form-group" }, [
       _c(
         "div",
@@ -37505,7 +37540,7 @@ var render = function() {
                   _vm._v(
                     "\n                    " +
                       _vm._s(allErrors) +
-                      " \n                "
+                      "\n                "
                   )
                 ])
               }),
@@ -37516,11 +37551,57 @@ var render = function() {
         2
       ),
       _vm._v(" "),
-      _c("label", { staticClass: "text-white" }, [_vm._v("Form Title ")]),
+      _c("label", { staticClass: "text-white" }, [_vm._v("Category: ")]),
       _vm._v(" "),
-      _c("form", { attrs: { enctype: "multipart/form-data" } }, [
+      _c("form", [
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.cat.name,
+                expression: "cat.name"
+              }
+            ],
+            staticClass: "custom-select w-50 mb-4",
+            attrs: { value: "dropdown", placeholder: "add aa category" },
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.$set(
+                  _vm.cat,
+                  "name",
+                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                )
+              }
+            }
+          },
+          [
+            _c("option", { attrs: { selected: "" } }, [
+              _vm._v("2021 convention")
+            ]),
+            _vm._v(" "),
+            _c("option", [_vm._v("Young Daughters")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("Transformation Center")])
+          ]
+        ),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
+        _c("label", { staticClass: "text-white" }, [_vm._v("Select File: ")]),
+        _vm._v(" "),
         _c("input", {
-          staticClass: "form-control",
+          staticClass: "w-50 form-control",
           attrs: {
             type: "file",
             multiple: "",

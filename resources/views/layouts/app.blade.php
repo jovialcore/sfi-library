@@ -149,8 +149,6 @@ imagesLoaded( grid ).on( 'progress', function() {
 });
 
 
-console.log(grid);
-
 </script>
 </body>
 </html>
