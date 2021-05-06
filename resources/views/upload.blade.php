@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
 
-<file-upload> </file-upload>
+<app-component> </app-component>
 
 @endsection

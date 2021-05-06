@@ -1,24 +1,19 @@
 <template>
-
+    <file-upload />
 </template>
+
+
 
 
 <script>
 
-export default({
-        propData : function () {
-            return {
-                allCatgeories : []
-            }
-        },
+import fileupload from "./FileUpload.vue"
 
-        methods: {
-            getAllCategories() {
-                axios.get(/allCats)
-                .then(response => {
-                    this.allCatgeories = response.data
-                })
-            }
-        }
-})
+
+export default {
+    components : {
+        fileupload
+    }
+}
+
 </script>

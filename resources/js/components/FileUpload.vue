@@ -1,7 +1,4 @@
-
-
 <template>
-
         <div class="container bg-dark p-5 mt-5">
 
                 <div class="form-group">
@@ -16,7 +13,7 @@
 
                     <label class="text-white">Category: </label>
                 <form >
-                      <select  class="custom-select w-50 mb-4" v-model="cat.name" value="dropdown" placeholder="add aa category">
+                      <select  class="custom-select w-50 mb-4"  v-model="cat.name" value="dropdown" placeholder="add a category">
                         <option selected >2021 convention</option>
                         <option >Young Daughters</option>
                         <option >Transformation Center</option>
