@@ -11,7 +11,8 @@ class categoryController extends Controller
     public function allCategory () {
 
          $allCat = category::orderBy('created_at', 'DESC')->get();
-        return response()->json($allCat);
+
+        return response()->json($allCat) && view('home', compact('allCat'));
     }
 
 
