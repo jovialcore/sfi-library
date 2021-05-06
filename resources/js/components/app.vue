@@ -24,6 +24,7 @@ export default {
             axios.get('/allCats')
             .then( response => {
                 this.categories = response.data
+                // console.log(this.categories)
             })
             .catch( error => {
                     console.log(error)

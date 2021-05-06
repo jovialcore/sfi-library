@@ -12,15 +12,13 @@
                     </div>
 
                     <label class="text-white">Category: </label>
-                <form >
+                <form v-for="allCats in categories" :key="allCats">
 
-                      <select v-for ="allCat in categories" :key="allCat" class="custom-select w-50 mb-4"  v-model="cat.name" value="dropdown" placeholder="add a category">
-                        <option >{{ allCat }}</option>
+                      <select   class="custom-select w-50 mb-4"  v-model="cat.name" value="dropdown" placeholder="add a category">
+                        <option > {{allCats.name}}</option>
                     </select>
 
                     <!-- <span class="text-white"> {{cat.name}}</span> -->
-
-
                     <br>
                 <label class="text-white">Select File: </label>
                     <input type="file" multiple @change="uponUpload" id="upload-file" class="w-50 form-control" placeholder="Select file..." >

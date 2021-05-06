@@ -11,7 +11,7 @@ class categoryController extends Controller
     public function allCategory () {
 
          $allCat = category::orderBy('created_at', 'DESC')->get();
-        dd($allCat);
+        return response()->json($allCat);
     }
 
 
