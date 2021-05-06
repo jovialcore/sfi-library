@@ -121,6 +121,7 @@ return [
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
+ 
 
     /*
     |--------------------------------------------------------------------------
@@ -134,9 +135,9 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
+        // 'pics.*' => [
+        //     'mimes' => 'The file must be a file of type: jpeg, jpg, png, gif, csv, txt, pdf.',
+        // ],
     ],
 
     /*
@@ -149,7 +150,9 @@ return [
     | of "email". This simply helps us make our message more expressive.
     |
     */
-
-    'attributes' => [],
+//wow this is the best thing to do..I am so excited
+    'attributes' => [
+        'pics.*' => 'images and pictures'
+    ]
 
 ];

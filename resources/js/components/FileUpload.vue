@@ -1,19 +1,29 @@
 <template>
+        <div class="container bg-dark p-5 mt-5">
 
-        <div class="container-fluid bg-dark p-5">
-    
                 <div class="form-group">
                       <div v-bind:class="{'alert alert-success': isActive, 'alert alert-danger': hasError }" class="ex-ccss" >
                             {{success}}
                         <div  v-for="errorArray in errors" :key="errorArray" >
                             <div v-for="allErrors in errorArray" :key="allErrors">
-                            {{allErrors}} 
+                            {{allErrors}}
                         </div>
                      </div>
                     </div>
-                    <label class="text-white">Form Title </label>
-                <form enctype="multipart/form-data">
-                    <input type="file" multiple @change="uponUpload" id="upload-file" class="form-control" placeholder="Select file..." > 
+
+                    <label class="text-white">Category: </label>
+                <form >
+
+                      <select v-for ="allCat in categories" :key="allCat" class="custom-select w-50 mb-4"  v-model="cat.name" value="dropdown" placeholder="add a category">
+                        <option >{{ allCat }}</option>
+                    </select>
+
+                    <!-- <span class="text-white"> {{cat.name}}</span> -->
+
+
+                    <br>
+                <label class="text-white">Select File: </label>
+                    <input type="file" multiple @change="uponUpload" id="upload-file" class="w-50 form-control" placeholder="Select file..." >
                 </form>
                 </div>
                 <button class="btn btn-success" @click="submitFile" >Submit </button>
@@ -28,12 +38,24 @@
                     form: new FormData(),
                     isActive:null,
                     hasError:null,
-                    success: " ",
-                    errors: null
+                    success: "",
+                    errors: null,
+                    category : '',
+                    cat : {
+                        name: ""
+                    }
                 }
         },
+
+            props : ['categories'],
+
         methods: {
                 uponUpload(e){
+                   //i should have use computed properties here...so everything happens by default;
+                     this.success = ""
+                     this.errors = ""
+                     this.isActive = false
+                     this.hasError = false
                     let selectedFiles = e.target.files
                     //if there are no files
                     if(!selectedFiles.length){
@@ -41,38 +63,57 @@
                     }
                     //lets loop through all the files that will be selected
                     for(let i=0; i<selectedFiles.length;  i++){
-                    //so here we are going to push eevryhting thh attachment array vaiable 
+                    //so here we are going to push eevryhting thh attachment array vaiable
                         this.attachments.push(selectedFiles[i])
                     }
-                    
                 },
-                submitFile(){  
-                     
-                     //append all the file to the form data 
+                submitFile(){
+                     //append all the file to the form data
                     for(let i =0; i < this.attachments.length; i++) {
                         this.form.append('pics[' + i + ']', this.attachments[i])
                         }
+
+                    //without the JSON.stringify() you will have an object.object 'error'
+                    this.form.append('cats', JSON.stringify(this.cat.name))
+
                      //lets set the file to multipart/form data for content type
-                    const config = { headers: { 
-                        
-                                        "Content-Type" : "multipart/form-data" 
-                                        } 
+                    const config = { headers: {
+
+                                        "Content-Type" : "multipart/form-data"
+                                        }
                                     }
-                                    //this should remove the name immediately  
-            
-                      // lets send the data to backend
-                    axios.post('/submit', this.form, config).then(Res => {
+
+                      // lets get the first request
+                    //   const fileUploadRequest = axios.post('/submit', this.form, config);
+
+                    //   //lets get the second request
+                    // const categoryRequest = axios.post('/store');
+
+                    // axios.all([fileUploadRequest, ategoryRequest]).then(axios.spread((...responses) =>{
+
+
+                    //     const fileUploadResponse = responses[0]
+                    //     const categoryResponse = responses[1]
+
+                    //     console.log(fileUploadResponse, categoryResponse)
+
+                    //  } ))  .catch(errors => {
+                    //         // react on errors.
+                    //      console.error(errors);
+                    //     })
+
+                    axios.post ('/submit', this.form, config).then(Res => {
                         //success
                         this.isActive = true
                         this.success = Res.data.success
-                         document.getElementById('upload-file').value = ""
                     }).catch (error=> {
 
                         this.hasError = true
                         this.errors = error.response.data.errors || error.response.data.message ;
-                        document.getElementById('upload-file').value = "";
-                           
                     });
+
+                   this.attachments = [];
+                     console.log(document.getElementById('upload-file').value = "")
                 }
         },
         mounted() {
@@ -80,3 +121,4 @@
         }
     }
 </script>
+
