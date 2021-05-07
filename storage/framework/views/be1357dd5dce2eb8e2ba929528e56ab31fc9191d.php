@@ -34,7 +34,7 @@
     <?php $__currentLoopData = $allImages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
     <div class="grid-item">
-        <a href="<?php echo e(route('page')); ?>"> <img src="<?php echo e(asset('uploads/'.$image->name)); ?>" >  </a>
+        <a href="<?php echo e(route('page')); ?>"> <img src="<?php echo e(asset('storage/uploads/'.$image->name)); ?>" >  </a>
     </div>
     
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
