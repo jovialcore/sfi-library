@@ -28,8 +28,8 @@ Route::get('/pages', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/home', [App\Http\Controllers\MainController::class, 'mainAllImages'])->name('allImages');
 
 Route::get('/upload', [App\Http\Controllers\UploadController::class, 'index'])->name('upload');
 
