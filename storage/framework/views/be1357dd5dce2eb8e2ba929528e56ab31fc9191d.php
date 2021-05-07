@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-fluid" >
       <div class="row header">
       <div class="col-8 mx-auto search-wrapper">
@@ -33,17 +31,19 @@
 <div class="grid">
   <div class="grid-sizer">
 
-    @foreach ( $allImages as $image )
+    <?php $__currentLoopData = $allImages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
     <div class="grid-item">
-        <a href="{{ route('page') }}"> <img src="{{'storage/app/public/uploads/'.$image->name}}" >  </a>
+        <a href="<?php echo e(route('page')); ?>"> <img src="<?php echo e('storage/app/public/uploads/'.$image->name); ?>" >  </a>
     </div>
-    {{-- C:\xampp\htdocs\sfi-library\storage\app\public\uploads\me again.png --}}
-    @endforeach
+    
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     storage\app\public\uploads\sfghblogo.png
 </div>
     </div>
   </div>
 </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\sfi-library\resources\views/home.blade.php ENDPATH**/ ?>
