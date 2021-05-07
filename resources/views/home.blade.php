@@ -36,7 +36,7 @@
     @foreach ( $allImages as $image )
 
     <div class="grid-item">
-        <a href="{{ route('page') }}"> <img src="{{'storage/app/public/uploads/'.$image->name}}" >  </a>
+        <a href="{{ route('page') }}"> <img src="{{asset('uploads/'.$image->name)}}" >  </a>
     </div>
     {{-- C:\xampp\htdocs\sfi-library\storage\app\public\uploads\me again.png --}}
     @endforeach
