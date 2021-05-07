@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
 <head>
-  
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,9 +14,9 @@
     <link href="<?php echo e(asset('css/custom.css')); ?>" rel="stylesheet">
 
     <link href="<?php echo e(asset('css/page.css')); ?>" rel="stylesheet">
-    
+
    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
-    
+
     <title><?php echo e(config('app.name', 'SFI-Library')); ?></title>
 
         <!-- Scripts -->
@@ -42,16 +42,16 @@
             <a class="nav-link" href="#">YDf</a>
           </li>
         </ul>
-        
+
     <!-- search form version -->
     <!-- check if current is equal to page and display stuff -->
-       <?php if(\Route::current()->getName() == 'page'): ?> 
-       
+       <?php if(\Route::current()->getName() == 'page'): ?>
+
        <div class="mx-auto mb-n3" >
             <form class="form-inline align-self-center"  action="">
                 <div class="input-group mb-3">
                 <div class="input-group-prepend" style="">
-                    <button class="btn btn-light search-icon" type="button"><i class="fa fa-search"></i></button>  
+                    <button class="btn btn-light search-icon" type="button"><i class="fa fa-search"></i></button>
                 </div>
                 <input type="search" class="form-control" style="height:auto; border: 0;" placeholder="Search images">
                 <div class="input-group-append">
@@ -131,25 +131,26 @@
     </div>
 
 
-    
+
     <script src="<?php echo e(asset('js/imagesloaded.js')); ?>"> </script>
       <script src="<?php echo e(asset('js/mansory.min.js')); ?>"> </script>
-    
+
       <script>
 
 // init Masonry after all images have loaded
 const grid = document.querySelector('.grid');
 
-const msnry = new Masonry( grid, {
+// imagesLoaded(grid).on( 'progress', function() {
+//   // layout Masonry after each image loads
+//   msnry.layout();
+// });
+
+const msnry = new Masonry(grid, {
   itemSelector: '.grid-item',
   columnWidth: 80,
   gutter: 20
 });
 
-imagesLoaded( grid ).on( 'progress', function() {
-  // layout Masonry after each image loads
-  msnry.layout();
-});
 
 
 </script>
