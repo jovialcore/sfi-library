@@ -129,15 +129,21 @@
 
 
 
+<<<<<<< HEAD
 {{--
     <script src="{{asset('js/imagesloaded.js')}}"> </script>
       <script src="{{asset('js/mansory.min.js')}}"> </script> --}}
+=======
+    <script src="{{asset('js/imagesloaded.js')}}"> </script>
+      <script src="{{asset('js/mansory.min.js')}}"> </script>
+>>>>>>> bfcd354b86b80c61cbb646a65682cc94cc664370
 
       <script>
 
 // // init Masonry after all images have loaded
 // const grid = document.querySelector('.grid');
 
+<<<<<<< HEAD
 // const msnry = new Masonry( grid, {
 //   itemSelector: '.grid-item',
 //   columnWidth: 80,
@@ -148,6 +154,19 @@
 //   // layout Masonry after each image loads
 //   msnry.layout();
 // });
+=======
+// imagesLoaded(grid).on( 'progress', function() {
+//   // layout Masonry after each image loads
+//   msnry.layout();
+// });
+
+const msnry = new Masonry(grid, {
+  itemSelector: '.grid-item',
+  columnWidth: 80,
+  gutter: 20
+});
+
+>>>>>>> bfcd354b86b80c61cbb646a65682cc94cc664370
 
 
 </script>

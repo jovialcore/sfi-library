@@ -1,5 +1,5 @@
 <?php $__env->startSection('content'); ?>
-    <div class="container-fluid" >
+    <div class="container-fluid " >
       <div class="row header">
       <div class="col-8 mx-auto search-wrapper">
         <h4 class="text-white text-h text-center mb-4">SFI-IMAGE-LIBRARY: Search all media fiLes e.g photos for past programmes  </h4>
@@ -25,22 +25,26 @@
     </div>
       <!-- the section fo the images after a search -->
 
-<div class="row mt-3">
+<div class="row mt-3 ">
 
 <div class="col-12 mx-auto">
 <div class="grid">
-  <div class="grid-sizer">
+  <div class="grid-sizer" style="border:5px solid red;">
 
     <?php $__currentLoopData = $allImages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
     <div class="grid-item">
-        <a href="<?php echo e(route('page')); ?>"> <img src="<?php echo e(asset('uploads/'.$image->name)); ?>" >  </a>
+    <img src="<?php echo e('storage/uploads/'.$image->name); ?>" >
     </div>
-    
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-    storage\app\public\uploads\sfghblogo.png
+
 </div>
     </div>
+            
+            <div class="d-flex justify-content-center">
+                <?php echo $allImages->links(); ?>
+
+            </div>
   </div>
 </div>
 </div>
