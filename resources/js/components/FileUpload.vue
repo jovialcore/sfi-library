@@ -104,6 +104,7 @@
                         //success
                         this.isActive = true
                         this.success = Res.data.success
+                        JSON.parse(this.success)
                     }).catch (error=> {
 
                         this.hasError = true
@@ -111,7 +112,7 @@
                     });
 
                    this.attachments = [];
-                     console.log(document.getElementById('upload-file').value = "")
+                     document.getElementById('upload-file').value = ""
                 }
         },
         mounted() {
