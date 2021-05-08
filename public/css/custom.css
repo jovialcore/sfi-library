@@ -1,14 +1,14 @@
-
+* { box-sizing: border-box; }
 
 /* force scrollbar */
 html { overflow-y: scroll; }
 
-body { font-family: sans-serif;}
+body { font-family: sans-serif; }
 
 /* ---- grid ---- */
 
 .grid {
-  background:white;
+  background: #DDD;
 }
 
 /* clear fix */
@@ -23,7 +23,6 @@ body { font-family: sans-serif;}
 .grid-sizer,
 .grid-item {
   width: 33.333%;
-  margin-bottom: 10px;
 }
 
 .grid-item {
@@ -32,14 +31,13 @@ body { font-family: sans-serif;}
 
 .grid-item img {
   display: block;
-  width: 100%;
+  max-width: 100%;
 }
+
 
 .header {
     background: url(../images/header.jpg) no-repeat;
     background-size: cover;
-    
-   
 }
 
 /* .has-search .form-control {
@@ -49,19 +47,15 @@ body { font-family: sans-serif;}
 .search-icon {
     border-right: 0;
     font-size: 20px;
-    color:gray;
+    color: gray;
     background-color: white;
 }
 
 .text-h {
-font-weight: bold;
+    font-weight: bold;
 }
 
 .search-wrapper {
     margin-top: 8em;
-    margin-bottom:5em;
+    margin-bottom: 5em;
 }
-
-
-
-
