@@ -18,4 +18,11 @@ class MainController extends Controller
 
         return view('home', compact('allImages', 'cats'));
     }
+
+    //show all pictures
+
+    public function showPicture($id) {
+        $pic = files::find($id);
+        return view('page', compact('pic'));
+    }
 }

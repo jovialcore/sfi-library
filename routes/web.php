@@ -38,5 +38,7 @@ Route::post('/submit', [App\Http\Controllers\UploadController::class, 'storeFile
 
 Route::get('/allCats', [App\Http\Controllers\categoryController::class, 'allCategory'])->name('allCats');
 
+Route::get('/pictures/show/{id}', [App\Http\Controllers\MainController::class, 'showPicture'])->name('showPicture');
+
 
 

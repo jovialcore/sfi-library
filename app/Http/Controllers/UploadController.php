@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\files;
+use  App\Models\files;
 
 use App\Models\category;
 
