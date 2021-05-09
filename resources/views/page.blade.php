@@ -11,7 +11,7 @@
       <div class="col-12 col-md-3">
        <h4 class="mt-md-0 mt-4"> Image description</h4>
        <ul class="list-group">
-        <li class="list-group-item">Category: {{$pic->category->name}} </li>
+        <li class="list-group-item">Category: {{$pic->category->name  ?? "uncategorized"}} </li>
         <li class="list-group-item"><b>Uploaded:</b> <i>{{ $pic->created_at->diffForHumans()}}</i></li>
         <li class="list-group-item">Uploaded by : </li>
         <li class="list-group-item">Image Type: {{$pic->file_type}}</li>

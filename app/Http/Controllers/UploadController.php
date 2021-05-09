@@ -36,10 +36,6 @@ class UploadController extends Controller
             //note that i could have used  category::where('name', $category)->pluck('id'); but pluck returns an array [1] instead...so the best soltuion according to SO, is value
 
 
-
-
-            foreach($theUploadedFiles as $files) {
-
                 //function to check for the fize
                 function format_bytes($bytes, $precision = 2) {
                     $units = array('B', 'KB', 'MB', 'GB');
@@ -52,21 +48,32 @@ class UploadController extends Controller
 
                     return round($bytes, $precision) . ' ' . $units[$pow];
                 }
-                $fileName =  $fileExtension = $filePathArr =  $fileSize  = [];
 
-            $fileName[] =  $files->getClientOriginalName();
-            $fileExtension[] = $files->getClientOriginalExtension();
-            $fileSize[] = format_bytes($files->getSize(), 2);
-            $filePathArr[] = $files->storeAs('uploads', $fileName, 'public');
-            $fileUploadModel->name = $fileName;
-            $fileUploadModel->path = '/storage/'. $filePathArr;
-            $fileUploadModel->category_id = $catId;
-            $fileUploadModel->file_type = $fileExtension;
-            $fileUploadModel->size = $fileSize;
-            $fileUploadModel->save();
+            foreach($theUploadedFiles as $files) {
 
-            return response()->json(['success' => 'File was successfully uploaded'], 200);
+            $fileName =  $files->getClientOriginalName();
+            $fileExtension= $files->getClientOriginalExtension();
+            $fileSize = format_bytes($files->getSize(), 2);
+            $filePath= $files->storeAs('uploads', $fileName, 'public');
+
+            // $fileUploadModel->name = $fileName;
+            // $fileUploadModel->path = '/storage/'. $filePath;
+            // $fileUploadModel->category_id = $catId;
+            // $fileUploadModel->file_type = $fileExtension;
+            // $fileUploadModel->size = $fileSize;
+            // $fileUploadModel->save();
+
+            $fileUploadModel->create([
+                'name' => $fileName,
+                'path' => '/storage/'. $filePath,
+                'size' => $fileSize,
+                'file_type' => $fileExtension,
+                'category_id' => $catId,
+                'size' =>  $fileSize
+            ]);
         }
+            return response()->json(['success' => 'File was successfully uploaded'], 200);
+
 
 
     }

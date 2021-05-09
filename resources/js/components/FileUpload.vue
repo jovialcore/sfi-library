@@ -18,7 +18,7 @@
                         <option > {{allCats.name}}</option>
                     </select>
   <br>
-                    <input type="text" placeholder="add a category">
+                    <!-- <input type="text" placeholder="add a category"> -->
 
                 <label class="text-white">Select File: </label>
                     <input type="file" multiple @change="uponUpload" id="upload-file" class="w-50 form-control" placeholder="Select file..." >
@@ -68,7 +68,7 @@
                 submitFile(){
                      //append all the file to the form data
                     for(let i =0; i < this.attachments.length; i++) {
-                        this.form.append('pics[' + i + ']', this.attachments[i])
+                        this.form.append('pics[]', this.attachments[i])
                         }
 
                     //without the JSON.stringify() you will have an object.object 'error'
