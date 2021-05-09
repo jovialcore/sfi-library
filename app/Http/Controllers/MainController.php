@@ -22,7 +22,9 @@ class MainController extends Controller
     //show all pictures
 
     public function showPicture($id) {
+
         $pic = files::find($id);
+
         return view('page', compact('pic'));
     }
 }

@@ -33,7 +33,7 @@
             @foreach ($allImages as $image)
 
                 <div class="grid-item">
-                   <a href="{{route('showPicture', ['id'=> $image])}}"> <img src="{{ 'storage/uploads/' . $image->name }}"> </a>
+                   <a href="{{route('showPicture', ['id'=> $image])}}"> <img src="{{ asset('storage/uploads/' . $image->name) }}"> </a>
                 </div>
             @endforeach
         </div>
