@@ -7,7 +7,7 @@
         </div>
         <?php $__currentLoopData = $cats; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
-                <img src="http://fakeimg.pl/365x365/" class="img-responsive">
+                <img src="<?php echo e(asset('storage/uploads/' . $cat->name)); ?>" class="img-responsive img-fluid">
             </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>

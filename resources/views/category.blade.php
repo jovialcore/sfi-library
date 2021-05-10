@@ -10,7 +10,7 @@
         </div>
         @foreach ($cats as $cat )
             <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
-                <img src="http://fakeimg.pl/365x365/" class="img-responsive img-fluid">
+                <img src="{{ asset('storage/uploads/' . $cat->name) }}" class="img-responsive img-fluid">
             </div>
             @endforeach
         </div>
