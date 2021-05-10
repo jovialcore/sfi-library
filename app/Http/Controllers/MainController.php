@@ -31,10 +31,10 @@ class MainController extends Controller
     //show all catgories
 
     public function showCategory($id) {
-        $cats = files::with('category')->get();
-        dd($cats);
+        $cats = files::where('category_id', $id)->get();
+
         $category = category::find($id);
-        return  view ('category', compact('category'));
+        return  view ('category', compact('category', 'cats'));
     }
 
 }
