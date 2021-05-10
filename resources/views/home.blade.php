@@ -19,7 +19,7 @@
                 </button>
                 <div class="dropdown-menu">
                     @foreach ($cats as $cat)
-                    <a class="dropdown-item" href="#">{{ $cat->name }}</a>
+                    <a class="dropdown-item" href="{{route('showCategory', ['id'=> $cat ])}}">{{ $cat->name }}</a>
                     @endforeach
                 </div>
               </div>

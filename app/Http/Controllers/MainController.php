@@ -27,4 +27,13 @@ class MainController extends Controller
 
         return view('page', compact('pic'));
     }
+
+    //show all catgories
+
+    public function showCategory($id) {
+
+        $category = category::find($id);
+        return  view ('category', compact('category'));
+    }
+
 }

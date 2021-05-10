@@ -11,6 +11,8 @@
     <!-- Styles -->
     <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
 
+    <link href="<?php echo e(asset('css/gallery.css')); ?>" rel="stylesheet">
+
     <link href="<?php echo e(asset('css/custom.css')); ?>" rel="stylesheet">
 
     <link href="<?php echo e(asset('css/page.css')); ?>" rel="stylesheet">
