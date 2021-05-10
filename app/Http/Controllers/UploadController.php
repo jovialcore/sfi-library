@@ -7,6 +7,7 @@ use  App\Models\files;
 use App\Models\category;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UploadController extends Controller
 {
@@ -33,6 +34,7 @@ class UploadController extends Controller
             $theUploadedFiles = $req->pics;
             //get the id that of the category that came with the form
             $catId = category::where('name', $category)->value('id');
+            $user = Auth::user()->id;
             //note that i could have used  category::where('name', $category)->pluck('id'); but pluck returns an array [1] instead...so the best soltuion according to SO, is value
 
 
@@ -69,7 +71,8 @@ class UploadController extends Controller
                 'size' => $fileSize,
                 'file_type' => $fileExtension,
                 'category_id' => $catId,
-                'size' =>  $fileSize
+                'size' =>  $fileSize,
+                'user_id' => $user
             ]);
         }
             return response()->json(['success' => 'File was successfully uploaded'], 200);

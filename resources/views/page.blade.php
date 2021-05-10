@@ -13,7 +13,7 @@
        <ul class="list-group">
         <li class="list-group-item">Category: {{$pic->category->name  ?? "uncategorized"}} </li>
         <li class="list-group-item"><b>Uploaded:</b> <i>{{ $pic->created_at->diffForHumans()}}</i></li>
-        <li class="list-group-item">Uploaded by : </li>
+        <li class="list-group-item">Uploaded by : {{$pic->User->name ?? "Anonymous"}} </li>
         <li class="list-group-item">Image Type: {{$pic->file_type}}</li>
         <li class="list-group-item">Image Size: {{$pic->size}} </li>
       </ul>
