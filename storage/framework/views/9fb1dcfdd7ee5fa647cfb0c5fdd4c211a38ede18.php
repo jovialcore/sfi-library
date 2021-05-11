@@ -1,5 +1,10 @@
-<?php $__env->startSection('content'); ?>
+<?php $__env->startSection('page-css'); ?>
 
+<link href="<?php echo e(asset('css/page.css')); ?>" rel="stylesheet">
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
 <div class="container mt-5">
   <div class="row ">
     <div class="col-12 col-md-9 image-wrapper">
@@ -16,7 +21,7 @@
         <li class="list-group-item">Image Size: <?php echo e($pic->size); ?> </li>
       </ul>
       <button class="btn btn-success rounded btn-block mt-4">
-       <a href="<?php echo e(route('downloadFile', $pic->id)); ?>"> <i class="fa fa-download text-white"></i>
+       <a href="<?php echo e(route('downloadFile', $pic->id)); ?>" class="text-white"> <i class="fa fa-download text-white"></i>
         Download
       </button>
       </div>

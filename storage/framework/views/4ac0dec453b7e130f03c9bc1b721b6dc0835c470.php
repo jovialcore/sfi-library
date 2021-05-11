@@ -15,8 +15,7 @@
 
     <link href="<?php echo e(asset('css/custom.css')); ?>" rel="stylesheet">
 
-    <link href="<?php echo e(asset('css/page.css')); ?>" rel="stylesheet">
-
+    <?php echo $__env->yieldContent('page-css'); ?>
 
     <script src="<?php echo e(asset('js/imagesloaded.js')); ?>"> </script>
     <script src="<?php echo e(asset('js/mansory.min.js')); ?>"> </script>

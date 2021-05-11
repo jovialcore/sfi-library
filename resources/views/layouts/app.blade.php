@@ -15,8 +15,7 @@
 
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 
-    <link href="{{ asset('css/page.css') }}" rel="stylesheet">
-
+    @yield('page-css')
 
     <script src="{{ asset('js/imagesloaded.js') }}"> </script>
     <script src="{{ asset('js/mansory.min.js') }}"> </script>

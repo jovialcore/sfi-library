@@ -1,7 +1,12 @@
 @extends('layouts.app')
 
-@section('content')
+@section('page-css')
 
+<link href="{{ asset('css/page.css') }}" rel="stylesheet">
+
+@endsection
+
+@section('content')
 <div class="container mt-5">
   <div class="row ">
     <div class="col-12 col-md-9 image-wrapper">
@@ -18,7 +23,7 @@
         <li class="list-group-item">Image Size: {{$pic->size}} </li>
       </ul>
       <button class="btn btn-success rounded btn-block mt-4">
-       <a href="{{route('downloadFile', $pic->id)}}"> <i class="fa fa-download text-white"></i>
+       <a href="{{route('downloadFile', $pic->id)}}" class="text-white"> <i class="fa fa-download text-white"></i>
         Download
       </button>
       </div>
