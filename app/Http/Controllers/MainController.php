@@ -7,6 +7,8 @@ use App\Models\files;
 use App\Models\category;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Psy\TabCompletion\Matcher\FunctionsMatcher;
 
 class MainController extends Controller
 {
@@ -37,6 +39,14 @@ class MainController extends Controller
 
         $category = category::find($id);
         return  view ('category', compact('category', 'cats'));
+    }
+
+    //download files
+
+    public function download($id) {
+        $file = files::find($id);
+        return Storage::download($file->path, $file );
+
     }
 
 }

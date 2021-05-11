@@ -44,4 +44,7 @@ Route::get('/categories/show/{id}', [App\Http\Controllers\MainController::class,
 Route::get('/pictures/show/{id}', [App\Http\Controllers\MainController::class, 'showPicture'])->name('showPicture');
 
 
+Route::get('/download/{id}', [App\Http\Controllers\MainController::class, 'download'])->name('downloadFile');
+
+
 

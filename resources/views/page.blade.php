@@ -18,7 +18,7 @@
         <li class="list-group-item">Image Size: {{$pic->size}} </li>
       </ul>
       <button class="btn btn-success rounded btn-block mt-4">
-        <i class="fa fa-download text-white"></i>
+       <a href="{{route('downloadFile', $pic->id)}}"> <i class="fa fa-download text-white"></i>
         Download
       </button>
       </div>
