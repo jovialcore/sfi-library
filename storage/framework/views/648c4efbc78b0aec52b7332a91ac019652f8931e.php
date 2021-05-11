@@ -25,7 +25,8 @@
             <?php if(Route::has('login')): ?>
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     <?php if(auth()->guard()->check()): ?>
-                        <a href="<?php echo e(url('/home')); ?>" class="text-sm text-gray-700 underline">Home</a>
+                                
+                        
                     <?php else: ?>
                         <a href="<?php echo e(route('login')); ?>" class="text-sm text-gray-700 underline">Log in</a>
 
@@ -35,7 +36,8 @@
                     <?php endif; ?>
                 </div>
             <?php endif; ?>
-                    <h1>  THIS THE OFFICIAL SFI IMAGE LIBRARY <br> <div style="color:red; text-align:center;"> Get Started </div> <h1>
+                    <h1>  THIS THE OFFICIAL SFI IMAGE LIBRARY </h1>
+                    <br>  <h1><a style="color:red;" href="<?php echo e(url('/home')); ?>" class="text-sm text-gray-700 underline"> Get Started</a> </h1>
         </div>
     </body>
 </html>

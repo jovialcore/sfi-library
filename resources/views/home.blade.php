@@ -1,3 +1,4 @@
+{{--What I did here I passed all categories from this home.blade.php to the app.layout.php --}}
 @extends('layouts.app')
 
 @section('content')

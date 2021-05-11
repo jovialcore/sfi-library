@@ -58,13 +58,6 @@ class UploadController extends Controller
             $fileSize = format_bytes($files->getSize(), 2);
             $filePath= $files->storeAs('uploads', $fileName, 'public');
 
-            // $fileUploadModel->name = $fileName;
-            // $fileUploadModel->path = '/storage/'. $filePath;
-            // $fileUploadModel->category_id = $catId;
-            // $fileUploadModel->file_type = $fileExtension;
-            // $fileUploadModel->size = $fileSize;
-            // $fileUploadModel->save();
-
             $fileUploadModel->create([
                 'name' => $fileName,
                 'path' => '/storage/'. $filePath,

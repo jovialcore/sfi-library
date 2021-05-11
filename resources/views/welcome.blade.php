@@ -25,7 +25,8 @@
             @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
-                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 underline">Home</a>
+                                {{-- fix this issue later --}}
+                        {{-- <a href="{{ url('/home') }}" class="text-sm text-gray-700 underline">Home</a> --}}
                     @else
                         <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
 
@@ -35,7 +36,8 @@
                     @endauth
                 </div>
             @endif
-                    <h1>  THIS THE OFFICIAL SFI IMAGE LIBRARY <br> <div style="color:red; text-align:center;"> Get Started </div> <h1>
+                    <h1>  THIS THE OFFICIAL SFI IMAGE LIBRARY </h1>
+                    <br>  <h1><a style="color:red;" href="{{ url('/home') }}" class="text-sm text-gray-700 underline"> Get Started</a> </h1>
         </div>
     </body>
 </html>

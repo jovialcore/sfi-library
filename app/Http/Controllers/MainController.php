@@ -15,10 +15,8 @@ class MainController extends Controller
     public function mainAllImages()
     {
         $allImages = files::paginate(8);
-        //fetch all categories
-        $cats = category::all();
 
-        return view('home', compact('allImages', 'cats'));
+        return view('home', compact('allImages'));
     }
 
     //show all pictures
@@ -33,22 +31,20 @@ class MainController extends Controller
     //show all catgories
 
     public function showCategory($id) {
-        $cats = files::where('category_id', $id)->get();
 
-
-
-        $category = category::find($id);
-        return  view ('category', compact('category', 'cats'));
+        $category = category::with('files')->find($id);
+        dd($category->files);
+        return  view ('category', compact('category'));
     }
 
     //download files
 
     public function download($id ) {
 
-        $file = files::find($id);
+        $file = files::first($id);
 
         $filePath = Storage::disk('public')->path('uploads/'.$file->name);
-
+        dd($filePath);
         return response()->download($filePath);
 
     }

@@ -38,12 +38,11 @@
             </a>
             <!-- Links -->
             <ul class="navbar-nav">
+                @foreach ($cats as $cat )
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Coventions</a>
+                    <a class="nav-link" href="#">{{$cat->name}}</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">YDf</a>
-                </li>
+                @endforeach
             </ul>
 
             <!-- search form version -->
@@ -65,9 +64,9 @@
                                     Select image Category
                                 </button>
                                 <div class="dropdown-menu" style=" border: 0;">
-                                    <a class="dropdown-item" href="#">Convention 2021</a>
-                                    <a class="dropdown-item" href="#">YDF</a>
-                                    <a class="dropdown-item" href="#">Jesus Wives</a>
+
+                                    <a class="dropdown-item" href="#"></a>
+
                                 </div>
                             </div>
                         </div>
