@@ -1,7 +1,12 @@
 @extends('layouts.app')
 
-@section('content')
+@section('page-css')
 
+<link href="{{ asset('css/page.css') }}" rel="stylesheet">
+
+@endsection
+
+@section('content')
 <div class="container mt-5">
   <div class="row ">
     <div class="col-12 col-md-9 image-wrapper">
@@ -13,12 +18,12 @@
        <ul class="list-group">
         <li class="list-group-item">Category: {{$pic->category->name  ?? "uncategorized"}} </li>
         <li class="list-group-item"><b>Uploaded:</b> <i>{{ $pic->created_at->diffForHumans()}}</i></li>
-        <li class="list-group-item">Uploaded by : </li>
+        <li class="list-group-item">Uploaded by : {{$pic->User->name ?? "Anonymous"}} </li>
         <li class="list-group-item">Image Type: {{$pic->file_type}}</li>
         <li class="list-group-item">Image Size: {{$pic->size}} </li>
       </ul>
       <button class="btn btn-success rounded btn-block mt-4">
-        <i class="fa fa-download text-white"></i>
+       <a href="{{route('downloadFile', $pic->id)}}" class="text-white"> <i class="fa fa-download text-white"></i>
         Download
       </button>
       </div>

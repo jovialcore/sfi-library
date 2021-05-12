@@ -1,7 +1,4 @@
-{{--What I did here I passed all categories from this home.blade.php to the app.layout.php --}}
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <!-- the section fo the images after a search -->
     <div class="container-fluid ">
@@ -19,9 +16,9 @@
                   Select image Category
                 </button>
                 <div class="dropdown-menu">
-                    @foreach ($cats as $cat)
-                    <a class="dropdown-item" href="{{route('showCategory', ['id'=> $cat ])}}">{{ $cat->name }}</a>
-                    @endforeach
+                    <?php $__currentLoopData = $cats; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <a class="dropdown-item" href="<?php echo e(route('showCategory', ['id'=> $cat ])); ?>"><?php echo e($cat->name); ?></a>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
               </div>
             </div>
@@ -31,16 +28,19 @@
         <!-- end of section fo the images after a search -->
         <div class="grid">
             <div class="grid-sizer"></div>
-            @foreach ($allImages as $image)
+            <?php $__currentLoopData = $allImages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                 <div class="grid-item">
-                   <a href="{{route('showPicture', ['id'=> $image])}}"> <img src="{{ asset('storage/uploads/' . $image->name) }}"> </a>
+                   <a href="<?php echo e(route('showPicture', ['id'=> $image])); ?>"> <img src="<?php echo e(asset('storage/uploads/' . $image->name)); ?>"> </a>
                 </div>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
 
         <div class="d-flex justify-content-center mt-2">
-            {!! $allImages->links() !!}
+            <?php echo $allImages->links(); ?>
+
         </div>
     </div>
-    @endsection
+    <?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\sfi-library\resources\views/home.blade.php ENDPATH**/ ?>

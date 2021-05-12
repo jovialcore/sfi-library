@@ -11,10 +11,11 @@
     <!-- Styles -->
     <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
 
+    <link href="<?php echo e(asset('css/gallery.css')); ?>" rel="stylesheet">
+
     <link href="<?php echo e(asset('css/custom.css')); ?>" rel="stylesheet">
 
-    <link href="<?php echo e(asset('css/page.css')); ?>" rel="stylesheet">
-
+    <?php echo $__env->yieldContent('page-css'); ?>
 
     <script src="<?php echo e(asset('js/imagesloaded.js')); ?>"> </script>
     <script src="<?php echo e(asset('js/mansory.min.js')); ?>"> </script>
@@ -38,12 +39,11 @@
             </a>
             <!-- Links -->
             <ul class="navbar-nav">
+                <?php $__currentLoopData = $cats; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Coventions</a>
+                    <a class="nav-link" href="#"><?php echo e($cat->name); ?></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">YDf</a>
-                </li>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </ul>
 
             <!-- search form version -->
@@ -65,9 +65,9 @@
                                     Select image Category
                                 </button>
                                 <div class="dropdown-menu" style=" border: 0;">
-                                    <a class="dropdown-item" href="#">Convention 2021</a>
-                                    <a class="dropdown-item" href="#">YDF</a>
-                                    <a class="dropdown-item" href="#">Jesus Wives</a>
+
+                                    <a class="dropdown-item" href="#"></a>
+
                                 </div>
                             </div>
                         </div>

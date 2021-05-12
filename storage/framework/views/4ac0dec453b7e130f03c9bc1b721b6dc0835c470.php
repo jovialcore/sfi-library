@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
 
 <head>
     <meta charset="utf-8">
@@ -9,20 +9,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
 
-    <link href="{{ asset('css/gallery.css') }}" rel="stylesheet">
+    <link href="<?php echo e(asset('css/gallery.css')); ?>" rel="stylesheet">
 
-    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <link href="<?php echo e(asset('css/custom.css')); ?>" rel="stylesheet">
 
-    @yield('page-css')
+    <?php echo $__env->yieldContent('page-css'); ?>
 
-    <script src="{{ asset('js/imagesloaded.js') }}"> </script>
-    <script src="{{ asset('js/mansory.min.js') }}"> </script>
+    <script src="<?php echo e(asset('js/imagesloaded.js')); ?>"> </script>
+    <script src="<?php echo e(asset('js/mansory.min.js')); ?>"> </script>
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
-    <title>{{ config('app.name', 'SFI-Library') }}</title>
+    <title><?php echo e(config('app.name', 'SFI-Library')); ?></title>
 
 
 </head>
@@ -33,21 +33,22 @@
     <!-- navbar starts here -->
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
             <!-- Brand -->
-            <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'sfi-library') }}
+            <a class="navbar-brand" href="<?php echo e(url('/')); ?>">
+                <?php echo e(config('app.name', 'sfi-library')); ?>
+
             </a>
             <!-- Links -->
             <ul class="navbar-nav">
-                @foreach ($cats as $cat )
+                <?php $__currentLoopData = $cats; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{{$cat->name}}</a>
+                    <a class="nav-link" href="#"><?php echo e($cat->name); ?></a>
                 </li>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </ul>
 
             <!-- search form version -->
             <!-- check if current is equal to page and display stuff -->
-            @if (\Route::current()->getName() == 'home')
+            <?php if(\Route::current()->getName() == 'home'): ?>
 
                 <div class="mx-auto mb-n3">
                     <form class="form-inline align-self-center" action="">
@@ -72,13 +73,13 @@
                         </div>
                     </form>
                 </div>
-            @endif
+            <?php endif; ?>
             <!-- end ofserach form -->
 
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="{{ __('Toggle navigation') }}">
+                aria-label="<?php echo e(__('Toggle navigation')); ?>">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -87,22 +88,22 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
-                    @guest
-                        @if (Route::has('login'))
+                    <?php if(auth()->guard()->guest()): ?>
+                        <?php if(Route::has('login')): ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="<?php echo e(route('login')); ?>"><?php echo e(__('Login')); ?></a>
                             </li>
-                        @endif
+                        <?php endif; ?>
 
-                        @if (Route::has('register'))
+                        <?php if(Route::has('register')): ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="nav-link" href="<?php echo e(route('register')); ?>"><?php echo e(__('Register')); ?></a>
                             </li>
-                        @endif
-                    @else
+                        <?php endif; ?>
+                    <?php else: ?>
 
                         <li>
-                            <a href="{{ route('upload') }}">
+                            <a href="<?php echo e(route('upload')); ?>">
                                 <button class="btn btn-success ">
                                     Upload Image
                                 </button>
@@ -111,33 +112,35 @@
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
+                                <?php echo e(Auth::user()->name); ?>
+
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                <a class="dropdown-item" href="<?php echo e(route('logout')); ?>" onclick="event.preventDefault();
                                                              document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                                    <?php echo e(__('Logout')); ?>
+
                                 </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
+                                <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
+                                    <?php echo csrf_field(); ?>
                                 </form>
                             </div>
                         </li>
-                    @endguest
+                    <?php endif; ?>
                 </ul>
             </div>
         </nav>
 
         <main class="">
-            @yield('content')
+            <?php echo $__env->yieldContent('content'); ?>
         </main>
     </div>
 
 
 
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="<?php echo e(asset('js/app.js')); ?>"></script>
     <script>
         // init Masonry after all images have loaded
         // const grid = document.querySelector('.grid');
@@ -171,3 +174,4 @@
 </body>
 
 </html>
+<?php /**PATH C:\xampp\htdocs\sfi-library\resources\views/layouts/app.blade.php ENDPATH**/ ?>

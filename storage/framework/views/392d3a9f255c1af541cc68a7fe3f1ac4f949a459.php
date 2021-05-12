@@ -17,7 +17,7 @@
                 </button>
                 <div class="dropdown-menu">
                     <?php $__currentLoopData = $cats; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <a class="dropdown-item" href="#"><?php echo e($cat->name); ?></a>
+                    <a class="dropdown-item" href="<?php echo e(route('showCategory', ['id'=> $cat ])); ?>"><?php echo e($cat->name); ?></a>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
               </div>

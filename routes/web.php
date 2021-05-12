@@ -38,7 +38,13 @@ Route::post('/submit', [App\Http\Controllers\UploadController::class, 'storeFile
 
 Route::get('/allCats', [App\Http\Controllers\categoryController::class, 'allCategory'])->name('allCats');
 
+
+Route::get('/categories/show/{id}', [App\Http\Controllers\MainController::class, 'ShowCategory'])->name('showCategory');
+
 Route::get('/pictures/show/{id}', [App\Http\Controllers\MainController::class, 'showPicture'])->name('showPicture');
+
+
+Route::get('/download/{id}', [App\Http\Controllers\MainController::class, 'download'])->name('downloadFile');
 
 
 
