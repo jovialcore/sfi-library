@@ -1,9 +1,11 @@
+
+
 <?php $__env->startSection('content'); ?>
  <div class="container mx-auto">
 
      <div class="row ">
         <div class="gallery col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h1 class="gallery-title"><?php echo e($cat->name); ?></h1>
+            <h1 class="gallery-title"><?php echo e($category->name); ?></h1>
         </div>
 
         <?php $__currentLoopData = $category->files; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

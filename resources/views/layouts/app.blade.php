@@ -40,7 +40,7 @@
             <ul class="navbar-nav">
                 @foreach ($cats as $cat )
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{{$cat->name}}</a>
+                    <a class="nav-link" href="{{route('showCategory', ['id'=> $cat ])}}">{{$cat->name}}</a>
                 </li>
                 @endforeach
             </ul>

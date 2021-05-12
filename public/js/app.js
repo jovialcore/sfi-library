@@ -1875,6 +1875,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1892,6 +1901,28 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: ['categories'],
   methods: {
+    Ontype: function Ontype() {
+      this.hasError = null;
+    },
+    addCatbtn: function addCatbtn() {
+      var _this = this;
+
+      if (this.category == '') return;
+      axios.post('/addcategory', {
+        name: this.category
+      }).then(function (response) {
+        if (response.status = 201) {
+          _this.category = "";
+          _this.isActive = true;
+          _this.hasError = false;
+          _this.success = response.data.success;
+        }
+      })["catch"](function (error) {
+        _this.hasError = true;
+        _this.category = "";
+        _this.errors = error.response.data.errors || error.response.data.message;
+      });
+    },
     uponUpload: function uponUpload(e) {
       //i should have use computed properties here...so everything happens by default;
       this.success = "";
@@ -1911,7 +1942,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     submitFile: function submitFile() {
-      var _this = this;
+      var _this2 = this;
 
       //append all the file to the form data
       for (var i = 0; i < this.attachments.length; i++) {
@@ -1940,12 +1971,13 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post('/submit', this.form, config).then(function (Res) {
         //success
-        _this.isActive = true;
-        _this.success = Res.data.success;
-        JSON.parse(_this.success);
+        _this2.isActive = true;
+        _this2.hasError = false;
+        _this2.success = Res.data.success;
+        JSON.parse(_this2.success);
       })["catch"](function (error) {
-        _this.hasError = true;
-        _this.errors = error.response.data.errors || error.response.data.message;
+        _this2.hasError = true;
+        _this2.errors = error.response.data.errors || error.response.data.message;
       });
       this.attachments = [];
       document.getElementById('upload-file').value = "";
@@ -1953,6 +1985,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     console.log('Component mounted.');
+    this.cat.name = true;
   }
 });
 
@@ -37629,104 +37662,154 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container bg-dark p-5 mt-5" }, [
-    _c(
-      "div",
-      { staticClass: "form-group" },
-      [
-        _c(
-          "div",
-          {
-            staticClass: "ex-ccss",
-            class: {
-              "alert alert-success": _vm.isActive,
-              "alert alert-danger": _vm.hasError
-            }
-          },
-          [
-            _vm._v(
-              "\n                          " +
-                _vm._s(_vm.success) +
-                "\n                      "
-            ),
-            _vm._l(_vm.errors, function(errorArray) {
-              return _c(
-                "div",
-                { key: errorArray },
+    _c("div", { staticClass: "form-group" }, [
+      _c(
+        "div",
+        {
+          staticClass: "ex-ccss",
+          class: {
+            "alert alert-dismissible fade in alert-success": _vm.isActive,
+            "alert alert-dismissible alert-danger": _vm.hasError
+          }
+        },
+        [
+          _vm._v(
+            "\n                    " +
+              _vm._s(_vm.success) +
+              "\n                "
+          ),
+          _vm._l(_vm.errors, function(errorArray) {
+            return _c(
+              "div",
+              { key: errorArray },
+              [
+                _c(
+                  "a",
+                  {
+                    staticClass: "close",
+                    attrs: {
+                      href: "#",
+                      "data-dismiss": "alert",
+                      "aria-label": "close"
+                    }
+                  },
+                  [_vm._v("×")]
+                ),
+                _vm._v(" "),
                 _vm._l(errorArray, function(allErrors) {
                   return _c("div", { key: allErrors }, [
                     _vm._v(
-                      "\n                          " +
+                      "\n                    " +
                         _vm._s(allErrors) +
-                        "\n                      "
+                        "\n                "
                     )
                   ])
-                }),
-                0
-              )
-            })
+                })
+              ],
+              2
+            )
+          })
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "mb-3" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.category,
+              expression: "category"
+            }
           ],
-          2
-        ),
+          staticClass: "w-50 form-control",
+          attrs: {
+            type: "text",
+            name: "text",
+            placeholder: "Add a category..."
+          },
+          domProps: { value: _vm.category },
+          on: {
+            change: _vm.Ontype,
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.category = $event.target.value
+            }
+          }
+        }),
         _vm._v(" "),
-        _c("label", { staticClass: "text-white" }, [_vm._v("Category: ")]),
+        _c(
+          "button",
+          { staticClass: "btn btn-success mt-3", on: { click: _vm.addCatbtn } },
+          [_vm._v("Add ")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("form", [
+        _vm._m(0),
         _vm._v(" "),
-        _vm._l(_vm.categories, function(allCats) {
-          return _c("form", { key: allCats }, [
-            _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.cat.name,
-                    expression: "cat.name"
-                  }
-                ],
-                staticClass: "custom-select w-50 mb-4",
-                attrs: { value: "dropdown", placeholder: "add a category" },
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.cat,
-                      "name",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  }
+        _c("label", { staticClass: "text-white" }, [
+          _vm._v("Select a Category: ")
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.cat.name,
+                  expression: "cat.name"
                 }
-              },
-              [_c("option", [_vm._v(" " + _vm._s(allCats.name))])]
-            ),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("label", { staticClass: "text-white" }, [
-              _vm._v("Select File: ")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              staticClass: "w-50 form-control",
-              attrs: {
-                type: "file",
-                multiple: "",
-                id: "upload-file",
-                placeholder: "Select file..."
-              },
-              on: { change: _vm.uponUpload }
-            })
-          ])
+              ],
+              staticClass: "custom-select w-50 mb-4",
+              attrs: { value: "dropdown", placeholder: "add a category" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.$set(
+                    _vm.cat,
+                    "name",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                  )
+                }
+              }
+            },
+            _vm._l(_vm.categories, function(allCats) {
+              return _c("option", { key: allCats }, [
+                _vm._v(" " + _vm._s(allCats.name))
+              ])
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _c("label", { staticClass: "text-white" }, [_vm._v("Select File: ")]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "w-50 form-control",
+          attrs: {
+            type: "file",
+            multiple: "",
+            id: "upload-file",
+            placeholder: "Select file..."
+          },
+          on: { change: _vm.uponUpload }
         })
-      ],
-      2
-    ),
+      ])
+    ]),
     _vm._v(" "),
     _c(
       "button",
@@ -37735,7 +37818,20 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "text-white" }, [
+      _vm._v("Add a category "),
+      _c("span", { staticStyle: { color: "red" } }, [_vm._v("ONLY IF")]),
+      _vm._v("  there are no entries from the "),
+      _c("span", { staticStyle: { color: "green" } }, [_vm._v("Category")]),
+      _vm._v(" section below!")
+    ])
+  }
+]
 render._withStripped = true
 
 

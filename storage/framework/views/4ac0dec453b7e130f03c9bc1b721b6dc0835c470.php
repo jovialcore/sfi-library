@@ -41,7 +41,7 @@
             <ul class="navbar-nav">
                 <?php $__currentLoopData = $cats; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><?php echo e($cat->name); ?></a>
+                    <a class="nav-link" href="<?php echo e(route('showCategory', ['id'=> $cat ])); ?>"><?php echo e($cat->name); ?></a>
                 </li>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </ul>
