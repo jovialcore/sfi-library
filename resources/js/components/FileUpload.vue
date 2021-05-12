@@ -2,23 +2,32 @@
         <div class="container bg-dark p-5 mt-5">
 
                 <div class="form-group">
-                      <div v-bind:class="{'alert alert-success': isActive, 'alert alert-danger': hasError }" class="ex-ccss" >
+                      <div v-bind:class="{'alert alert-dismissible fade in alert-success': isActive, 'alert alert-dismissible alert-danger': hasError }" class="ex-ccss" >
                             {{success}}
                         <div  v-for="errorArray in errors" :key="errorArray" >
+                               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                             <div v-for="allErrors in errorArray" :key="allErrors">
                             {{allErrors}}
                         </div>
                      </div>
                     </div>
 
-                    <label class="text-white">Category: </label>
-                <form v-for="allCats in categories" :key="allCats">
 
-                      <select   class="custom-select w-50 mb-4"  v-model="cat.name" value="dropdown" placeholder="add a category">
-                        <option > {{allCats.name}}</option>
+                 <div class="mb-3">
+                    <input type="text" name="text" v-model="category" class="w-50 form-control" placeholder="Add a category..."  @change="Ontype">
+                     <button class="btn btn-success mt-3" @click="addCatbtn" >Add </button>
+                </div>
+
+                <form >
+                 <label class="text-white">Add a category <span style="color:red">ONLY IF</span>  there are no entries from the <span style="color:green">Category</span> section below!</label>
+
+                <label class="text-white">Select a Category: </label>
+            <div>
+                      <select class="custom-select w-50 mb-4"  v-model="cat.name" value="dropdown" placeholder="add a category">
+                        <option v-for="allCats in categories" :key="allCats"> {{allCats.name}}</option>
                     </select>
-  <br>
-                    <!-- <input type="text" placeholder="add a category"> -->
+            </div>
+
 
                 <label class="text-white">Select File: </label>
                     <input type="file" multiple @change="uponUpload" id="upload-file" class="w-50 form-control" placeholder="Select file..." >
@@ -48,6 +57,31 @@
             props : ['categories'],
 
         methods: {
+            Ontype(){
+                this.hasError = null
+            },
+                addCatbtn() {
+
+                    if (this.category == '') return
+
+                    axios.post('/addcategory', {
+                        name : this.category
+                    })
+                    .then (response => {
+                        if (response.status = 201 ){
+                            this.category = ""
+                            this.isActive = true
+                            this.hasError = false
+                            this.success = response.data.success
+                        }
+
+                    }).catch(error => {
+                        this.hasError = true
+                        this.category = ""
+                        this.errors = error.response.data.errors || error.response.data.message
+                    })
+
+                },
                 uponUpload(e){
                    //i should have use computed properties here...so everything happens by default;
                      this.success = ""
@@ -103,6 +137,7 @@
                     axios.post ('/submit', this.form, config).then(Res => {
                         //success
                         this.isActive = true
+                        this.hasError = false
                         this.success = Res.data.success
                         JSON.parse(this.success)
                     }).catch (error=> {
@@ -117,6 +152,7 @@
         },
         mounted() {
             console.log('Component mounted.')
+            this.cat.name = true
         }
     }
 </script>

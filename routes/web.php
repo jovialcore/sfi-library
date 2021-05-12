@@ -46,5 +46,4 @@ Route::get('/pictures/show/{id}', [App\Http\Controllers\MainController::class, '
 
 Route::get('/download/{id}', [App\Http\Controllers\MainController::class, 'download'])->name('downloadFile');
 
-
-
+route::post('/addcategory', [App\Http\Controllers\UploadController::class, 'addCategory'])->name('vueCategory');

@@ -16,18 +16,37 @@ class UploadController extends Controller
         return view('upload');
     }
 
+    //the functtion to add catgoery
+    public function addCategory(Request $req)
+    {
 
+        $req->validate([
+            'name' => 'required|string|min:1|max:100',
+            'name' => 'unique:categories,name'
+        ]);
+            $userId  = Auth::user()->id;
+        if($req->has('name')) {
+                $catModel = new category();
+                $catModel->name = $req->name;
+                $catModel->user_id = $userId;
+                $catModel->save();
 
-    public function storeFile (Request $req){
+        return response()->json(['success' => 'Category was succesffuly saved'], 201);
+
+        }
+    }
+
+    public function storeFile(Request $req)
+    {
 
         $validator = $req->validate([
-        'pics' => 'required',
-        'pics.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048'
+            'pics' => 'required',
+            'pics.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048'
         ]);
 
 
         $fileUploadModel = new files;
-        if($req->hasFile('pics')) {
+        if ($req->hasFile('pics')) {
             //lets decode the cats attribute from the formdata in our vuejs
             $category = json_decode($req->cats);
             // name attribute of files is pics
@@ -38,41 +57,38 @@ class UploadController extends Controller
             //note that i could have used  category::where('name', $category)->pluck('id'); but pluck returns an array [1] instead...so the best soltuion according to SO, is value
 
 
-                //function to check for the fize
-                function format_bytes($bytes, $precision = 2) {
-                    $units = array('B', 'KB', 'MB', 'GB');
+            //function to check for the file fize and store in database
+            function format_bytes($bytes, $precision = 2)
+            {
+                $units = array('B', 'KB', 'MB', 'GB');
 
-                    $bytes = max($bytes, 0);
-                    $pow = floor(($bytes ? log($bytes) : 0) / log(1000));
-                    $pow = min($pow, count($units) - 1);
+                $bytes = max($bytes, 0);
+                $pow = floor(($bytes ? log($bytes) : 0) / log(1000));
+                $pow = min($pow, count($units) - 1);
 
-                    $bytes /= pow(1000, $pow);
+                $bytes /= pow(1000, $pow);
 
-                    return round($bytes, $precision) . ' ' . $units[$pow];
-                }
+                return round($bytes, $precision) . ' ' . $units[$pow];
+            }
 
-            foreach($theUploadedFiles as $files) {
+            foreach ($theUploadedFiles as $files) {
 
-            $fileName =  $files->getClientOriginalName();
-            $fileExtension= $files->getClientOriginalExtension();
-            $fileSize = format_bytes($files->getSize(), 2);
-            $filePath= $files->storeAs('uploads', $fileName, 'public');
+                $fileName =  $files->getClientOriginalName();
+                $fileExtension = $files->getClientOriginalExtension();
+                $fileSize = format_bytes($files->getSize(), 2);
+                $filePath = $files->storeAs('uploads', $fileName, 'public');
 
-            $fileUploadModel->create([
-                'name' => $fileName,
-                'path' => '/storage/'. $filePath,
-                'size' => $fileSize,
-                'file_type' => $fileExtension,
-                'category_id' => $catId,
-                'size' =>  $fileSize,
-                'user_id' => $user
-            ]);
-        }
+                $fileUploadModel->create([
+                    'name' => $fileName,
+                    'path' => '/storage/' . $filePath,
+                    'size' => $fileSize,
+                    'file_type' => $fileExtension,
+                    'category_id' => $catId,
+                    'size' =>  $fileSize,
+                    'user_id' => $user
+                ]);
+            }
             return response()->json(['success' => 'File was successfully uploaded'], 200);
-
-
-
-    }
-
+        }
     }
 }
