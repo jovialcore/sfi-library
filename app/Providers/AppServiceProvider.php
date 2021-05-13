@@ -7,6 +7,7 @@ use App\Models\category;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
 
         $AllCategories = category::all();
         View::share('cats', $AllCategories);
+        Schema::defaultStringLength(191);
         Paginator::useBootstrap();
     }
 }
