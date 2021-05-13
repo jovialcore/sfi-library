@@ -103,7 +103,7 @@ export default {
             this.isActive = true;
             this.hasError = false;
             this.success = response.data.success;
-            location.reload()
+
           }
         })
         .catch((error) => {
