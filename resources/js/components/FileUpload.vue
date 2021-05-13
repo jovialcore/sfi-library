@@ -102,6 +102,7 @@ export default {
             this.category = "";
             this.isActive = true;
             this.hasError = false;
+            location.reload();
             this.success = response.data.success;
           }
         })
