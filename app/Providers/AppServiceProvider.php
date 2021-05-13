@@ -30,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
 
         // $AllCategories = category::all();
         // View::share('cats', $AllCategories);
+        Schema::defaultStringLength(191);
         Paginator::useBootstrap();
     }
 }
