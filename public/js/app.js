@@ -1884,6 +1884,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1893,13 +1923,13 @@ __webpack_require__.r(__webpack_exports__);
       hasError: null,
       success: "",
       errors: null,
-      category: '',
+      category: "",
       cat: {
         name: ""
       }
     };
   },
-  props: ['categories'],
+  props: ["categories"],
   methods: {
     Ontype: function Ontype() {
       this.hasError = null;
@@ -1907,8 +1937,8 @@ __webpack_require__.r(__webpack_exports__);
     addCatbtn: function addCatbtn() {
       var _this = this;
 
-      if (this.category == '') return;
-      axios.post('/addcategory', {
+      if (this.category == "") return;
+      axios.post("/addcategory", {
         name: this.category
       }).then(function (response) {
         if (response.status = 201) {
@@ -1946,11 +1976,11 @@ __webpack_require__.r(__webpack_exports__);
 
       //append all the file to the form data
       for (var i = 0; i < this.attachments.length; i++) {
-        this.form.append('pics[]', this.attachments[i]);
+        this.form.append("pics[]", this.attachments[i]);
       } //without the JSON.stringify() you will have an object.object 'error'
 
 
-      this.form.append('cats', JSON.stringify(this.cat.name)); //lets set the file to multipart/form data for content type
+      this.form.append("cats", JSON.stringify(this.cat.name)); //lets set the file to multipart/form data for content type
 
       var config = {
         headers: {
@@ -1969,7 +1999,7 @@ __webpack_require__.r(__webpack_exports__);
       //      console.error(errors);
       //     })
 
-      axios.post('/submit', this.form, config).then(function (Res) {
+      axios.post("/submit", this.form, config).then(function (Res) {
         //success
         _this2.isActive = true;
         _this2.hasError = false;
@@ -1980,11 +2010,11 @@ __webpack_require__.r(__webpack_exports__);
         _this2.errors = error.response.data.errors || error.response.data.message;
       });
       this.attachments = [];
-      document.getElementById('upload-file').value = "";
+      document.getElementById("upload-file").value = "";
     }
   },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    console.log("Component mounted.");
     this.cat.name = true;
   }
 });
@@ -37673,11 +37703,7 @@ var render = function() {
           }
         },
         [
-          _vm._v(
-            "\n                    " +
-              _vm._s(_vm.success) +
-              "\n                "
-          ),
+          _vm._v("\n      " + _vm._s(_vm.success) + "\n      "),
           _vm._l(_vm.errors, function(errorArray) {
             return _c(
               "div",
@@ -37698,11 +37724,7 @@ var render = function() {
                 _vm._v(" "),
                 _vm._l(errorArray, function(allErrors) {
                   return _c("div", { key: allErrors }, [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(allErrors) +
-                        "\n                "
-                    )
+                    _vm._v("\n          " + _vm._s(allErrors) + "\n        ")
                   ])
                 })
               ],
@@ -37744,7 +37766,7 @@ var render = function() {
         _c(
           "button",
           { staticClass: "btn btn-success mt-3", on: { click: _vm.addCatbtn } },
-          [_vm._v("Add ")]
+          [_vm._v("Add")]
         )
       ]),
       _vm._v(" "),
@@ -37789,7 +37811,7 @@ var render = function() {
             },
             _vm._l(_vm.categories, function(allCats) {
               return _c("option", { key: allCats }, [
-                _vm._v(" " + _vm._s(allCats.name))
+                _vm._v("\n            " + _vm._s(allCats.name) + "\n          ")
               ])
             }),
             0
@@ -37814,7 +37836,7 @@ var render = function() {
     _c(
       "button",
       { staticClass: "btn btn-success", on: { click: _vm.submitFile } },
-      [_vm._v("Submit ")]
+      [_vm._v("Submit")]
     )
   ])
 }
@@ -37826,9 +37848,9 @@ var staticRenderFns = [
     return _c("label", { staticClass: "text-white" }, [
       _vm._v("Add a category "),
       _c("span", { staticStyle: { color: "red" } }, [_vm._v("ONLY IF")]),
-      _vm._v("  there are no entries from the "),
+      _vm._v(" there are no\n        entries from the "),
       _c("span", { staticStyle: { color: "green" } }, [_vm._v("Category")]),
-      _vm._v(" section below!")
+      _vm._v(" section\n        below!")
     ])
   }
 ]
