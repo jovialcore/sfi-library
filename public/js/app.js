@@ -1914,6 +1914,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1923,6 +1924,7 @@ __webpack_require__.r(__webpack_exports__);
       hasError: null,
       success: "",
       errors: null,
+      errorMsg: "",
       category: "",
       cat: {
         name: ""
@@ -1933,6 +1935,10 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     Ontype: function Ontype() {
       this.hasError = null;
+      this.isActive = null;
+      this.errors = "";
+      this.errorMsg = "";
+      this.success = "";
     },
     addCatbtn: function addCatbtn() {
       var _this = this;
@@ -1943,14 +1949,14 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         if (response.status = 201) {
           _this.category = "";
-          _this.isActive = true;
-          _this.hasError = false;
           _this.success = response.data.success;
+          _this.isActive = true;
         }
       })["catch"](function (error) {
-        _this.hasError = true;
         _this.category = "";
-        _this.errors = error.response.data.errors || error.response.data.message;
+        _this.hasError = true;
+        _this.errors = error.response.data.errors;
+        _this.errorMsg = error.response.data.message;
       });
     },
     uponUpload: function uponUpload(e) {
@@ -37698,12 +37704,18 @@ var render = function() {
         {
           staticClass: "ex-ccss",
           class: {
-            "alert alert-dismissible fade in alert-success": _vm.isActive,
+            "alert alert-dismissible alert-success": _vm.isActive,
             "alert alert-dismissible alert-danger": _vm.hasError
           }
         },
         [
-          _vm._v("\n      " + _vm._s(_vm.success) + "\n      "),
+          _vm._v(
+            "\n      " +
+              _vm._s(_vm.success) +
+              "\n      " +
+              _vm._s(_vm.errorMsg) +
+              "\n      "
+          ),
           _vm._l(_vm.errors, function(errorArray) {
             return _c(
               "div",
@@ -37746,11 +37758,7 @@ var render = function() {
             }
           ],
           staticClass: "w-50 form-control",
-          attrs: {
-            type: "text",
-            name: "text",
-            placeholder: "Add a category..."
-          },
+          attrs: { type: "text", placeholder: "Add a category..." },
           domProps: { value: _vm.category },
           on: {
             change: _vm.Ontype,

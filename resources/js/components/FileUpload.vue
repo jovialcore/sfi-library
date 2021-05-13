@@ -3,12 +3,13 @@
     <div class="form-group">
       <div
         v-bind:class="{
-          'alert alert-dismissible fade in alert-success': isActive,
+          'alert alert-dismissible alert-success': isActive,
           'alert alert-dismissible alert-danger': hasError,
         }"
         class="ex-ccss"
       >
         {{ success }}
+        {{errorMsg}}
         <div v-for="errorArray in errors" :key="errorArray">
           <a href="#" class="close" data-dismiss="alert" aria-label="close"
             >&times;</a
@@ -22,7 +23,7 @@
       <div class="mb-3">
         <input
           type="text"
-          name="text"
+
           v-model="category"
           class="w-50 form-control"
           placeholder="Add a category..."
@@ -77,6 +78,7 @@ export default {
       hasError: null,
       success: "",
       errors: null,
+      errorMsg : "",
       category: "",
       cat: {
         name: "",
@@ -89,6 +91,10 @@ export default {
   methods: {
     Ontype() {
       this.hasError = null;
+      this.isActive = null;
+      this.errors = ""
+      this.errorMsg = ""
+      this.success = ""
     },
     addCatbtn() {
       if (this.category == "") return;
@@ -100,17 +106,15 @@ export default {
         .then((response) => {
           if ((response.status = 201)) {
             this.category = "";
-            this.isActive = true;
-            this.hasError = false;
             this.success = response.data.success;
-
+            this.isActive = true
           }
         })
         .catch((error) => {
-          this.hasError = true;
           this.category = "";
-          this.errors =
-            error.response.data.errors || error.response.data.message;
+          this.hasError = true;
+          this.errors = error.response.data.errors
+          this.errorMsg= error.response.data.message
         });
     },
     uponUpload(e) {
