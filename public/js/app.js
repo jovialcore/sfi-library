@@ -1922,6 +1922,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      notifDisplay: false,
       attachments: [],
       form: new FormData(),
       isActive: null,
@@ -1948,6 +1949,7 @@ __webpack_require__.r(__webpack_exports__);
       this.errors = "";
       this.errorMsg = "";
       this.success = "";
+      this.notifDisplay = false;
     },
     addCatbtn: function addCatbtn() {
       var _this = this;
@@ -1960,11 +1962,13 @@ __webpack_require__.r(__webpack_exports__);
           _this.category = "";
           _this.errors = "";
           _this.errorMsg = "";
+          _this.notifDisplay = true;
           _this.success = response.data.success;
           _this.isActive = true;
           _this.hasError = false;
         }
       })["catch"](function (error) {
+        _this.notifDisplay = true;
         _this.category = "";
         _this.hasError = true;
         _this.isActive = false;
@@ -37713,18 +37717,36 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container bg-dark p-5 mt-5" }, [
     _c("div", { staticClass: "form-group" }, [
-      _vm._m(0),
-      _vm._v("\n\n      " + _vm._s(_vm.message) + "\n      "),
       _c(
         "div",
         {
-          staticClass: "ex-ccss",
           class: {
             "alert alert-dismissible alert-success show ": _vm.isActive,
             "alert alert-dismissible alert-danger show": _vm.hasError
-          }
+          },
+          attrs: { role: "alert" }
         },
         [
+          _vm._v(
+            "\n      " +
+              _vm._s(_vm.success) +
+              " " +
+              _vm._s(_vm.errorMsg) +
+              "\n      "
+          ),
+          _vm._l(_vm.errors, function(errorArray) {
+            return _c(
+              "div",
+              { key: errorArray },
+              _vm._l(errorArray, function(allErrors) {
+                return _c("div", { key: allErrors }, [
+                  _vm._v("\n          " + _vm._s(allErrors) + "\n        ")
+                ])
+              }),
+              0
+            )
+          }),
+          _vm._v(" "),
           _c(
             "button",
             {
@@ -37736,27 +37758,24 @@ var render = function() {
               },
               on: { click: _vm.OnClose }
             },
-            [_vm._v("×")]
-          ),
-          _vm._v(
-            "\n        " +
-              _vm._s(_vm.success) +
-              "\n        " +
-              _vm._s(_vm.errorMsg) +
-              "\n        "
-          ),
-          _vm._l(_vm.errors, function(errorArray) {
-            return _c(
-              "div",
-              { key: errorArray },
-              _vm._l(errorArray, function(allErrors) {
-                return _c("div", { key: allErrors }, [
-                  _vm._v("\n            " + _vm._s(allErrors) + "\n          ")
-                ])
-              }),
-              0
-            )
-          })
+            [
+              _c(
+                "span",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.notifDisplay,
+                      expression: "notifDisplay"
+                    }
+                  ],
+                  attrs: { "aria-hidden": "true" }
+                },
+                [_vm._v("×")]
+              )
+            ]
+          )
         ],
         2
       ),
@@ -37792,7 +37811,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("form", [
-        _vm._m(1),
+        _vm._m(0),
         _vm._v(" "),
         _c("label", { staticClass: "text-white" }, [
           _vm._v("Select a Category: ")
@@ -37832,9 +37851,7 @@ var render = function() {
             },
             _vm._l(_vm.categos, function(allCats) {
               return _c("option", { key: allCats }, [
-                _vm._v(
-                  "\n              " + _vm._s(allCats.name) + "\n            "
-                )
+                _vm._v("\n            " + _vm._s(allCats.name) + "\n          ")
               ])
             }),
             0
@@ -37868,40 +37885,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "alert alert-warning alert-dismissible fade show",
-        attrs: { role: "alert" }
-      },
-      [
-        _c("strong", [_vm._v("Holy guacamole!")]),
-        _vm._v(" You should check in on some of those fields below.\n  "),
-        _c(
-          "button",
-          {
-            staticClass: "close",
-            attrs: {
-              type: "button",
-              "data-dismiss": "alert",
-              "aria-label": "Close"
-            }
-          },
-          [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-        )
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("label", { staticClass: "text-white" }, [
       _vm._v("Add a category "),
       _c("span", { staticStyle: { color: "red" } }, [_vm._v("ONLY IF")]),
-      _vm._v(" there are no\n          entries from the "),
+      _vm._v(" there are no\n        entries from the "),
       _c("span", { staticStyle: { color: "green" } }, [_vm._v("Category")]),
-      _vm._v(" section\n          below!")
+      _vm._v(" section\n        below!")
     ])
   }
 ]

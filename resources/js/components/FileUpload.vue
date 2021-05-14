@@ -1,34 +1,34 @@
 <template>
   <div class="container bg-dark p-5 mt-5">
     <div class="form-group">
-
-      <div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-
-      {{message}}
-      <div v-bind:class="{
+      <div
+        v-bind:class="{
           'alert alert-dismissible alert-success show ': isActive,
           'alert alert-dismissible alert-danger show': hasError,
-        }" class="ex-ccss" >
-         <button  type="button" class="close" data-dismiss="alert" aria-label="Close" @click="OnClose"
-            >&times;</button>
-        {{ success }}
-        {{errorMsg}}
+        }"
+        class=""
+        role="alert"
+      >
+        {{ success }} {{ errorMsg }}
         <div v-for="errorArray in errors" :key="errorArray">
           <div v-for="allErrors in errorArray" :key="allErrors">
             {{ allErrors }}
           </div>
         </div>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+          @click="OnClose"
+        >
+          <span aria-hidden="true" v-show="notifDisplay">&times;</span>
+        </button>
       </div>
 
       <div class="mb-3">
         <input
           type="text"
-
           v-model="category"
           class="w-50 form-control"
           placeholder="Add a category..."
@@ -76,13 +76,14 @@
 export default {
   data() {
     return {
+      notifDisplay: false,
       attachments: [],
       form: new FormData(),
       isActive: null,
       hasError: null,
       success: "",
       errors: null,
-      errorMsg : "",
+      errorMsg: "",
       category: "",
       cat: {
         name: "",
@@ -92,18 +93,19 @@ export default {
 
   props: ["categories"],
 
-  computed : {
-    message : function() {
-        return "hello wolrd"
-    }
+  computed: {
+    message: function () {
+      return "hello wolrd";
+    },
   },
   methods: {
     OnClose() {
       this.hasError = false;
       this.isActive = false;
-      this.errors = ""
-      this.errorMsg = ""
-      this.success = ""
+      this.errors = "";
+      this.errorMsg = "";
+      this.success = "";
+      this.notifDisplay = false;
     },
     addCatbtn() {
       if (this.category == "") return;
@@ -115,20 +117,22 @@ export default {
         .then((response) => {
           if ((response.status = 201)) {
             this.category = "";
-            this.errors =""
-            this.errorMsg= ""
+            this.errors = "";
+            this.errorMsg = "";
+            this.notifDisplay = true;
             this.success = response.data.success;
-            this.isActive = true
-            this.hasError = false
+            this.isActive = true;
+            this.hasError = false;
           }
         })
         .catch((error) => {
+          this.notifDisplay = true;
           this.category = "";
-          this.hasError = true
-          this.isActive = false
-          this.success = ""
-          this.errors = error.response.data.errors
-          this.errorMsg= error.response.data.message
+          this.hasError = true;
+          this.isActive = false;
+          this.success = "";
+          this.errors = error.response.data.errors;
+          this.errorMsg = error.response.data.message;
         });
     },
     uponUpload(e) {
