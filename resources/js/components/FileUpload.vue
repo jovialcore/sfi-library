@@ -51,7 +51,7 @@
             value="dropdown"
             placeholder="add a category"
           >
-            <option v-for="allCats in categos" :key="allCats">
+            <option v-for="allCats in computedCats" :key="allCats">
               {{ allCats.name }}
             </option>
           </select>
@@ -97,6 +97,10 @@ export default {
     message: function () {
       return "hello wolrd";
     },
+
+    computedCats : function () {
+      return this.categories
+    }
   },
   methods: {
     OnClose() {

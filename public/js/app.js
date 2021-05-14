@@ -1940,6 +1940,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     message: function message() {
       return "hello wolrd";
+    },
+    computedCats: function computedCats() {
+      return this.categories;
     }
   },
   methods: {
@@ -37849,7 +37852,7 @@ var render = function() {
                 }
               }
             },
-            _vm._l(_vm.categos, function(allCats) {
+            _vm._l(_vm.computedCats, function(allCats) {
               return _c("option", { key: allCats }, [
                 _vm._v("\n            " + _vm._s(allCats.name) + "\n          ")
               ])
