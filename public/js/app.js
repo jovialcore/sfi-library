@@ -1915,6 +1915,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1932,10 +1936,15 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   props: ["categories"],
+  computed: {
+    message: function message() {
+      return "hello wolrd";
+    }
+  },
   methods: {
-    Ontype: function Ontype() {
-      this.hasError = null;
-      this.isActive = null;
+    OnClose: function OnClose() {
+      this.hasError = false;
+      this.isActive = false;
       this.errors = "";
       this.errorMsg = "";
       this.success = "";
@@ -1949,12 +1958,17 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         if (response.status = 201) {
           _this.category = "";
+          _this.errors = "";
+          _this.errorMsg = "";
           _this.success = response.data.success;
           _this.isActive = true;
+          _this.hasError = false;
         }
       })["catch"](function (error) {
         _this.category = "";
         _this.hasError = true;
+        _this.isActive = false;
+        _this.success = "";
         _this.errors = error.response.data.errors;
         _this.errorMsg = error.response.data.message;
       });
@@ -37699,48 +37713,48 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container bg-dark p-5 mt-5" }, [
     _c("div", { staticClass: "form-group" }, [
+      _vm._m(0),
+      _vm._v("\n\n      " + _vm._s(_vm.message) + "\n      "),
       _c(
         "div",
         {
           staticClass: "ex-ccss",
           class: {
-            "alert alert-dismissible alert-success": _vm.isActive,
-            "alert alert-dismissible alert-danger": _vm.hasError
+            "alert alert-dismissible alert-success show ": _vm.isActive,
+            "alert alert-dismissible alert-danger show": _vm.hasError
           }
         },
         [
+          _c(
+            "button",
+            {
+              staticClass: "close",
+              attrs: {
+                type: "button",
+                "data-dismiss": "alert",
+                "aria-label": "Close"
+              },
+              on: { click: _vm.OnClose }
+            },
+            [_vm._v("×")]
+          ),
           _vm._v(
-            "\n      " +
+            "\n        " +
               _vm._s(_vm.success) +
-              "\n      " +
+              "\n        " +
               _vm._s(_vm.errorMsg) +
-              "\n      "
+              "\n        "
           ),
           _vm._l(_vm.errors, function(errorArray) {
             return _c(
               "div",
               { key: errorArray },
-              [
-                _c(
-                  "a",
-                  {
-                    staticClass: "close",
-                    attrs: {
-                      href: "#",
-                      "data-dismiss": "alert",
-                      "aria-label": "close"
-                    }
-                  },
-                  [_vm._v("×")]
-                ),
-                _vm._v(" "),
-                _vm._l(errorArray, function(allErrors) {
-                  return _c("div", { key: allErrors }, [
-                    _vm._v("\n          " + _vm._s(allErrors) + "\n        ")
-                  ])
-                })
-              ],
-              2
+              _vm._l(errorArray, function(allErrors) {
+                return _c("div", { key: allErrors }, [
+                  _vm._v("\n            " + _vm._s(allErrors) + "\n          ")
+                ])
+              }),
+              0
             )
           })
         ],
@@ -37761,7 +37775,6 @@ var render = function() {
           attrs: { type: "text", placeholder: "Add a category..." },
           domProps: { value: _vm.category },
           on: {
-            change: _vm.Ontype,
             input: function($event) {
               if ($event.target.composing) {
                 return
@@ -37779,7 +37792,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("form", [
-        _vm._m(0),
+        _vm._m(1),
         _vm._v(" "),
         _c("label", { staticClass: "text-white" }, [
           _vm._v("Select a Category: ")
@@ -37817,9 +37830,11 @@ var render = function() {
                 }
               }
             },
-            _vm._l(_vm.categories, function(allCats) {
+            _vm._l(_vm.categos, function(allCats) {
               return _c("option", { key: allCats }, [
-                _vm._v("\n            " + _vm._s(allCats.name) + "\n          ")
+                _vm._v(
+                  "\n              " + _vm._s(allCats.name) + "\n            "
+                )
               ])
             }),
             0
@@ -37853,12 +37868,40 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "alert alert-warning alert-dismissible fade show",
+        attrs: { role: "alert" }
+      },
+      [
+        _c("strong", [_vm._v("Holy guacamole!")]),
+        _vm._v(" You should check in on some of those fields below.\n  "),
+        _c(
+          "button",
+          {
+            staticClass: "close",
+            attrs: {
+              type: "button",
+              "data-dismiss": "alert",
+              "aria-label": "Close"
+            }
+          },
+          [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("label", { staticClass: "text-white" }, [
       _vm._v("Add a category "),
       _c("span", { staticStyle: { color: "red" } }, [_vm._v("ONLY IF")]),
-      _vm._v(" there are no\n        entries from the "),
+      _vm._v(" there are no\n          entries from the "),
       _c("span", { staticStyle: { color: "green" } }, [_vm._v("Category")]),
-      _vm._v(" section\n        below!")
+      _vm._v(" section\n          below!")
     ])
   }
 ]
