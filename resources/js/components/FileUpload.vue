@@ -90,7 +90,7 @@ export default {
     };
   },
 
-  props: ["categories"],
+  props: ["categories", "componentKey"],
 
   computed: {
     message: function () {
@@ -111,6 +111,7 @@ export default {
       this.notifDisplay = false;
     },
     addCatbtn() {
+        console.log(this.componentKey)
       if (this.category == "") return;
 
       axios
@@ -119,6 +120,8 @@ export default {
         })
         .then((response) => {
           if ((response.status = 201)) {
+
+
             this.category = "";
             this.errors = "";
             this.errorMsg = "";
@@ -126,6 +129,7 @@ export default {
             this.success = response.data.success;
             this.isActive = true;
             this.hasError = false;
+            this.$forceUpdate()
           }
         })
         .catch((error) => {
@@ -136,7 +140,8 @@ export default {
           this.success = "";
           this.errors = error.response.data.errors;
           this.errorMsg = error.response.data.message;
-        });
+        })
+
     },
     uponUpload(e) {
       //i should have use computed properties here...so everything happens by default;

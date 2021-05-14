@@ -37,17 +37,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/upload', [App\Http\Controllers\UploadController::class, 'index'])->name('upload');
 
-
     Route::post('/submit', [App\Http\Controllers\UploadController::class, 'storeFile'])->name('uploadFile');
 
     Route::get('/allCats', [App\Http\Controllers\categoryController::class, 'allCategory'])->name('allCats');
 
-
     Route::get('/categories/show/{id}', [App\Http\Controllers\MainController::class, 'ShowCategory'])->name('showCategory');
-
     Route::get('/pictures/show/{id}', [App\Http\Controllers\MainController::class, 'showPicture'])->name('showPicture');
-
     Route::get('/download/{id}', [App\Http\Controllers\MainController::class, 'download'])->name('downloadFile');
-
     route::post('/addcategory', [App\Http\Controllers\UploadController::class, 'addCategory'])->name('vueCategory');
 });

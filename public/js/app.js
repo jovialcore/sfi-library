@@ -1935,7 +1935,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  props: ["categories"],
+  props: ["categories", "componentKey"],
   computed: {
     message: function message() {
       return "hello wolrd";
@@ -1956,6 +1956,7 @@ __webpack_require__.r(__webpack_exports__);
     addCatbtn: function addCatbtn() {
       var _this = this;
 
+      console.log(this.componentKey);
       if (this.category == "") return;
       axios.post("/addcategory", {
         name: this.category
@@ -1968,6 +1969,8 @@ __webpack_require__.r(__webpack_exports__);
           _this.success = response.data.success;
           _this.isActive = true;
           _this.hasError = false;
+
+          _this.$forceUpdate();
         }
       })["catch"](function (error) {
         _this.notifDisplay = true;
@@ -2059,15 +2062,22 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      categories: []
+      categories: [],
+      componentKey: 0
     };
   },
   methods: {
+    forcRenrender: function forcRenrender() {
+      this.componentKey += 1;
+    },
     getCats: function getCats() {
       var _this = this;
 
       axios.get('/allCats').then(function (response) {
-        _this.categories = response.data; // console.log(this.categories)
+        _this.categories = response.data;
+
+        _this.forcRenrender(); // console.log(this.categories)
+
       })["catch"](function (error) {
         console.log(error);
       });
@@ -37906,7 +37916,10 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("file-upload", { attrs: { categories: _vm.categories } })
+  return _c("file-upload", {
+    key: _vm.componentKey,
+    attrs: { categories: _vm.categories }
+  })
 }
 var staticRenderFns = []
 render._withStripped = true
