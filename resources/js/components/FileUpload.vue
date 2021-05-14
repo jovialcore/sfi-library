@@ -1,6 +1,11 @@
 <template>
   <div class="container bg-dark p-5 mt-5">
     <div class="form-group">
+      <label class="text-white"
+        >Add a category <span style="color: red">ONLY IF</span> there are no
+        entries from the <span style="color: green">Category</span> section
+        below!</label
+      >
       <div
         v-bind:class="{
           'alert alert-dismissible alert-success show ': isActive,
@@ -37,12 +42,6 @@
       </div>
 
       <form>
-        <label class="text-white"
-          >Add a category <span style="color: red">ONLY IF</span> there are no
-          entries from the <span style="color: green">Category</span> section
-          below!</label
-        >
-
         <label class="text-white">Select a Category: </label>
         <div>
           <select
@@ -82,7 +81,7 @@ export default {
       isActive: null,
       hasError: null,
       success: "",
-      errors: null,
+      errors: "",
       errorMsg: "",
       category: "",
       cat: {
@@ -98,9 +97,9 @@ export default {
       return "hello wolrd";
     },
 
-    computedCats : function () {
-      return this.categories
-    }
+    computedCats: function () {
+      return this.categories;
+    },
   },
   methods: {
     OnClose() {
@@ -141,10 +140,9 @@ export default {
     },
     uponUpload(e) {
       //i should have use computed properties here...so everything happens by default;
-      this.success = "";
-      this.errors = "";
-      this.isActive = false;
-      this.hasError = false;
+      this.success = ""
+      this.isActive = false
+      this.hasError = false
       let selectedFiles = e.target.files;
       //if there are no files
       if (!selectedFiles.length) {
@@ -171,47 +169,28 @@ export default {
           "Content-Type": "multipart/form-data",
         },
       };
-
-      // lets get the first request
-      //   const fileUploadRequest = axios.post('/submit', this.form, config);
-
-      //   //lets get the second request
-      // const categoryRequest = axios.post('/store');
-
-      // axios.all([fileUploadRequest, ategoryRequest]).then(axios.spread((...responses) =>{
-
-      //     const fileUploadResponse = responses[0]
-      //     const categoryResponse = responses[1]
-
-      //     console.log(fileUploadResponse, categoryResponse)
-
-      //  } ))  .catch(errors => {
-      //         // react on errors.
-      //      console.error(errors);
-      //     })
-
       axios
         .post("/submit", this.form, config)
-        .then((Res) => {
+        .then((response) => {
           //success
-          this.isActive = true;
-          this.hasError = false;
-          this.success = Res.data.success;
-          JSON.parse(this.success);
+          if ((response.status = 201)) {
+            this.isActive = true
+            this.notifDisplay = true
+            this.success = response.data.success
+          }
         })
         .catch((error) => {
-          this.hasError = true;
-          this.errors =
-            error.response.data.errors || error.response.data.message;
-        });
 
-      this.attachments = [];
-      document.getElementById("upload-file").value = "";
+            if (error.status = 422 ) {
+            this.hasError = true
+            this.notifDisplay = true
+            this.errors = error.response.data.errors
+            }
+        })
     },
   },
   mounted() {
     console.log("Component mounted.");
-    this.cat.name = true;
   },
 };
 </script>

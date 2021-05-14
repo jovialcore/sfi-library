@@ -1918,7 +1918,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1928,7 +1927,7 @@ __webpack_require__.r(__webpack_exports__);
       isActive: null,
       hasError: null,
       success: "",
-      errors: null,
+      errors: "",
       errorMsg: "",
       category: "",
       cat: {
@@ -1983,7 +1982,6 @@ __webpack_require__.r(__webpack_exports__);
     uponUpload: function uponUpload(e) {
       //i should have use computed properties here...so everything happens by default;
       this.success = "";
-      this.errors = "";
       this.isActive = false;
       this.hasError = false;
       var selectedFiles = e.target.files; //if there are no files
@@ -2013,36 +2011,25 @@ __webpack_require__.r(__webpack_exports__);
         headers: {
           "Content-Type": "multipart/form-data"
         }
-      }; // lets get the first request
-      //   const fileUploadRequest = axios.post('/submit', this.form, config);
-      //   //lets get the second request
-      // const categoryRequest = axios.post('/store');
-      // axios.all([fileUploadRequest, ategoryRequest]).then(axios.spread((...responses) =>{
-      //     const fileUploadResponse = responses[0]
-      //     const categoryResponse = responses[1]
-      //     console.log(fileUploadResponse, categoryResponse)
-      //  } ))  .catch(errors => {
-      //         // react on errors.
-      //      console.error(errors);
-      //     })
-
-      axios.post("/submit", this.form, config).then(function (Res) {
+      };
+      axios.post("/submit", this.form, config).then(function (response) {
         //success
-        _this2.isActive = true;
-        _this2.hasError = false;
-        _this2.success = Res.data.success;
-        JSON.parse(_this2.success);
+        if (response.status = 201) {
+          _this2.isActive = true;
+          _this2.notifDisplay = true;
+          _this2.success = response.data.success;
+        }
       })["catch"](function (error) {
-        _this2.hasError = true;
-        _this2.errors = error.response.data.errors || error.response.data.message;
+        if (error.status = 422) {
+          _this2.hasError = true;
+          _this2.notifDisplay = true;
+          _this2.errors = error.response.data.errors;
+        }
       });
-      this.attachments = [];
-      document.getElementById("upload-file").value = "";
     }
   },
   mounted: function mounted() {
     console.log("Component mounted.");
-    this.cat.name = true;
   }
 });
 
@@ -37720,6 +37707,8 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container bg-dark p-5 mt-5" }, [
     _c("div", { staticClass: "form-group" }, [
+      _vm._m(0),
+      _vm._v(" "),
       _c(
         "div",
         {
@@ -37814,8 +37803,6 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("form", [
-        _vm._m(0),
-        _vm._v(" "),
         _c("label", { staticClass: "text-white" }, [
           _vm._v("Select a Category: ")
         ]),
@@ -37891,9 +37878,9 @@ var staticRenderFns = [
     return _c("label", { staticClass: "text-white" }, [
       _vm._v("Add a category "),
       _c("span", { staticStyle: { color: "red" } }, [_vm._v("ONLY IF")]),
-      _vm._v(" there are no\n        entries from the "),
+      _vm._v(" there are no\n      entries from the "),
       _c("span", { staticStyle: { color: "green" } }, [_vm._v("Category")]),
-      _vm._v(" section\n        below!")
+      _vm._v(" section\n      below!")
     ])
   }
 ]
