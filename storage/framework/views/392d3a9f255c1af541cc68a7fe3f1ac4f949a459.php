@@ -30,8 +30,8 @@
             <div class="grid-sizer"></div>
             <?php $__currentLoopData = $allImages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                <div class="grid-item">
-                   <a href="<?php echo e(route('showPicture', ['id'=> $image])); ?>"> <img src="<?php echo e(asset('storage/uploads/' . $image->name)); ?>"> </a>
+                <div class="grid-item ">
+                   <a href="<?php echo e(route('showPicture', ['id'=> $image])); ?>"> <img src="<?php echo e(asset('storage/uploads/' . $image->name)); ?>"  class="img-fluid"> </a>
                 </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>

@@ -88,6 +88,16 @@ export default {
 
   props: ["categories"],
 
+  computed: {
+         cachedCategories :function() {
+
+            return this.categories
+
+        },
+
+
+  },
+
   methods: {
     Ontype() {
       this.hasError = null;
@@ -111,7 +121,6 @@ export default {
           }
         })
         .catch((error) => {
-          this.category = "";
           this.hasError = true;
           this.errors = error.response.data.errors
           this.errorMsg= error.response.data.message

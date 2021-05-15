@@ -1932,6 +1932,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   props: ["categories"],
+  computed: {
+    cachedCategories: function cachedCategories() {
+      return this.categories;
+    }
+  },
   methods: {
     Ontype: function Ontype() {
       this.hasError = null;
@@ -1953,7 +1958,6 @@ __webpack_require__.r(__webpack_exports__);
           _this.isActive = true;
         }
       })["catch"](function (error) {
-        _this.category = "";
         _this.hasError = true;
         _this.errors = error.response.data.errors;
         _this.errorMsg = error.response.data.message;
