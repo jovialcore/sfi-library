@@ -1915,15 +1915,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      notifDisplay: false,
       attachments: [],
       form: new FormData(),
       isActive: null,
       hasError: null,
       success: "",
-      errors: null,
+      errors: "",
       errorMsg: "",
       category: "",
       cat: {
@@ -1931,34 +1935,58 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
+<<<<<<< HEAD
   props: ["categories"],
   computed: {
     cachedCategories: function cachedCategories() {
+=======
+  props: ["categories", "componentKey"],
+  computed: {
+    message: function message() {
+      return "hello wolrd";
+    },
+    computedCats: function computedCats() {
+>>>>>>> 80b40db250f2e05e4f2ac460d34420179b9230ff
       return this.categories;
     }
   },
   methods: {
-    Ontype: function Ontype() {
-      this.hasError = null;
-      this.isActive = null;
+    OnClose: function OnClose() {
+      this.hasError = false;
+      this.isActive = false;
       this.errors = "";
       this.errorMsg = "";
       this.success = "";
+      this.notifDisplay = false;
     },
     addCatbtn: function addCatbtn() {
       var _this = this;
 
+      console.log(this.componentKey);
       if (this.category == "") return;
       axios.post("/addcategory", {
         name: this.category
       }).then(function (response) {
         if (response.status = 201) {
           _this.category = "";
+          _this.errors = "";
+          _this.errorMsg = "";
+          _this.notifDisplay = true;
           _this.success = response.data.success;
           _this.isActive = true;
+          _this.hasError = false;
+
+          _this.$forceUpdate();
         }
       })["catch"](function (error) {
+<<<<<<< HEAD
+=======
+        _this.notifDisplay = true;
+        _this.category = "";
+>>>>>>> 80b40db250f2e05e4f2ac460d34420179b9230ff
         _this.hasError = true;
+        _this.isActive = false;
+        _this.success = "";
         _this.errors = error.response.data.errors;
         _this.errorMsg = error.response.data.message;
       });
@@ -1966,7 +1994,6 @@ __webpack_require__.r(__webpack_exports__);
     uponUpload: function uponUpload(e) {
       //i should have use computed properties here...so everything happens by default;
       this.success = "";
-      this.errors = "";
       this.isActive = false;
       this.hasError = false;
       var selectedFiles = e.target.files; //if there are no files
@@ -1996,36 +2023,25 @@ __webpack_require__.r(__webpack_exports__);
         headers: {
           "Content-Type": "multipart/form-data"
         }
-      }; // lets get the first request
-      //   const fileUploadRequest = axios.post('/submit', this.form, config);
-      //   //lets get the second request
-      // const categoryRequest = axios.post('/store');
-      // axios.all([fileUploadRequest, ategoryRequest]).then(axios.spread((...responses) =>{
-      //     const fileUploadResponse = responses[0]
-      //     const categoryResponse = responses[1]
-      //     console.log(fileUploadResponse, categoryResponse)
-      //  } ))  .catch(errors => {
-      //         // react on errors.
-      //      console.error(errors);
-      //     })
-
-      axios.post("/submit", this.form, config).then(function (Res) {
+      };
+      axios.post("/submit", this.form, config).then(function (response) {
         //success
-        _this2.isActive = true;
-        _this2.hasError = false;
-        _this2.success = Res.data.success;
-        JSON.parse(_this2.success);
+        if (response.status = 201) {
+          _this2.isActive = true;
+          _this2.notifDisplay = true;
+          _this2.success = response.data.success;
+        }
       })["catch"](function (error) {
-        _this2.hasError = true;
-        _this2.errors = error.response.data.errors || error.response.data.message;
+        if (error.status = 422) {
+          _this2.hasError = true;
+          _this2.notifDisplay = true;
+          _this2.errors = error.response.data.errors;
+        }
       });
-      this.attachments = [];
-      document.getElementById("upload-file").value = "";
     }
   },
   mounted: function mounted() {
     console.log("Component mounted.");
-    this.cat.name = true;
   }
 });
 
@@ -2055,15 +2071,22 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      categories: []
+      categories: [],
+      componentKey: 0
     };
   },
   methods: {
+    forcRenrender: function forcRenrender() {
+      this.componentKey += 1;
+    },
     getCats: function getCats() {
       var _this = this;
 
       axios.get('/allCats').then(function (response) {
-        _this.categories = response.data; // console.log(this.categories)
+        _this.categories = response.data;
+
+        _this.forcRenrender(); // console.log(this.categories)
+
       })["catch"](function (error) {
         console.log(error);
       });
@@ -37703,20 +37726,22 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container bg-dark p-5 mt-5" }, [
     _c("div", { staticClass: "form-group" }, [
+      _vm._m(0),
+      _vm._v(" "),
       _c(
         "div",
         {
-          staticClass: "ex-ccss",
           class: {
-            "alert alert-dismissible alert-success": _vm.isActive,
-            "alert alert-dismissible alert-danger": _vm.hasError
-          }
+            "alert alert-dismissible alert-success show ": _vm.isActive,
+            "alert alert-dismissible alert-danger show": _vm.hasError
+          },
+          attrs: { role: "alert" }
         },
         [
           _vm._v(
             "\n      " +
               _vm._s(_vm.success) +
-              "\n      " +
+              " " +
               _vm._s(_vm.errorMsg) +
               "\n      "
           ),
@@ -37724,29 +37749,44 @@ var render = function() {
             return _c(
               "div",
               { key: errorArray },
-              [
-                _c(
-                  "a",
-                  {
-                    staticClass: "close",
-                    attrs: {
-                      href: "#",
-                      "data-dismiss": "alert",
-                      "aria-label": "close"
-                    }
-                  },
-                  [_vm._v("×")]
-                ),
-                _vm._v(" "),
-                _vm._l(errorArray, function(allErrors) {
-                  return _c("div", { key: allErrors }, [
-                    _vm._v("\n          " + _vm._s(allErrors) + "\n        ")
-                  ])
-                })
-              ],
-              2
+              _vm._l(errorArray, function(allErrors) {
+                return _c("div", { key: allErrors }, [
+                  _vm._v("\n          " + _vm._s(allErrors) + "\n        ")
+                ])
+              }),
+              0
             )
-          })
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "close",
+              attrs: {
+                type: "button",
+                "data-dismiss": "alert",
+                "aria-label": "Close"
+              },
+              on: { click: _vm.OnClose }
+            },
+            [
+              _c(
+                "span",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.notifDisplay,
+                      expression: "notifDisplay"
+                    }
+                  ],
+                  attrs: { "aria-hidden": "true" }
+                },
+                [_vm._v("×")]
+              )
+            ]
+          )
         ],
         2
       ),
@@ -37765,7 +37805,6 @@ var render = function() {
           attrs: { type: "text", placeholder: "Add a category..." },
           domProps: { value: _vm.category },
           on: {
-            change: _vm.Ontype,
             input: function($event) {
               if ($event.target.composing) {
                 return
@@ -37783,8 +37822,6 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("form", [
-        _vm._m(0),
-        _vm._v(" "),
         _c("label", { staticClass: "text-white" }, [
           _vm._v("Select a Category: ")
         ]),
@@ -37821,7 +37858,7 @@ var render = function() {
                 }
               }
             },
-            _vm._l(_vm.categories, function(allCats) {
+            _vm._l(_vm.computedCats, function(allCats) {
               return _c("option", { key: allCats }, [
                 _vm._v("\n            " + _vm._s(allCats.name) + "\n          ")
               ])
@@ -37860,9 +37897,9 @@ var staticRenderFns = [
     return _c("label", { staticClass: "text-white" }, [
       _vm._v("Add a category "),
       _c("span", { staticStyle: { color: "red" } }, [_vm._v("ONLY IF")]),
-      _vm._v(" there are no\n        entries from the "),
+      _vm._v(" there are no\n      entries from the "),
       _c("span", { staticStyle: { color: "green" } }, [_vm._v("Category")]),
-      _vm._v(" section\n        below!")
+      _vm._v(" section\n      below!")
     ])
   }
 ]
@@ -37888,7 +37925,10 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("file-upload", { attrs: { categories: _vm.categories } })
+  return _c("file-upload", {
+    key: _vm.componentKey,
+    attrs: { categories: _vm.categories }
+  })
 }
 var staticRenderFns = []
 render._withStripped = true

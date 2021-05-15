@@ -1,44 +1,47 @@
 <template>
   <div class="container bg-dark p-5 mt-5">
     <div class="form-group">
+      <label class="text-white"
+        >Add a category <span style="color: red">ONLY IF</span> there are no
+        entries from the <span style="color: green">Category</span> section
+        below!</label
+      >
       <div
         v-bind:class="{
-          'alert alert-dismissible alert-success': isActive,
-          'alert alert-dismissible alert-danger': hasError,
+          'alert alert-dismissible alert-success show ': isActive,
+          'alert alert-dismissible alert-danger show': hasError,
         }"
-        class="ex-ccss"
+        class=""
+        role="alert"
       >
-        {{ success }}
-        {{errorMsg}}
+        {{ success }} {{ errorMsg }}
         <div v-for="errorArray in errors" :key="errorArray">
-          <a href="#" class="close" data-dismiss="alert" aria-label="close"
-            >&times;</a
-          >
           <div v-for="allErrors in errorArray" :key="allErrors">
             {{ allErrors }}
           </div>
         </div>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+          @click="OnClose"
+        >
+          <span aria-hidden="true" v-show="notifDisplay">&times;</span>
+        </button>
       </div>
 
       <div class="mb-3">
         <input
           type="text"
-
           v-model="category"
           class="w-50 form-control"
           placeholder="Add a category..."
-          @change="Ontype"
         />
         <button class="btn btn-success mt-3" @click="addCatbtn">Add</button>
       </div>
 
       <form>
-        <label class="text-white"
-          >Add a category <span style="color: red">ONLY IF</span> there are no
-          entries from the <span style="color: green">Category</span> section
-          below!</label
-        >
-
         <label class="text-white">Select a Category: </label>
         <div>
           <select
@@ -47,7 +50,7 @@
             value="dropdown"
             placeholder="add a category"
           >
-            <option v-for="allCats in categories" :key="allCats">
+            <option v-for="allCats in computedCats" :key="allCats">
               {{ allCats.name }}
             </option>
           </select>
@@ -72,13 +75,14 @@
 export default {
   data() {
     return {
+      notifDisplay: false,
       attachments: [],
       form: new FormData(),
       isActive: null,
       hasError: null,
       success: "",
-      errors: null,
-      errorMsg : "",
+      errors: "",
+      errorMsg: "",
       category: "",
       cat: {
         name: "",
@@ -86,8 +90,14 @@ export default {
     };
   },
 
-  props: ["categories"],
+  props: ["categories", "componentKey"],
 
+  computed: {
+    message: function () {
+      return "hello wolrd";
+    },
+
+<<<<<<< HEAD
   computed: {
          cachedCategories :function() {
 
@@ -98,15 +108,23 @@ export default {
 
   },
 
+=======
+    computedCats: function () {
+      return this.categories;
+    },
+  },
+>>>>>>> 80b40db250f2e05e4f2ac460d34420179b9230ff
   methods: {
-    Ontype() {
-      this.hasError = null;
-      this.isActive = null;
-      this.errors = ""
-      this.errorMsg = ""
-      this.success = ""
+    OnClose() {
+      this.hasError = false;
+      this.isActive = false;
+      this.errors = "";
+      this.errorMsg = "";
+      this.success = "";
+      this.notifDisplay = false;
     },
     addCatbtn() {
+        console.log(this.componentKey)
       if (this.category == "") return;
 
       axios
@@ -115,23 +133,37 @@ export default {
         })
         .then((response) => {
           if ((response.status = 201)) {
+
+
             this.category = "";
+            this.errors = "";
+            this.errorMsg = "";
+            this.notifDisplay = true;
             this.success = response.data.success;
-            this.isActive = true
+            this.isActive = true;
+            this.hasError = false;
+            this.$forceUpdate()
           }
         })
         .catch((error) => {
+<<<<<<< HEAD
+=======
+          this.notifDisplay = true;
+          this.category = "";
+>>>>>>> 80b40db250f2e05e4f2ac460d34420179b9230ff
           this.hasError = true;
-          this.errors = error.response.data.errors
-          this.errorMsg= error.response.data.message
-        });
+          this.isActive = false;
+          this.success = "";
+          this.errors = error.response.data.errors;
+          this.errorMsg = error.response.data.message;
+        })
+
     },
     uponUpload(e) {
       //i should have use computed properties here...so everything happens by default;
-      this.success = "";
-      this.errors = "";
-      this.isActive = false;
-      this.hasError = false;
+      this.success = ""
+      this.isActive = false
+      this.hasError = false
       let selectedFiles = e.target.files;
       //if there are no files
       if (!selectedFiles.length) {
@@ -158,47 +190,28 @@ export default {
           "Content-Type": "multipart/form-data",
         },
       };
-
-      // lets get the first request
-      //   const fileUploadRequest = axios.post('/submit', this.form, config);
-
-      //   //lets get the second request
-      // const categoryRequest = axios.post('/store');
-
-      // axios.all([fileUploadRequest, ategoryRequest]).then(axios.spread((...responses) =>{
-
-      //     const fileUploadResponse = responses[0]
-      //     const categoryResponse = responses[1]
-
-      //     console.log(fileUploadResponse, categoryResponse)
-
-      //  } ))  .catch(errors => {
-      //         // react on errors.
-      //      console.error(errors);
-      //     })
-
       axios
         .post("/submit", this.form, config)
-        .then((Res) => {
+        .then((response) => {
           //success
-          this.isActive = true;
-          this.hasError = false;
-          this.success = Res.data.success;
-          JSON.parse(this.success);
+          if ((response.status = 201)) {
+            this.isActive = true
+            this.notifDisplay = true
+            this.success = response.data.success
+          }
         })
         .catch((error) => {
-          this.hasError = true;
-          this.errors =
-            error.response.data.errors || error.response.data.message;
-        });
 
-      this.attachments = [];
-      document.getElementById("upload-file").value = "";
+            if (error.status = 422 ) {
+            this.hasError = true
+            this.notifDisplay = true
+            this.errors = error.response.data.errors
+            }
+        })
     },
   },
   mounted() {
     console.log("Component mounted.");
-    this.cat.name = true;
   },
 };
 </script>

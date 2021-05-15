@@ -88,7 +88,7 @@ class UploadController extends Controller
                     'user_id' => $user
                 ]);
             }
-            return response()->json(['success' => 'File was successfully uploaded'], 200);
+            return response()->json(['success' => 'File was successfully uploaded'], 201);
         }
     }
 }

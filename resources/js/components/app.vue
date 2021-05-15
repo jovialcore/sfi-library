@@ -1,5 +1,5 @@
 <template>
-    <file-upload :categories="categories"/>
+    <file-upload :categories="categories" :key="componentKey"/>
 </template>
 
 
@@ -15,15 +15,20 @@ export default {
 
     data : function (){
         return {
-            categories: []
+            categories: [],
+            componentKey : 0,
         }
     },
 
     methods: {
+        forcRenrender() {
+            this.componentKey += 1
+        },
         getCats () {
             axios.get('/allCats')
             .then( response => {
                 this.categories = response.data
+                this.forcRenrender()
                 // console.log(this.categories)
             })
             .catch( error => {

@@ -22,28 +22,27 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/pages', function () {
-    return view('page');
-})->name('page');
+// Route::get('/pages', function () {
+//     return view('page');
+// })->name('page');
+//this route satying here shoul dbe an error
 
 Auth::routes();
 
+//only logged in users can access this route
 
-Route::get('/home', [App\Http\Controllers\MainController::class, 'mainAllImages'])->name('allImages');
+Route::middleware('auth')->group(function () {
 
-Route::get('/upload', [App\Http\Controllers\UploadController::class, 'index'])->name('upload');
+    Route::get('/home', [App\Http\Controllers\MainController::class, 'mainAllImages'])->name('allImages');
 
+    Route::get('/upload', [App\Http\Controllers\UploadController::class, 'index'])->name('upload');
 
-Route::post('/submit', [App\Http\Controllers\UploadController::class, 'storeFile'])->name('uploadFile');
+    Route::post('/submit', [App\Http\Controllers\UploadController::class, 'storeFile'])->name('uploadFile');
 
-Route::get('/allCats', [App\Http\Controllers\categoryController::class, 'allCategory'])->name('allCats');
+    Route::get('/allCats', [App\Http\Controllers\categoryController::class, 'allCategory'])->name('allCats');
 
-
-Route::get('/categories/show/{id}', [App\Http\Controllers\MainController::class, 'ShowCategory'])->name('showCategory');
-
-Route::get('/pictures/show/{id}', [App\Http\Controllers\MainController::class, 'showPicture'])->name('showPicture');
-
-
-Route::get('/download/{id}', [App\Http\Controllers\MainController::class, 'download'])->name('downloadFile');
-
-route::post('/addcategory', [App\Http\Controllers\UploadController::class, 'addCategory'])->name('vueCategory');
+    Route::get('/categories/show/{id}', [App\Http\Controllers\MainController::class, 'ShowCategory'])->name('showCategory');
+    Route::get('/pictures/show/{id}', [App\Http\Controllers\MainController::class, 'showPicture'])->name('showPicture');
+    Route::get('/download/{id}', [App\Http\Controllers\MainController::class, 'download'])->name('downloadFile');
+    route::post('/addcategory', [App\Http\Controllers\UploadController::class, 'addCategory'])->name('vueCategory');
+});
