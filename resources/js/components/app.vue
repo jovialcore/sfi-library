@@ -1,5 +1,5 @@
 <template>
-    <file-upload :categories="categories" :key="componentKey"/>
+    <file-upload :categories="categories"  v-on:categoriesUpdated='getCats()'/>
 </template>
 
 
@@ -16,20 +16,14 @@ export default {
     data : function (){
         return {
             categories: [],
-            componentKey : 0,
         }
     },
 
     methods: {
-        forcRenrender() {
-            this.componentKey += 1
-        },
         getCats () {
             axios.get('/allCats')
             .then( response => {
                 this.categories = response.data
-                this.forcRenrender()
-                // console.log(this.categories)
             })
             .catch( error => {
                     console.log(error)

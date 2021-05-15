@@ -1918,6 +1918,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1935,18 +1940,12 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-<<<<<<< HEAD
   props: ["categories"],
-  computed: {
-    cachedCategories: function cachedCategories() {
-=======
-  props: ["categories", "componentKey"],
   computed: {
     message: function message() {
       return "hello wolrd";
     },
     computedCats: function computedCats() {
->>>>>>> 80b40db250f2e05e4f2ac460d34420179b9230ff
       return this.categories;
     }
   },
@@ -1962,12 +1961,14 @@ __webpack_require__.r(__webpack_exports__);
     addCatbtn: function addCatbtn() {
       var _this = this;
 
-      console.log(this.componentKey);
+      console.log(this.componentKey + "hey ifij");
       if (this.category == "") return;
       axios.post("/addcategory", {
         name: this.category
       }).then(function (response) {
         if (response.status = 201) {
+          _this.$emit("categoriesUpdated");
+
           _this.category = "";
           _this.errors = "";
           _this.errorMsg = "";
@@ -1975,15 +1976,10 @@ __webpack_require__.r(__webpack_exports__);
           _this.success = response.data.success;
           _this.isActive = true;
           _this.hasError = false;
-
-          _this.$forceUpdate();
         }
       })["catch"](function (error) {
-<<<<<<< HEAD
-=======
         _this.notifDisplay = true;
         _this.category = "";
->>>>>>> 80b40db250f2e05e4f2ac460d34420179b9230ff
         _this.hasError = true;
         _this.isActive = false;
         _this.success = "";
@@ -2071,22 +2067,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      categories: [],
-      componentKey: 0
+      categories: []
     };
   },
   methods: {
-    forcRenrender: function forcRenrender() {
-      this.componentKey += 1;
-    },
     getCats: function getCats() {
       var _this = this;
 
       axios.get('/allCats').then(function (response) {
         _this.categories = response.data;
-
-        _this.forcRenrender(); // console.log(this.categories)
-
       })["catch"](function (error) {
         console.log(error);
       });
@@ -37739,11 +37728,11 @@ var render = function() {
         },
         [
           _vm._v(
-            "\n      " +
+            "\n            " +
               _vm._s(_vm.success) +
               " " +
               _vm._s(_vm.errorMsg) +
-              "\n      "
+              "\n            "
           ),
           _vm._l(_vm.errors, function(errorArray) {
             return _c(
@@ -37751,7 +37740,11 @@ var render = function() {
               { key: errorArray },
               _vm._l(errorArray, function(allErrors) {
                 return _c("div", { key: allErrors }, [
-                  _vm._v("\n          " + _vm._s(allErrors) + "\n        ")
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(allErrors) +
+                      "\n                "
+                  )
                 ])
               }),
               0
@@ -37817,7 +37810,7 @@ var render = function() {
         _c(
           "button",
           { staticClass: "btn btn-success mt-3", on: { click: _vm.addCatbtn } },
-          [_vm._v("Add")]
+          [_vm._v("\n                Add\n            ")]
         )
       ]),
       _vm._v(" "),
@@ -37860,7 +37853,11 @@ var render = function() {
             },
             _vm._l(_vm.computedCats, function(allCats) {
               return _c("option", { key: allCats }, [
-                _vm._v("\n            " + _vm._s(allCats.name) + "\n          ")
+                _vm._v(
+                  "\n                        " +
+                    _vm._s(allCats.name) +
+                    "\n                    "
+                )
               ])
             }),
             0
@@ -37897,9 +37894,9 @@ var staticRenderFns = [
     return _c("label", { staticClass: "text-white" }, [
       _vm._v("Add a category "),
       _c("span", { staticStyle: { color: "red" } }, [_vm._v("ONLY IF")]),
-      _vm._v(" there are no\n      entries from the "),
+      _vm._v(" there\n            are no entries from the\n            "),
       _c("span", { staticStyle: { color: "green" } }, [_vm._v("Category")]),
-      _vm._v(" section\n      below!")
+      _vm._v(" section below!")
     ])
   }
 ]
@@ -37926,8 +37923,12 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("file-upload", {
-    key: _vm.componentKey,
-    attrs: { categories: _vm.categories }
+    attrs: { categories: _vm.categories },
+    on: {
+      categoriesUpdated: function($event) {
+        return _vm.getCats()
+      }
+    }
   })
 }
 var staticRenderFns = []
