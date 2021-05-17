@@ -113,7 +113,7 @@ export default {
             this.notifDisplay = false;
         },
         addCatbtn() {
-            console.log(this.componentKey + "hey ifij")
+
             if (this.category == "") return;
             axios
                 .post("/addcategory", {
