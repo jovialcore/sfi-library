@@ -40,8 +40,8 @@ class UploadController extends Controller
     {
 
         $validator = $req->validate([
-            'pics' => 'required',
-            'pics.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048'
+            'pic' => 'required',
+            'pic' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048'
         ]);
 
 

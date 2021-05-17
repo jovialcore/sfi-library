@@ -1919,10 +1919,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1957,11 +1953,12 @@ __webpack_require__.r(__webpack_exports__);
       this.errorMsg = "";
       this.success = "";
       this.notifDisplay = false;
+      this.$refs.file.value = null;
+      this.attachments = [];
     },
     addCatbtn: function addCatbtn() {
       var _this = this;
 
-      console.log(this.componentKey + "hey ifij");
       if (this.category == "") return;
       axios.post("/addcategory", {
         name: this.category
@@ -1990,6 +1987,8 @@ __webpack_require__.r(__webpack_exports__);
     uponUpload: function uponUpload(e) {
       //i should have use computed properties here...so everything happens by default;
       this.success = "";
+      this.errors = "";
+      this.errorMsg = "";
       this.isActive = false;
       this.hasError = false;
       var selectedFiles = e.target.files; //if there are no files
@@ -2009,7 +2008,7 @@ __webpack_require__.r(__webpack_exports__);
 
       //append all the file to the form data
       for (var i = 0; i < this.attachments.length; i++) {
-        this.form.append("pics[]", this.attachments[i]);
+        this.form.append("pic[]", this.attachments[i]);
       } //without the JSON.stringify() you will have an object.object 'error'
 
 
@@ -2026,13 +2025,13 @@ __webpack_require__.r(__webpack_exports__);
           _this2.isActive = true;
           _this2.notifDisplay = true;
           _this2.success = response.data.success;
+          _this2.$refs.file.value = null;
         }
       })["catch"](function (error) {
-        if (error.status = 422) {
-          _this2.hasError = true;
-          _this2.notifDisplay = true;
-          _this2.errors = error.response.data.errors;
-        }
+        _this2.hasError = true;
+        _this2.notifDisplay = true;
+        _this2.errors = error.response.data.errors;
+        _this2.$refs.file.value = null;
       });
     }
   },
@@ -37728,23 +37727,19 @@ var render = function() {
         },
         [
           _vm._v(
-            "\n            " +
+            "\n      " +
               _vm._s(_vm.success) +
               " " +
               _vm._s(_vm.errorMsg) +
-              "\n            "
+              "\n      "
           ),
-          _vm._l(_vm.errors, function(errorArray) {
+          _vm._l(_vm.errors, function(errorArray, idx) {
             return _c(
               "div",
-              { key: errorArray },
-              _vm._l(errorArray, function(allErrors) {
-                return _c("div", { key: allErrors }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(allErrors) +
-                      "\n                "
-                  )
+              { key: idx },
+              _vm._l(errorArray, function(allErrors, idx) {
+                return _c("div", { key: idx }, [
+                  _vm._v("\n          " + _vm._s(allErrors) + "\n        ")
                 ])
               }),
               0
@@ -37810,7 +37805,7 @@ var render = function() {
         _c(
           "button",
           { staticClass: "btn btn-success mt-3", on: { click: _vm.addCatbtn } },
-          [_vm._v("\n                Add\n            ")]
+          [_vm._v("Add")]
         )
       ]),
       _vm._v(" "),
@@ -37851,13 +37846,9 @@ var render = function() {
                 }
               }
             },
-            _vm._l(_vm.computedCats, function(allCats) {
-              return _c("option", { key: allCats }, [
-                _vm._v(
-                  "\n                        " +
-                    _vm._s(allCats.name) +
-                    "\n                    "
-                )
+            _vm._l(_vm.computedCats, function(allCats, idx) {
+              return _c("option", { key: idx.id }, [
+                _vm._v("\n            " + _vm._s(allCats.name) + "\n          ")
               ])
             }),
             0
@@ -37867,6 +37858,7 @@ var render = function() {
         _c("label", { staticClass: "text-white" }, [_vm._v("Select File: ")]),
         _vm._v(" "),
         _c("input", {
+          ref: "file",
           staticClass: "w-50 form-control",
           attrs: {
             type: "file",
@@ -37894,9 +37886,9 @@ var staticRenderFns = [
     return _c("label", { staticClass: "text-white" }, [
       _vm._v("Add a category "),
       _c("span", { staticStyle: { color: "red" } }, [_vm._v("ONLY IF")]),
-      _vm._v(" there\n            are no entries from the\n            "),
+      _vm._v(" there are no\n      entries from the "),
       _c("span", { staticStyle: { color: "green" } }, [_vm._v("Category")]),
-      _vm._v(" section below!")
+      _vm._v(" section\n      below!")
     ])
   }
 ]
