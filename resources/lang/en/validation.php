@@ -152,7 +152,8 @@ return [
     */
 //wow this is the best thing to do..I am so excited
     'attributes' => [
-        'pic' => 'images and pictures'
+        'pic' => 'images and pictures',
+        'pic.*' => 'the images '
     ]
 
 ];

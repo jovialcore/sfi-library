@@ -159,7 +159,7 @@ export default {
     submitFile() {
       //append all the file to the form data
       for (let i = 0; i < this.attachments.length; i++) {
-        this.form.append("pic[]", this.attachments[i]);
+        this.form.append('pic[]', this.attachments[i]);
       }
       //without the JSON.stringify() you will have an object.object 'error'
       this.form.append("cats", JSON.stringify(this.cat.name));
