@@ -74,12 +74,18 @@
         class="col bg-white"
         style="border: 1px solid green; height: 300px; border-radius: 8px"
       >
-        <div class="file-listing">
-          <img class="preview" v-bind:ref="'preview'" />
+        <div class="file-listing" v-for="(file, key) in files " :key="key">
+          <img class="preview" v-bind:ref="'preview'+parseInt(key)" />
 
-          <div class="success-container">Success</div>
-          <div class="remove-container">
-            <a class="remove">Remove</a>
+            {{file.name}}
+
+          <div class="success-container" v-if="file.id > 0">
+              Success
+
+            </div>
+          <div class="remove-container" v-else >
+
+            <a class="remove " v-on:click="removeFiles(key)">Remove</a>
           </div>
         </div>
       </div>
@@ -209,7 +215,7 @@ export default {
         .then((response) => {
           //success
           if ((response.status = 201)) {
-            this.files[i].id = data["data"]["id"];
+            this.files[i].id = response["data"]["id"];
             this.files.splice(i, 1, this.files[i]);
             console.log(this.files[i].id);
             this.isActive = true;

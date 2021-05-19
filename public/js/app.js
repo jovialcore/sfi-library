@@ -1934,6 +1934,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2059,7 +2065,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post("/submit", this.form, config).then(function (response) {
         //success
         if (response.status = 201) {
-          _this3.files[i].id = data["data"]["id"];
+          _this3.files[i].id = response["data"]["id"];
 
           _this3.files.splice(i, 1, _this3.files[i]);
 
@@ -37942,17 +37948,35 @@ var render = function() {
             "border-radius": "8px"
           }
         },
-        [
-          _c("div", { staticClass: "file-listing" }, [
-            _c("img", { ref: "preview", staticClass: "preview" }),
-            _vm._v(" "),
-            _c("div", { staticClass: "success-container" }, [
-              _vm._v("Success")
-            ]),
-            _vm._v(" "),
-            _vm._m(1)
+        _vm._l(_vm.files, function(file, key) {
+          return _c("div", { key: key, staticClass: "file-listing" }, [
+            _c("img", {
+              ref: "preview" + parseInt(key),
+              refInFor: true,
+              staticClass: "preview"
+            }),
+            _vm._v("\n\n          " + _vm._s(file.name) + "\n\n        "),
+            file.id > 0
+              ? _c("div", { staticClass: "success-container" }, [
+                  _vm._v("\n            Success\n\n          ")
+                ])
+              : _c("div", { staticClass: "remove-container" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "remove ",
+                      on: {
+                        click: function($event) {
+                          return _vm.removeFiles(key)
+                        }
+                      }
+                    },
+                    [_vm._v("Remove")]
+                  )
+                ])
           ])
-        ]
+        }),
+        0
       )
     ])
   ])
@@ -37968,14 +37992,6 @@ var staticRenderFns = [
       _vm._v(" there are no\n        entries from the "),
       _c("span", { staticStyle: { color: "green" } }, [_vm._v("Category")]),
       _vm._v(" section\n        below!")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "remove-container" }, [
-      _c("a", { staticClass: "remove" }, [_vm._v("Remove")])
     ])
   }
 ]
