@@ -72,21 +72,21 @@
       </div>
       <div
         class="col bg-white"
-        style="border: 1px solid green; height: 300px; border-radius: 8px"
+        style="border: 1px solid green;  border-radius: 8px"
       >
         <div class="file-listing" v-for="(file, key) in files " :key="key">
           <img class="preview" v-bind:ref="'preview'+parseInt(key)" />
 
-          <br>
 
-            {{file.name}}
+
+           <span> {{file.name}} </span>
 
           <div class="success-container" v-if="file.id > 0">
               Success
 
             </div>
         <div class="remove-container" v-else>
-                <a class="remove" v-on:click="removeFiles(key)">Remove</a>
+                <button class="remove btn btn-danger btn-sm my-2" style="cursor: pointer" v-on:click="removeFiles(key)">Remove</button>
             </div>
 
         </div>

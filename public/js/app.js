@@ -37946,11 +37946,7 @@ var render = function() {
         "div",
         {
           staticClass: "col bg-white",
-          staticStyle: {
-            border: "1px solid green",
-            height: "300px",
-            "border-radius": "8px"
-          }
+          staticStyle: { border: "1px solid green", "border-radius": "8px" }
         },
         _vm._l(_vm.files, function(file, key) {
           return _c("div", { key: key, staticClass: "file-listing" }, [
@@ -37960,17 +37956,18 @@ var render = function() {
               staticClass: "preview"
             }),
             _vm._v(" "),
-            _c("br"),
-            _vm._v("\n\n          " + _vm._s(file.name) + "\n\n        "),
+            _c("span", [_vm._v(" " + _vm._s(file.name) + " ")]),
+            _vm._v(" "),
             file.id > 0
               ? _c("div", { staticClass: "success-container" }, [
                   _vm._v("\n            Success\n\n          ")
                 ])
               : _c("div", { staticClass: "remove-container" }, [
                   _c(
-                    "a",
+                    "button",
                     {
-                      staticClass: "remove",
+                      staticClass: "remove btn btn-danger btn-sm my-2",
+                      staticStyle: { cursor: "pointer" },
                       on: {
                         click: function($event) {
                           return _vm.removeFiles(key)
