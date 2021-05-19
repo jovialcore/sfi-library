@@ -39,18 +39,17 @@ class UploadController extends Controller
     public function storeFile(Request $req)
     {
 
-        $validator = $req->validate([
-            'pics' => 'required',
-            'pics.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048'
+        $fileUploadModel = new files;
+        if ($req->hasFile('pic')) {
+
+        $req->validate([
+            'pic.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|required|max:2048'
         ]);
 
-
-        $fileUploadModel = new files;
-        if ($req->hasFile('pics')) {
             //lets decode the cats attribute from the formdata in our vuejs
             $category = json_decode($req->cats);
-            // name attribute of files is pics
-            $theUploadedFiles = $req->pics;
+            // name attribute of files is pic
+            $theUploadedFiles = $req->pic;
             //get the id that of the category that came with the form
             $catId = category::where('name', $category)->value('id');
             $user = Auth::user()->id;
@@ -87,8 +86,9 @@ class UploadController extends Controller
                     'size' =>  $fileSize,
                     'user_id' => $user
                 ]);
+                return response()->json(['success' => 'File was successfully uploaded' ], 201);
             }
-            return response()->json(['success' => 'File was successfully uploaded'], 201);
+
         }
     }
 }
