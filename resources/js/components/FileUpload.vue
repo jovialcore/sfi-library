@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-dark p-5 mt-5">
+  <div class="container-fluid bg-dark p-5 mt-5">
     <div class="row">
       <div class="form-group col">
         <label class="text-white"
@@ -77,16 +77,18 @@
         <div class="file-listing" v-for="(file, key) in files " :key="key">
           <img class="preview" v-bind:ref="'preview'+parseInt(key)" />
 
+          <br>
+
             {{file.name}}
 
           <div class="success-container" v-if="file.id > 0">
               Success
 
             </div>
-          <div class="remove-container" v-else >
+        <div class="remove-container" v-else>
+                <a class="remove" v-on:click="removeFiles(key)">Remove</a>
+            </div>
 
-            <a class="remove " v-on:click="removeFiles(key)">Remove</a>
-          </div>
         </div>
       </div>
     </div>
@@ -128,7 +130,6 @@ export default {
       this.$refs.file.value = null;
     },
     addCatbtn() {
-      console.log(this.componentKey + "hey ifij");
       if (this.category == "") return;
       axios
         .post("/addcategory", {
@@ -162,24 +163,27 @@ export default {
         //check to see if it is an image
         if (/\.(jpe?g|png|gif)$/i.test(this.files[i].name)) {
           let reader = new FileReader();
+             //once the image has been loaded ('on-load') in the local storage, pick it up and display
           reader.addEventListener(
             "load",
             function () {
-              this.$refs["preview" + parseInt(i)][0].src = reader.result;
+              this.$refs["preview"+parseInt(i)][0].src = reader.result;
             }.bind(this),
             false
           );
           reader.readAsDataURL(this.files[i]);
         } else {
+             //before the dom is updated to the recent changes, pick the image up immediately
+             //setTimeOut() can perform this operation but it is slower compared to how fast $nextTick is
           this.$nextTick(function () {
-            this.$refs["preview" + parseInt(i)][0].src = "images/header.jpg";
-          });
+            this.$refs["preview"+parseInt(i)][0].src = "images/header.jpg";
+          })
         }
       }
     },
     removeFiles(key) {
-      this.files.splice(key, 1);
-      this.getImagePreviews;
+      this.files.splice(key, 1)
+      this.getImagePreviews()
     },
     uponUpload(e) {
       //i should have use computed properties here...so everything happens by default;

@@ -1940,6 +1940,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1976,7 +1978,6 @@ __webpack_require__.r(__webpack_exports__);
     addCatbtn: function addCatbtn() {
       var _this = this;
 
-      console.log(this.componentKey + "hey ifij");
       if (this.category == "") return;
       axios.post("/addcategory", {
         name: this.category
@@ -2008,12 +2009,15 @@ __webpack_require__.r(__webpack_exports__);
       var _loop = function _loop(_i) {
         //check to see if it is an image
         if (/\.(jpe?g|png|gif)$/i.test(_this2.files[_i].name)) {
-          var reader = new FileReader();
+          var reader = new FileReader(); //once the image has been loaded ('on-load') in the local storage, pick it up and display
+
           reader.addEventListener("load", function () {
             this.$refs["preview" + parseInt(_i)][0].src = reader.result;
           }.bind(_this2), false);
           reader.readAsDataURL(_this2.files[_i]);
         } else {
+          //before the dom is updated to the recent changes, pick the image up immediately
+          //setTimeOut() can perform this operation but it is slower compared to how fast $nextTick is
           _this2.$nextTick(function () {
             this.$refs["preview" + parseInt(_i)][0].src = "images/header.jpg";
           });
@@ -2026,7 +2030,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     removeFiles: function removeFiles(key) {
       this.files.splice(key, 1);
-      this.getImagePreviews;
+      this.getImagePreviews();
     },
     uponUpload: function uponUpload(e) {
       //i should have use computed properties here...so everything happens by default;
@@ -37762,7 +37766,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container bg-dark p-5 mt-5" }, [
+  return _c("div", { staticClass: "container-fluid bg-dark p-5 mt-5" }, [
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "form-group col" }, [
         _vm._m(0),
@@ -37955,6 +37959,8 @@ var render = function() {
               refInFor: true,
               staticClass: "preview"
             }),
+            _vm._v(" "),
+            _c("br"),
             _vm._v("\n\n          " + _vm._s(file.name) + "\n\n        "),
             file.id > 0
               ? _c("div", { staticClass: "success-container" }, [
@@ -37964,7 +37970,7 @@ var render = function() {
                   _c(
                     "a",
                     {
-                      staticClass: "remove ",
+                      staticClass: "remove",
                       on: {
                         click: function($event) {
                           return _vm.removeFiles(key)
