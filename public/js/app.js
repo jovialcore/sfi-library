@@ -1947,6 +1947,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       notifDisplay: false,
       files: [],
+      allUploaded: [],
       form: new FormData(),
       isActive: null,
       hasError: null,
@@ -2075,19 +2076,41 @@ __webpack_require__.r(__webpack_exports__);
         axios.post("/submit", this.form, config).then(function (response) {
           //success
           if (response.status = 201) {
-            // this.files[i].id = response["data"]["id"];
+            // this.files[i].id = response['response']['id'];
             // this.files.splice(i, 1, this.files[i]);
-            // console.log(this.files[i].id);
+            // console.log(this.files[i].id); https://stackoverflow.com/questions/45919837/move-object-from-one-array-to-another
             _this3.isActive = true;
             _this3.notifDisplay = true;
             _this3.success = response.data.success;
             _this3.$refs.file.value = "";
+            _this3.allUploaded = _this3.files;
+
+            for (var i = 0; i < _this3.files.length; i++) {
+              _this3.allUploaded.push(_this3.files[i]);
+
+              _this3.files.splice(i, 1);
+
+              i--;
+            }
+
+            console.log(_this3.files);
+            console.log(_this3.allUploaded); //decrement i IF we remove an item
+            // for(let i = 0; i <  this.files.length; i++){
+            //     for(let i = 0; i < this.allUploaded.length; i++){ }
+            //         if (this.allUploaded[i].name == this.files[i].name) {
+            //         console.log(this.allUploaded[i].name + " is same as " + this.files[i].name )
+            //     } else {
+            //         console.log('did not work ooh')
+            //     }
+            // }
+            //remove the one that has been uploaded here
+
             _this3.files = [];
           }
         })["catch"](function (error) {
           _this3.hasError = true;
           _this3.notifDisplay = true;
-          _this3.errors = error.response.data.errors;
+          console.log(error);
           _this3.$refs.file.value = null;
           _this3.files = [];
         });
@@ -37951,7 +37974,7 @@ var render = function() {
               staticClass: "btn btn-success mt-4",
               on: { click: _vm.submitFile }
             },
-            [_vm._v("Submit")]
+            [_vm._v("Upload")]
           )
         ])
       ]

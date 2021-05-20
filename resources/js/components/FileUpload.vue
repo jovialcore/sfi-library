@@ -63,7 +63,7 @@
             placeholder="Select file..."
             ref="file"
           />
-                  <button class="btn btn-success mt-4" @click="submitFile">Submit</button>
+                  <button class="btn btn-success mt-4" @click="submitFile">Upload</button>
 
         </div>
       </div>
@@ -101,6 +101,7 @@ export default {
     return {
       notifDisplay: false,
       files: [],
+      allUploaded: [],
       form: new FormData(),
       isActive: null,
       hasError: null,
@@ -230,14 +231,35 @@ export default {
         .then((response) => {
           //success
           if ((response.status = 201)) {
-            // this.files[i].id = response["data"]["id"];
+            // this.files[i].id = response['response']['id'];
             // this.files.splice(i, 1, this.files[i]);
-            // console.log(this.files[i].id);
-
+            // console.log(this.files[i].id); https://stackoverflow.com/questions/45919837/move-object-from-one-array-to-another
             this.isActive = true;
             this.notifDisplay = true;
             this.success = response.data.success;
             this.$refs.file.value = "";
+            this.allUploaded = this.files
+
+         for(var i = 0; i < this.files.length; i++) {
+            this.allUploaded.push(this.files[i]);
+             this.files.splice(i, 1);
+                 i--;
+                }
+
+                console.log(this.files);
+                console.log(this.allUploaded);
+ //decrement i IF we remove an item
+            // for(let i = 0; i <  this.files.length; i++){
+            //     for(let i = 0; i < this.allUploaded.length; i++){ }
+
+            //         if (this.allUploaded[i].name == this.files[i].name) {
+            //         console.log(this.allUploaded[i].name + " is same as " + this.files[i].name )
+            //     } else {
+            //         console.log('did not work ooh')
+
+            //     }
+            // }
+            //remove the one that has been uploaded here
             this.files = []
           }
         })
@@ -245,7 +267,7 @@ export default {
 
             this.hasError = true;
             this.notifDisplay = true;
-            this.errors = error.response.data.errors;
+            console.log(error)
             this.$refs.file.value = null;
             this.files = []
 
