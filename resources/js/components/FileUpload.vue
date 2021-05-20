@@ -213,12 +213,10 @@ export default {
         if (this.files[i].id) {
           continue;
         }
-        this.form.set("pic[" + i + "]", this.files[i]);
+        this.form.append("pic[" + i + "]", this.files[i]);
       }
 
-    }else {
-        console.log('plese have some values')
-    }
+
       //without the JSON.stringify() you will have an object.object 'error'
       this.form.append("cats", JSON.stringify(this.cat.name));
       //lets set the file to multipart/form data for content type
@@ -252,7 +250,10 @@ export default {
             this.files = []
 
         });
-    },
+    }else {
+        console.log('please have some values')
+    }
+  },
   },
   mounted() {
     console.log("Component mounted.");

@@ -2061,39 +2061,39 @@ __webpack_require__.r(__webpack_exports__);
             continue;
           }
 
-          this.form.set("pic[" + i + "]", this.files[i]);
-        }
-      } else {
-        console.log('plese have some values');
-      } //without the JSON.stringify() you will have an object.object 'error'
+          this.form.append("pic[" + i + "]", this.files[i]);
+        } //without the JSON.stringify() you will have an object.object 'error'
 
 
-      this.form.append("cats", JSON.stringify(this.cat.name)); //lets set the file to multipart/form data for content type
+        this.form.append("cats", JSON.stringify(this.cat.name)); //lets set the file to multipart/form data for content type
 
-      var config = {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      };
-      axios.post("/submit", this.form, config).then(function (response) {
-        //success
-        if (response.status = 201) {
-          // this.files[i].id = response["data"]["id"];
-          // this.files.splice(i, 1, this.files[i]);
-          // console.log(this.files[i].id);
-          _this3.isActive = true;
+        var config = {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        };
+        axios.post("/submit", this.form, config).then(function (response) {
+          //success
+          if (response.status = 201) {
+            // this.files[i].id = response["data"]["id"];
+            // this.files.splice(i, 1, this.files[i]);
+            // console.log(this.files[i].id);
+            _this3.isActive = true;
+            _this3.notifDisplay = true;
+            _this3.success = response.data.success;
+            _this3.$refs.file.value = "";
+            _this3.files = [];
+          }
+        })["catch"](function (error) {
+          _this3.hasError = true;
           _this3.notifDisplay = true;
-          _this3.success = response.data.success;
-          _this3.$refs.file.value = "";
+          _this3.errors = error.response.data.errors;
+          _this3.$refs.file.value = null;
           _this3.files = [];
-        }
-      })["catch"](function (error) {
-        _this3.hasError = true;
-        _this3.notifDisplay = true;
-        _this3.errors = error.response.data.errors;
-        _this3.$refs.file.value = null;
-        _this3.files = [];
-      });
+        });
+      } else {
+        console.log('please have some values');
+      }
     }
   },
   mounted: function mounted() {
