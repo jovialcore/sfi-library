@@ -1,12 +1,6 @@
 <template>
-  <div class="container-fluid bg-dark p-5 mt-5">
-    <div class="row">
-      <div class="form-group col">
-        <label class="text-white"
-          >Add a category <span style="color: red">ONLY IF</span> there are no
-          entries from the <span style="color: green">Category</span> section
-          below!</label
-        >
+  <div class="container-fluid ">
+    <div class="row bg-dark p-5 " style="border-top:1px solid green;">
         <div
           v-bind:class="{
             'alert alert-dismissible alert-success show ': isActive,
@@ -32,21 +26,28 @@
           </button>
         </div>
 
-        <div class="mb-3">
+        <div class=" col">
+           <label class="text-white">Select a category: </label>
           <input
             type="text"
             v-model="category"
             class="w-100 form-control"
             placeholder="Add a category..."
           />
-          <button class="btn btn-success mt-3" @click="addCatbtn">Add</button>
+          <button class="btn btn-success mt-4" @click="addCatbtn">Add</button>
         </div>
 
+<<<<<<< HEAD
         <form >
           <label class="text-white">Select a Category: </label>
           <div>
+=======
+
+          <div class="col">
+             <label class="text-white">Select a category: </label>
+>>>>>>> 5f1bc8f3d036857792e65d893f6fd9beacdc5e5c
             <select
-              class="custom-select w-100 mb-4"
+              class="custom-select w-100 "
               v-model="cat.name"
               value="dropdown"
               placeholder="add a category"
@@ -57,6 +58,7 @@
             </select>
           </div>
 
+      <div class="col">
           <label class="text-white">Select File: </label>
           <input
             type="file"
@@ -67,28 +69,32 @@
             placeholder="Select file..."
             ref="file"
           />
-        </form>
-        <button class="btn btn-success mt-4" @click="submitFile">Submit</button>
+                  <button class="btn btn-success mt-4" @click="submitFile">Upload</button>
+
+        </div>
       </div>
+         <div class="row">
       <div
         class="col bg-white"
-        style="border: 1px solid green;  border-radius: 8px"
+        style=""
       >
-        <div class="file-listing" v-for="(file, key) in files " :key="key">
-          <img class="preview" v-bind:ref="'preview'+parseInt(key)" />
+      <div class="row mt-2">
+        <div class="col-3" v-for="(file, key) in files " :key="key">
 
 
-
-           <span> {{file.name}} </span>
+      <div class="" style="">
+          <img class="preview img-fluid" v-bind:ref="'preview'+parseInt(key)" />
 
           <div class="success-container" v-if="file.id > 0">
               Success
 
-            </div>
-        <div class="remove-container" v-else>
+          </div>
+             <div class="remove-container" v-else>
                 <button class="remove btn btn-danger btn-sm my-2" style="cursor: pointer" v-on:click="removeFiles(key)">Remove</button>
             </div>
 
+        </div>
+        </div>
         </div>
       </div>
     </div>
@@ -101,6 +107,7 @@ export default {
     return {
       notifDisplay: false,
       files: [],
+      allUploaded: [],
       form: new FormData(),
       isActive: null,
       hasError: null,
@@ -184,6 +191,9 @@ export default {
     removeFiles(key) {
       this.files.splice(key, 1)
       this.getImagePreviews()
+        this.errors = "";
+        this.errorMsg = "";
+         this.$refs.file.value = null;
     },
     uponUpload(e) {
       //i should have use computed properties here...so everything happens by default;
@@ -194,10 +204,13 @@ export default {
 
       let uploadedFiles = this.$refs.file.files;
 
+
       for (let i = 0; i < uploadedFiles.length; i++) {
         this.files.push(uploadedFiles[i]);
+
       }
       this.getImagePreviews();
+       this.$refs.file.value = "";
     },
     submitFile() {
 
@@ -211,6 +224,8 @@ export default {
         this.form.append('pic[' + i + ']', this.files[i]);
 
       }
+
+
       //without the JSON.stringify() you will have an object.object 'error'
       this.form.append("cats", JSON.stringify(this.cat.name));
       //lets set the file to multipart/form data for content type
@@ -244,7 +259,10 @@ export default {
 
             }
         });
-    },
+    }else {
+        console.log('please have some values')
+    }
+  },
   },
   mounted() {
     console.log("Component mounted.");

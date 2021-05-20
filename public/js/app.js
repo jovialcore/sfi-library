@@ -1947,6 +1947,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       notifDisplay: false,
       files: [],
+      allUploaded: [],
       form: new FormData(),
       isActive: null,
       hasError: null,
@@ -2031,12 +2032,16 @@ __webpack_require__.r(__webpack_exports__);
     removeFiles: function removeFiles(key) {
       this.files.splice(key, 1);
       this.getImagePreviews();
+      this.errors = "";
+      this.errorMsg = "";
+      this.$refs.file.value = null;
     },
     uponUpload: function uponUpload(e) {
       //i should have use computed properties here...so everything happens by default;
       this.success = "";
       this.isActive = false;
       this.hasError = false;
+      this.errors = {};
       var uploadedFiles = this.$refs.file.files;
 
       for (var i = 0; i < uploadedFiles.length; i++) {
@@ -2044,10 +2049,12 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.getImagePreviews();
+      this.$refs.file.value = "";
     },
     submitFile: function submitFile() {
       var _this3 = this;
 
+<<<<<<< HEAD
       //append all the file to the form data this.$refs.file.files.length;
       for (var i = 0; i < this.files.length; i++) {
         // we are simply saying that if the file has an ID, it should terminate the looping of it and continue the loop
@@ -2057,10 +2064,23 @@ __webpack_require__.r(__webpack_exports__);
 
         this.form.append('pic[' + i + ']', this.files[i]);
       } //without the JSON.stringify() you will have an object.object 'error'
+=======
+      //append all the file to the form data
+      if (this.$refs.file.value == "" && this.files.length) {
+        for (var i = 0; i < this.files.length; i++) {
+          // we are simply saying that if the file has an ID, it should terminate the looping of it and continue the loop
+          if (this.files[i].id) {
+            continue;
+          }
+
+          this.form.append("pic[" + i + "]", this.files[i]);
+        } //without the JSON.stringify() you will have an object.object 'error'
+>>>>>>> 5f1bc8f3d036857792e65d893f6fd9beacdc5e5c
 
 
-      this.form.append("cats", JSON.stringify(this.cat.name)); //lets set the file to multipart/form data for content type
+        this.form.append("cats", JSON.stringify(this.cat.name)); //lets set the file to multipart/form data for content type
 
+<<<<<<< HEAD
       var config = {
         headers: {
           "Content-Type": "multipart/form-data"
@@ -2087,6 +2107,57 @@ __webpack_require__.r(__webpack_exports__);
           _this3.files = [];
         }
       });
+=======
+        var config = {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        };
+        axios.post("/submit", this.form, config).then(function (response) {
+          //success
+          if (response.status = 201) {
+            // this.files[i].id = response['response']['id'];
+            // this.files.splice(i, 1, this.files[i]);
+            // console.log(this.files[i].id); https://stackoverflow.com/questions/45919837/move-object-from-one-array-to-another
+            _this3.isActive = true;
+            _this3.notifDisplay = true;
+            _this3.success = response.data.success;
+            _this3.$refs.file.value = "";
+            _this3.allUploaded = _this3.files;
+
+            for (var i = 0; i < _this3.files.length; i++) {
+              _this3.allUploaded.push(_this3.files[i]);
+
+              _this3.files.splice(i, 1);
+
+              i--;
+            }
+
+            console.log(_this3.files);
+            console.log(_this3.allUploaded); //decrement i IF we remove an item
+            // for(let i = 0; i <  this.files.length; i++){
+            //     for(let i = 0; i < this.allUploaded.length; i++){ }
+            //         if (this.allUploaded[i].name == this.files[i].name) {
+            //         console.log(this.allUploaded[i].name + " is same as " + this.files[i].name )
+            //     } else {
+            //         console.log('did not work ooh')
+            //     }
+            // }
+            //remove the one that has been uploaded here
+
+            _this3.files = [];
+          }
+        })["catch"](function (error) {
+          _this3.hasError = true;
+          _this3.notifDisplay = true;
+          console.log(error);
+          _this3.$refs.file.value = null;
+          _this3.files = [];
+        });
+      } else {
+        console.log('please have some values');
+      }
+>>>>>>> 5f1bc8f3d036857792e65d893f6fd9beacdc5e5c
     }
   },
   mounted: function mounted() {
@@ -37766,11 +37837,14 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-fluid bg-dark p-5 mt-5" }, [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "form-group col" }, [
-        _vm._m(0),
-        _vm._v(" "),
+  return _c("div", { staticClass: "container-fluid " }, [
+    _c(
+      "div",
+      {
+        staticClass: "row bg-dark p-5 ",
+        staticStyle: { "border-top": "1px solid green" }
+      },
+      [
         _c(
           "div",
           {
@@ -37836,7 +37910,11 @@ var render = function() {
           2
         ),
         _vm._v(" "),
-        _c("div", { staticClass: "mb-3" }, [
+        _c("div", { staticClass: " col" }, [
+          _c("label", { staticClass: "text-white" }, [
+            _vm._v("Select a category: ")
+          ]),
+          _vm._v(" "),
           _c("input", {
             directives: [
               {
@@ -37862,61 +37940,61 @@ var render = function() {
           _c(
             "button",
             {
-              staticClass: "btn btn-success mt-3",
+              staticClass: "btn btn-success mt-4",
               on: { click: _vm.addCatbtn }
             },
             [_vm._v("Add")]
           )
         ]),
         _vm._v(" "),
-        _c("form", [
+        _c("div", { staticClass: "col" }, [
           _c("label", { staticClass: "text-white" }, [
-            _vm._v("Select a Category: ")
+            _vm._v("Select a category: ")
           ]),
           _vm._v(" "),
-          _c("div", [
-            _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.cat.name,
-                    expression: "cat.name"
-                  }
-                ],
-                staticClass: "custom-select w-100 mb-4",
-                attrs: { value: "dropdown", placeholder: "add a category" },
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.cat,
-                      "name",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  }
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.cat.name,
+                  expression: "cat.name"
                 }
-              },
-              _vm._l(_vm.computedCats, function(allCats, idx) {
-                return _c("option", { key: idx.id }, [
-                  _vm._v(
-                    "\n              " + _vm._s(allCats.name) + "\n            "
+              ],
+              staticClass: "custom-select w-100 ",
+              attrs: { value: "dropdown", placeholder: "add a category" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.$set(
+                    _vm.cat,
+                    "name",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
                   )
-                ])
-              }),
-              0
-            )
-          ]),
-          _vm._v(" "),
+                }
+              }
+            },
+            _vm._l(_vm.computedCats, function(allCats, idx) {
+              return _c("option", { key: idx.id }, [
+                _vm._v(
+                  "\n              " + _vm._s(allCats.name) + "\n            "
+                )
+              ])
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col" }, [
           _c("label", { staticClass: "text-white" }, [_vm._v("Select File: ")]),
           _vm._v(" "),
           _c("input", {
@@ -37929,75 +38007,63 @@ var render = function() {
               placeholder: "Select file..."
             },
             on: { change: _vm.uponUpload }
-          })
-        ]),
-        _vm._v(" "),
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success mt-4",
+              on: { click: _vm.submitFile }
+            },
+            [_vm._v("Upload")]
+          )
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col bg-white" }, [
         _c(
-          "button",
-          {
-            staticClass: "btn btn-success mt-4",
-            on: { click: _vm.submitFile }
-          },
-          [_vm._v("Submit")]
+          "div",
+          { staticClass: "row mt-2" },
+          _vm._l(_vm.files, function(file, key) {
+            return _c("div", { key: key, staticClass: "col-3" }, [
+              _c("div", {}, [
+                _c("img", {
+                  ref: "preview" + parseInt(key),
+                  refInFor: true,
+                  staticClass: "preview img-fluid"
+                }),
+                _vm._v(" "),
+                file.id > 0
+                  ? _c("div", { staticClass: "success-container" }, [
+                      _vm._v("\n            Success\n\n        ")
+                    ])
+                  : _c("div", { staticClass: "remove-container" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "remove btn btn-danger btn-sm my-2",
+                          staticStyle: { cursor: "pointer" },
+                          on: {
+                            click: function($event) {
+                              return _vm.removeFiles(key)
+                            }
+                          }
+                        },
+                        [_vm._v("Remove")]
+                      )
+                    ])
+              ])
+            ])
+          }),
+          0
         )
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "col bg-white",
-          staticStyle: { border: "1px solid green", "border-radius": "8px" }
-        },
-        _vm._l(_vm.files, function(file, key) {
-          return _c("div", { key: key, staticClass: "file-listing" }, [
-            _c("img", {
-              ref: "preview" + parseInt(key),
-              refInFor: true,
-              staticClass: "preview"
-            }),
-            _vm._v(" "),
-            _c("span", [_vm._v(" " + _vm._s(file.name) + " ")]),
-            _vm._v(" "),
-            file.id > 0
-              ? _c("div", { staticClass: "success-container" }, [
-                  _vm._v("\n            Success\n\n          ")
-                ])
-              : _c("div", { staticClass: "remove-container" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "remove btn btn-danger btn-sm my-2",
-                      staticStyle: { cursor: "pointer" },
-                      on: {
-                        click: function($event) {
-                          return _vm.removeFiles(key)
-                        }
-                      }
-                    },
-                    [_vm._v("Remove")]
-                  )
-                ])
-          ])
-        }),
-        0
-      )
+      ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { staticClass: "text-white" }, [
-      _vm._v("Add a category "),
-      _c("span", { staticStyle: { color: "red" } }, [_vm._v("ONLY IF")]),
-      _vm._v(" there are no\n        entries from the "),
-      _c("span", { staticStyle: { color: "green" } }, [_vm._v("Category")]),
-      _vm._v(" section\n        below!")
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

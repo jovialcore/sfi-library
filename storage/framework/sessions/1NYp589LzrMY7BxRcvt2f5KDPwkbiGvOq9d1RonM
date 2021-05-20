@@ -1,1 +1,5 @@
+<<<<<<< HEAD:storage/framework/sessions/1NYp589LzrMY7BxRcvt2f5KDPwkbiGvOq9d1RonM
 a:4:{s:6:"_token";s:40:"I89YpwgBGfVWdMLi2qxonqeeLbReCkHt0qdQIPMf";s:9:"_previous";a:1:{s:3:"url";s:28:"http://127.0.0.1:8000/upload";}s:6:"_flash";a:2:{s:3:"old";a:0:{}s:3:"new";a:0:{}}s:50:"login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d";i:1;}
+=======
+a:4:{s:6:"_token";s:40:"NltBFn5ErxfoXfF6hfuPMZAtnmwD8fcc2MV1HPwW";s:9:"_previous";a:1:{s:3:"url";s:28:"http://127.0.0.1:8000/upload";}s:6:"_flash";a:2:{s:3:"old";a:0:{}s:3:"new";a:0:{}}s:50:"login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d";i:1;}
+>>>>>>> 5f1bc8f3d036857792e65d893f6fd9beacdc5e5c:storage/framework/sessions/8dNcTuW6BUsLpcwGYo70B5DHaeeGlFQMQGniwgVw
