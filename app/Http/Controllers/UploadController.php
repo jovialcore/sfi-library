@@ -43,7 +43,8 @@ class UploadController extends Controller
         if ($req->hasFile('pic')) {
 
         $req->validate([
-            'pic.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|required|max:2048'
+            'pic' => 'required',
+            'pic.*' => 'mimes:jpeg,jpg,png,gif,csv,txt,pdf|max:2048'
         ]);
 
             //lets decode the cats attribute from the formdata in our vuejs
@@ -88,6 +89,10 @@ class UploadController extends Controller
                 ]);
                 return response()->json(['success' => 'File was successfully uploaded' ], 201);
             }
+
+        } else  {
+
+            return response()->json(['errors' => 'stuff did not work ' ]);
 
         }
     }

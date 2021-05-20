@@ -42,7 +42,7 @@
           <button class="btn btn-success mt-3" @click="addCatbtn">Add</button>
         </div>
 
-        <form>
+        <form >
           <label class="text-white">Select a Category: </label>
           <div>
             <select
@@ -190,6 +190,8 @@ export default {
       this.success = "";
       this.isActive = false;
       this.hasError = false;
+
+
       let uploadedFiles = this.$refs.file.files;
 
       for (let i = 0; i < uploadedFiles.length; i++) {
@@ -198,13 +200,16 @@ export default {
       this.getImagePreviews();
     },
     submitFile() {
-      //append all the file to the form data
-      for (let i = 0; i < this.files.length; i++) {
+
+    //append all the file to the form data this.$refs.file.files.length;
+      for (let i = 0; i <  this.files.length;   i++) {
+
         // we are simply saying that if the file has an ID, it should terminate the looping of it and continue the loop
         if (this.files[i].id) {
           continue;
         }
-        this.form.append("pic[" + i + "]", this.files[i]);
+        this.form.append('pic[' + i + ']', this.files[i]);
+
       }
       //without the JSON.stringify() you will have an object.object 'error'
       this.form.append("cats", JSON.stringify(this.cat.name));
@@ -218,23 +223,26 @@ export default {
         .post("/submit", this.form, config)
         .then((response) => {
           //success
-          if ((response.status = 201)) {
-            this.files[i].id = response["data"]["id"];
-            this.files.splice(i, 1, this.files[i]);
-            console.log(this.files[i].id);
+          if ((response.status == 201)) {
+            // this.files[i].id = response["data"]["id"];
+            // this.files.splice(i, 1, this.files[i]);
+            // console.log(this.files[i].id);
             this.isActive = true;
             this.notifDisplay = true;
             this.success = response.data.success;
-            this.$refs.file.value = null;
-          }
+            this.$refs.file.value = ""
+            this.files = []
+        }
         })
         .catch((error) => {
-          if ((error.status = 422)) {
-            this.hasError = true;
-            this.notifDisplay = true;
-            this.errors = error.response.data.errors;
-            this.$refs.file.value = null;
-          }
+          if ((error.status == 422 || 413 )) {
+            this.hasError = true
+            this.notifDisplay = true
+            this.errors = error.response.data.errors
+            this.$refs.file.value = ""
+            this.files = []
+
+            }
         });
     },
   },
