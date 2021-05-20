@@ -34,7 +34,7 @@
             class="w-100 form-control"
             placeholder="Add a category..."
           />
-          <button class="btn btn-success" @click="addCatbtn">Add</button>
+          <button class="btn btn-success mt-4" @click="addCatbtn">Add</button>
         </div>
 
 
@@ -73,7 +73,7 @@
         style=""
       >
       <div class="row mt-2">
-        <div class="col-4" v-for="(file, key) in files " :key="key">
+        <div class="col-3" v-for="(file, key) in files " :key="key">
 
 
       <div class="" style="">
@@ -196,14 +196,17 @@ export default {
       this.errors = {}
       let uploadedFiles = this.$refs.file.files;
 
+
       for (let i = 0; i < uploadedFiles.length; i++) {
         this.files.push(uploadedFiles[i]);
+
       }
       this.getImagePreviews();
+       this.$refs.file.value = "";
     },
     submitFile() {
       //append all the file to the form data
-      if(this.$refs.file.value == "") return
+      if(this.$refs.file.value == "" && this.files.length) {
 
       for (let i = 0; i < this.files.length; i++) {
         // we are simply saying that if the file has an ID, it should terminate the looping of it and continue the loop
@@ -212,6 +215,10 @@ export default {
         }
         this.form.set("pic[" + i + "]", this.files[i]);
       }
+
+    }else {
+        console.log('plese have some values')
+    }
       //without the JSON.stringify() you will have an object.object 'error'
       this.form.append("cats", JSON.stringify(this.cat.name));
       //lets set the file to multipart/form data for content type

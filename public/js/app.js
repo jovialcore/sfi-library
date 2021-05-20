@@ -2048,20 +2048,23 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.getImagePreviews();
+      this.$refs.file.value = "";
     },
     submitFile: function submitFile() {
       var _this3 = this;
 
       //append all the file to the form data
-      if (this.$refs.file.value == "") return;
+      if (this.$refs.file.value == "" && this.files.length) {
+        for (var i = 0; i < this.files.length; i++) {
+          // we are simply saying that if the file has an ID, it should terminate the looping of it and continue the loop
+          if (this.files[i].id) {
+            continue;
+          }
 
-      for (var i = 0; i < this.files.length; i++) {
-        // we are simply saying that if the file has an ID, it should terminate the looping of it and continue the loop
-        if (this.files[i].id) {
-          continue;
+          this.form.set("pic[" + i + "]", this.files[i]);
         }
-
-        this.form.set("pic[" + i + "]", this.files[i]);
+      } else {
+        console.log('plese have some values');
       } //without the JSON.stringify() you will have an object.object 'error'
 
 
@@ -37872,7 +37875,10 @@ var render = function() {
           _vm._v(" "),
           _c(
             "button",
-            { staticClass: "btn btn-success", on: { click: _vm.addCatbtn } },
+            {
+              staticClass: "btn btn-success mt-4",
+              on: { click: _vm.addCatbtn }
+            },
             [_vm._v("Add")]
           )
         ]),
@@ -37957,7 +37963,7 @@ var render = function() {
           "div",
           { staticClass: "row mt-2" },
           _vm._l(_vm.files, function(file, key) {
-            return _c("div", { key: key, staticClass: "col-4" }, [
+            return _c("div", { key: key, staticClass: "col-3" }, [
               _c("div", {}, [
                 _c("img", {
                   ref: "preview" + parseInt(key),
