@@ -1,12 +1,6 @@
 <template>
   <div class="container-fluid bg-dark p-5 mt-5">
     <div class="row">
-      <div class="form-group col">
-        <label class="text-white"
-          >Add a category <span style="color: red">ONLY IF</span> there are no
-          entries from the <span style="color: green">Category</span> section
-          below!</label
-        >
         <div
           v-bind:class="{
             'alert alert-dismissible alert-success show ': isActive,
@@ -32,21 +26,22 @@
           </button>
         </div>
 
-        <div class="mb-3">
+        <div class=" col">
+           <label class="text-white">Select a category: </label>
           <input
             type="text"
             v-model="category"
             class="w-100 form-control"
             placeholder="Add a category..."
           />
-          <button class="btn btn-success mt-3" @click="addCatbtn">Add</button>
+          <button class="btn btn-success" @click="addCatbtn">Add</button>
         </div>
 
-        <form>
-          <label class="text-white">Select a Category: </label>
-          <div>
+
+          <div class="col">
+             <label class="text-white">Select a category: </label>
             <select
-              class="custom-select w-100 mb-4"
+              class="custom-select w-100 "
               v-model="cat.name"
               value="dropdown"
               placeholder="add a category"
@@ -57,6 +52,7 @@
             </select>
           </div>
 
+      <div class="col">
           <label class="text-white">Select File: </label>
           <input
             type="file"
@@ -67,12 +63,15 @@
             placeholder="Select file..."
             ref="file"
           />
-        </form>
-        <button class="btn btn-success mt-4" @click="submitFile">Submit</button>
+                  <button class="btn btn-success mt-4" @click="submitFile">Submit</button>
+
+        </div>
       </div>
+
+    <div class="row">
       <div
         class="col bg-white"
-        style="border: 1px solid green;  border-radius: 8px"
+        style=""
       >
         <div class="file-listing" v-for="(file, key) in files " :key="key">
           <img class="preview" v-bind:ref="'preview'+parseInt(key)" />
