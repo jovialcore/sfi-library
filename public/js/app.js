@@ -2006,41 +2006,45 @@ __webpack_require__.r(__webpack_exports__);
     getImagePreviews: function getImagePreviews() {
       var _this2 = this;
 
-      var _loop = function _loop(_i) {
+      var _loop = function _loop(i) {
         //check to see if it is an image
-        if (/\.(jpe?g|png|gif)$/i.test(_this2.files[_i].name)) {
+        if (/\.(jpe?g|png|gif)$/i.test(_this2.files[i].name)) {
           var reader = new FileReader(); //once the image has been loaded ('on-load') in the local storage, pick it up and display
 
           reader.addEventListener("load", function () {
-            this.$refs["preview" + parseInt(_i)][0].src = reader.result;
+            this.$refs["preview" + parseInt(i)][0].src = reader.result;
           }.bind(_this2), false);
-          reader.readAsDataURL(_this2.files[_i]);
+          reader.readAsDataURL(_this2.files[i]);
         } else {
           //before the dom is updated to the recent changes, pick the image up immediately
           //setTimeOut() can perform this operation but it is slower compared to how fast $nextTick is
           _this2.$nextTick(function () {
-            this.$refs["preview" + parseInt(_i)][0].src = "images/header.jpg";
+            this.$refs["preview" + parseInt(i)][0].src = "images/header.jpg";
           });
         }
       };
 
-      for (var _i = 0; _i < this.files.length; _i++) {
-        _loop(_i);
+      for (var i = 0; i < this.files.length; i++) {
+        _loop(i);
       }
     },
     removeFiles: function removeFiles(key) {
       this.files.splice(key, 1);
       this.getImagePreviews();
+      this.errors = "";
+      this.errorMsg = "";
+      this.$refs.file.value = null;
     },
     uponUpload: function uponUpload(e) {
       //i should have use computed properties here...so everything happens by default;
       this.success = "";
       this.isActive = false;
       this.hasError = false;
+      this.errors = {};
       var uploadedFiles = this.$refs.file.files;
 
-      for (var _i2 = 0; _i2 < uploadedFiles.length; _i2++) {
-        this.files.push(uploadedFiles[_i2]);
+      for (var i = 0; i < uploadedFiles.length; i++) {
+        this.files.push(uploadedFiles[i]);
       }
 
       this.getImagePreviews();
@@ -2049,13 +2053,15 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       //append all the file to the form data
-      for (var _i3 = 0; _i3 < this.files.length; _i3++) {
+      if (this.$refs.file.value == "") return;
+
+      for (var i = 0; i < this.files.length; i++) {
         // we are simply saying that if the file has an ID, it should terminate the looping of it and continue the loop
-        if (this.files[_i3].id) {
+        if (this.files[i].id) {
           continue;
         }
 
-        this.form.append("pic[" + _i3 + "]", this.files[_i3]);
+        this.form.set("pic[" + i + "]", this.files[i]);
       } //without the JSON.stringify() you will have an object.object 'error'
 
 
@@ -2069,23 +2075,21 @@ __webpack_require__.r(__webpack_exports__);
       axios.post("/submit", this.form, config).then(function (response) {
         //success
         if (response.status = 201) {
-          _this3.files[i].id = response["data"]["id"];
-
-          _this3.files.splice(i, 1, _this3.files[i]);
-
-          console.log(_this3.files[i].id);
+          // this.files[i].id = response["data"]["id"];
+          // this.files.splice(i, 1, this.files[i]);
+          // console.log(this.files[i].id);
           _this3.isActive = true;
           _this3.notifDisplay = true;
           _this3.success = response.data.success;
-          _this3.$refs.file.value = null;
+          _this3.$refs.file.value = "";
+          _this3.files = [];
         }
       })["catch"](function (error) {
-        if (error.status = 422) {
-          _this3.hasError = true;
-          _this3.notifDisplay = true;
-          _this3.errors = error.response.data.errors;
-          _this3.$refs.file.value = null;
-        }
+        _this3.hasError = true;
+        _this3.notifDisplay = true;
+        _this3.errors = error.response.data.errors;
+        _this3.$refs.file.value = null;
+        _this3.files = [];
       });
     }
   },

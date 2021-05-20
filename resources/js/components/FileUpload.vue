@@ -184,12 +184,16 @@ export default {
     removeFiles(key) {
       this.files.splice(key, 1)
       this.getImagePreviews()
+        this.errors = "";
+        this.errorMsg = "";
+         this.$refs.file.value = null;
     },
     uponUpload(e) {
       //i should have use computed properties here...so everything happens by default;
       this.success = "";
-      this.isActive = false;
-      this.hasError = false;
+      this.isActive = false
+      this.hasError = false
+      this.errors = {}
       let uploadedFiles = this.$refs.file.files;
 
       for (let i = 0; i < uploadedFiles.length; i++) {
@@ -199,12 +203,14 @@ export default {
     },
     submitFile() {
       //append all the file to the form data
+      if(this.$refs.file.value == "") return
+
       for (let i = 0; i < this.files.length; i++) {
         // we are simply saying that if the file has an ID, it should terminate the looping of it and continue the loop
         if (this.files[i].id) {
           continue;
         }
-        this.form.append("pic[" + i + "]", this.files[i]);
+        this.form.set("pic[" + i + "]", this.files[i]);
       }
       //without the JSON.stringify() you will have an object.object 'error'
       this.form.append("cats", JSON.stringify(this.cat.name));
@@ -219,22 +225,25 @@ export default {
         .then((response) => {
           //success
           if ((response.status = 201)) {
-            this.files[i].id = response["data"]["id"];
-            this.files.splice(i, 1, this.files[i]);
-            console.log(this.files[i].id);
+            // this.files[i].id = response["data"]["id"];
+            // this.files.splice(i, 1, this.files[i]);
+            // console.log(this.files[i].id);
+
             this.isActive = true;
             this.notifDisplay = true;
             this.success = response.data.success;
-            this.$refs.file.value = null;
+            this.$refs.file.value = "";
+            this.files = []
           }
         })
         .catch((error) => {
-          if ((error.status = 422)) {
+
             this.hasError = true;
             this.notifDisplay = true;
             this.errors = error.response.data.errors;
             this.$refs.file.value = null;
-          }
+            this.files = []
+
         });
     },
   },
