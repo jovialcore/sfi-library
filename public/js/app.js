@@ -1941,6 +1941,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -37769,215 +37770,226 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-fluid bg-dark p-5 mt-5" }, [
-    _c("div", { staticClass: "row" }, [
-      _c(
-        "div",
-        {
-          class: {
-            "alert alert-dismissible alert-success show ": _vm.isActive,
-            "alert alert-dismissible alert-danger show": _vm.hasError
+  return _c("div", { staticClass: "container-fluid " }, [
+    _c(
+      "div",
+      {
+        staticClass: "row bg-dark p-5 ",
+        staticStyle: { "border-top": "1px solid green" }
+      },
+      [
+        _c(
+          "div",
+          {
+            class: {
+              "alert alert-dismissible alert-success show ": _vm.isActive,
+              "alert alert-dismissible alert-danger show": _vm.hasError
+            },
+            attrs: { role: "alert" }
           },
-          attrs: { role: "alert" }
-        },
-        [
-          _vm._v(
-            "\n        " +
-              _vm._s(_vm.success) +
-              " " +
-              _vm._s(_vm.errorMsg) +
-              "\n        "
-          ),
-          _vm._l(_vm.errors, function(errorArray, idx) {
-            return _c(
-              "div",
-              { key: idx },
-              _vm._l(errorArray, function(allErrors, idx) {
-                return _c("div", { key: idx }, [
-                  _vm._v("\n            " + _vm._s(allErrors) + "\n          ")
-                ])
-              }),
-              0
+          [
+            _vm._v(
+              "\n        " +
+                _vm._s(_vm.success) +
+                " " +
+                _vm._s(_vm.errorMsg) +
+                "\n        "
+            ),
+            _vm._l(_vm.errors, function(errorArray, idx) {
+              return _c(
+                "div",
+                { key: idx },
+                _vm._l(errorArray, function(allErrors, idx) {
+                  return _c("div", { key: idx }, [
+                    _vm._v(
+                      "\n            " + _vm._s(allErrors) + "\n          "
+                    )
+                  ])
+                }),
+                0
+              )
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "close",
+                attrs: {
+                  type: "button",
+                  "data-dismiss": "alert",
+                  "aria-label": "Close"
+                },
+                on: { click: _vm.OnClose }
+              },
+              [
+                _c(
+                  "span",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.notifDisplay,
+                        expression: "notifDisplay"
+                      }
+                    ],
+                    attrs: { "aria-hidden": "true" }
+                  },
+                  [_vm._v("×")]
+                )
+              ]
             )
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: " col" }, [
+          _c("label", { staticClass: "text-white" }, [
+            _vm._v("Select a category: ")
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.category,
+                expression: "category"
+              }
+            ],
+            staticClass: "w-100 form-control",
+            attrs: { type: "text", placeholder: "Add a category..." },
+            domProps: { value: _vm.category },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.category = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "btn btn-success", on: { click: _vm.addCatbtn } },
+            [_vm._v("Add")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col" }, [
+          _c("label", { staticClass: "text-white" }, [
+            _vm._v("Select a category: ")
+          ]),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.cat.name,
+                  expression: "cat.name"
+                }
+              ],
+              staticClass: "custom-select w-100 ",
+              attrs: { value: "dropdown", placeholder: "add a category" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.$set(
+                    _vm.cat,
+                    "name",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                  )
+                }
+              }
+            },
+            _vm._l(_vm.computedCats, function(allCats, idx) {
+              return _c("option", { key: idx.id }, [
+                _vm._v(
+                  "\n              " + _vm._s(allCats.name) + "\n            "
+                )
+              ])
+            }),
+            0
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col" }, [
+          _c("label", { staticClass: "text-white" }, [_vm._v("Select File: ")]),
+          _vm._v(" "),
+          _c("input", {
+            ref: "file",
+            staticClass: "w-100 form-control",
+            attrs: {
+              type: "file",
+              multiple: "",
+              id: "upload-file",
+              placeholder: "Select file..."
+            },
+            on: { change: _vm.uponUpload }
           }),
           _vm._v(" "),
           _c(
             "button",
             {
-              staticClass: "close",
-              attrs: {
-                type: "button",
-                "data-dismiss": "alert",
-                "aria-label": "Close"
-              },
-              on: { click: _vm.OnClose }
+              staticClass: "btn btn-success mt-4",
+              on: { click: _vm.submitFile }
             },
-            [
-              _c(
-                "span",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.notifDisplay,
-                      expression: "notifDisplay"
-                    }
-                  ],
-                  attrs: { "aria-hidden": "true" }
-                },
-                [_vm._v("×")]
-              )
-            ]
+            [_vm._v("Submit")]
           )
-        ],
-        2
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: " col" }, [
-        _c("label", { staticClass: "text-white" }, [
-          _vm._v("Select a category: ")
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.category,
-              expression: "category"
-            }
-          ],
-          staticClass: "w-100 form-control",
-          attrs: { type: "text", placeholder: "Add a category..." },
-          domProps: { value: _vm.category },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.category = $event.target.value
-            }
-          }
-        }),
-        _vm._v(" "),
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col bg-white" }, [
         _c(
-          "button",
-          { staticClass: "btn btn-success", on: { click: _vm.addCatbtn } },
-          [_vm._v("Add")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col" }, [
-        _c("label", { staticClass: "text-white" }, [
-          _vm._v("Select a category: ")
-        ]),
-        _vm._v(" "),
-        _c(
-          "select",
-          {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.cat.name,
-                expression: "cat.name"
-              }
-            ],
-            staticClass: "custom-select w-100 ",
-            attrs: { value: "dropdown", placeholder: "add a category" },
-            on: {
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.$set(
-                  _vm.cat,
-                  "name",
-                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                )
-              }
-            }
-          },
-          _vm._l(_vm.computedCats, function(allCats, idx) {
-            return _c("option", { key: idx.id }, [
-              _vm._v(
-                "\n              " + _vm._s(allCats.name) + "\n            "
-              )
+          "div",
+          { staticClass: "row mt-2" },
+          _vm._l(_vm.files, function(file, key) {
+            return _c("div", { key: key, staticClass: "col-4" }, [
+              _c("div", {}, [
+                _c("img", {
+                  ref: "preview" + parseInt(key),
+                  refInFor: true,
+                  staticClass: "preview img-fluid"
+                }),
+                _vm._v(" "),
+                file.id > 0
+                  ? _c("div", { staticClass: "success-container" }, [
+                      _vm._v("\n            Success\n\n        ")
+                    ])
+                  : _c("div", { staticClass: "remove-container" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "remove btn btn-danger btn-sm my-2",
+                          staticStyle: { cursor: "pointer" },
+                          on: {
+                            click: function($event) {
+                              return _vm.removeFiles(key)
+                            }
+                          }
+                        },
+                        [_vm._v("Remove")]
+                      )
+                    ])
+              ])
             ])
           }),
           0
         )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col" }, [
-        _c("label", { staticClass: "text-white" }, [_vm._v("Select File: ")]),
-        _vm._v(" "),
-        _c("input", {
-          ref: "file",
-          staticClass: "w-100 form-control",
-          attrs: {
-            type: "file",
-            multiple: "",
-            id: "upload-file",
-            placeholder: "Select file..."
-          },
-          on: { change: _vm.uponUpload }
-        }),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-success mt-4",
-            on: { click: _vm.submitFile }
-          },
-          [_vm._v("Submit")]
-        )
       ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c(
-        "div",
-        { staticClass: "col bg-white" },
-        _vm._l(_vm.files, function(file, key) {
-          return _c("div", { key: key, staticClass: "file-listing" }, [
-            _c("img", {
-              ref: "preview" + parseInt(key),
-              refInFor: true,
-              staticClass: "preview"
-            }),
-            _vm._v(" "),
-            _c("span", [_vm._v(" " + _vm._s(file.name) + " ")]),
-            _vm._v(" "),
-            file.id > 0
-              ? _c("div", { staticClass: "success-container" }, [
-                  _vm._v("\n            Success\n\n          ")
-                ])
-              : _c("div", { staticClass: "remove-container" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "remove btn btn-danger btn-sm my-2",
-                      staticStyle: { cursor: "pointer" },
-                      on: {
-                        click: function($event) {
-                          return _vm.removeFiles(key)
-                        }
-                      }
-                    },
-                    [_vm._v("Remove")]
-                  )
-                ])
-          ])
-        }),
-        0
-      )
     ])
   ])
 }

@@ -1,6 +1,6 @@
 <template>
-  <div class="container-fluid bg-dark p-5 mt-5">
-    <div class="row">
+  <div class="container-fluid ">
+    <div class="row bg-dark p-5 " style="border-top:1px solid green;">
         <div
           v-bind:class="{
             'alert alert-dismissible alert-success show ': isActive,
@@ -67,27 +67,28 @@
 
         </div>
       </div>
-
-    <div class="row">
+         <div class="row">
       <div
         class="col bg-white"
         style=""
       >
-        <div class="file-listing" v-for="(file, key) in files " :key="key">
-          <img class="preview" v-bind:ref="'preview'+parseInt(key)" />
+      <div class="row mt-2">
+        <div class="col-4" v-for="(file, key) in files " :key="key">
 
 
-
-           <span> {{file.name}} </span>
+      <div class="" style="">
+          <img class="preview img-fluid" v-bind:ref="'preview'+parseInt(key)" />
 
           <div class="success-container" v-if="file.id > 0">
               Success
 
-            </div>
-        <div class="remove-container" v-else>
+          </div>
+             <div class="remove-container" v-else>
                 <button class="remove btn btn-danger btn-sm my-2" style="cursor: pointer" v-on:click="removeFiles(key)">Remove</button>
             </div>
 
+        </div>
+        </div>
         </div>
       </div>
     </div>
