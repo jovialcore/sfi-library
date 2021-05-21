@@ -1942,6 +1942,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2004,18 +2007,18 @@ __webpack_require__.r(__webpack_exports__);
         _this.errorMsg = error.response.data.message;
       });
     },
-    getImagePreviews: function getImagePreviews() {
+    getImagePreviews: function getImagePreviews(images) {
       var _this2 = this;
 
       var _loop = function _loop(i) {
         //check to see if it is an image
-        if (/\.(jpe?g|png|gif)$/i.test(_this2.files[i].name)) {
+        if (/\.(jpe?g|png|gif)$/i.test(images[i].name)) {
           var reader = new FileReader(); //once the image has been loaded ('on-load') in the local storage, pick it up and display
 
           reader.addEventListener("load", function () {
             this.$refs["preview" + parseInt(i)][0].src = reader.result;
           }.bind(_this2), false);
-          reader.readAsDataURL(_this2.files[i]);
+          reader.readAsDataURL(images[i]);
         } else {
           //before the dom is updated to the recent changes, pick the image up immediately
           //setTimeOut() can perform this operation but it is slower compared to how fast $nextTick is
@@ -2025,13 +2028,13 @@ __webpack_require__.r(__webpack_exports__);
         }
       };
 
-      for (var i = 0; i < this.files.length; i++) {
+      for (var i = 0; i < images.length; i++) {
         _loop(i);
       }
     },
     removeFiles: function removeFiles(key) {
       this.files.splice(key, 1);
-      this.getImagePreviews();
+      this.getImagePreviews(this.files);
       this.errors = "";
       this.errorMsg = "";
       this.$refs.file.value = null;
@@ -2048,23 +2051,12 @@ __webpack_require__.r(__webpack_exports__);
         this.files.push(uploadedFiles[i]);
       }
 
-      this.getImagePreviews();
+      this.getImagePreviews(this.files);
       this.$refs.file.value = "";
     },
     submitFile: function submitFile() {
       var _this3 = this;
 
-<<<<<<< HEAD
-      //append all the file to the form data this.$refs.file.files.length;
-      for (var i = 0; i < this.files.length; i++) {
-        // we are simply saying that if the file has an ID, it should terminate the looping of it and continue the loop
-        if (this.files[i].id) {
-          continue;
-        }
-
-        this.form.append('pic[' + i + ']', this.files[i]);
-      } //without the JSON.stringify() you will have an object.object 'error'
-=======
       //append all the file to the form data
       if (this.$refs.file.value == "" && this.files.length) {
         for (var i = 0; i < this.files.length; i++) {
@@ -2075,39 +2067,10 @@ __webpack_require__.r(__webpack_exports__);
 
           this.form.append("pic[" + i + "]", this.files[i]);
         } //without the JSON.stringify() you will have an object.object 'error'
->>>>>>> 5f1bc8f3d036857792e65d893f6fd9beacdc5e5c
 
 
         this.form.append("cats", JSON.stringify(this.cat.name)); //lets set the file to multipart/form data for content type
 
-<<<<<<< HEAD
-      var config = {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      };
-      axios.post("/submit", this.form, config).then(function (response) {
-        //success
-        if (response.status == 201) {
-          // this.files[i].id = response["data"]["id"];
-          // this.files.splice(i, 1, this.files[i]);
-          // console.log(this.files[i].id);
-          _this3.isActive = true;
-          _this3.notifDisplay = true;
-          _this3.success = response.data.success;
-          _this3.$refs.file.value = "";
-          _this3.files = [];
-        }
-      })["catch"](function (error) {
-        if (error.status == 422 || 413) {
-          _this3.hasError = true;
-          _this3.notifDisplay = true;
-          _this3.errors = error.response.data.errors;
-          _this3.$refs.file.value = "";
-          _this3.files = [];
-        }
-      });
-=======
         var config = {
           headers: {
             "Content-Type": "multipart/form-data"
@@ -2123,7 +2086,6 @@ __webpack_require__.r(__webpack_exports__);
             _this3.notifDisplay = true;
             _this3.success = response.data.success;
             _this3.$refs.file.value = "";
-            _this3.allUploaded = _this3.files;
 
             for (var i = 0; i < _this3.files.length; i++) {
               _this3.allUploaded.push(_this3.files[i]);
@@ -2144,8 +2106,7 @@ __webpack_require__.r(__webpack_exports__);
             //     }
             // }
             //remove the one that has been uploaded here
-
-            _this3.files = [];
+            //this.files = []
           }
         })["catch"](function (error) {
           _this3.hasError = true;
@@ -2157,7 +2118,6 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         console.log('please have some values');
       }
->>>>>>> 5f1bc8f3d036857792e65d893f6fd9beacdc5e5c
     }
   },
   mounted: function mounted() {
@@ -38028,33 +37988,50 @@ var render = function() {
           { staticClass: "row mt-2" },
           _vm._l(_vm.files, function(file, key) {
             return _c("div", { key: key, staticClass: "col-3" }, [
-              _c("div", {}, [
-                _c("img", {
-                  ref: "preview" + parseInt(key),
-                  refInFor: true,
-                  staticClass: "preview img-fluid"
-                }),
-                _vm._v(" "),
-                file.id > 0
-                  ? _c("div", { staticClass: "success-container" }, [
-                      _vm._v("\n            Success\n\n        ")
-                    ])
-                  : _c("div", { staticClass: "remove-container" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "remove btn btn-danger btn-sm my-2",
-                          staticStyle: { cursor: "pointer" },
-                          on: {
-                            click: function($event) {
-                              return _vm.removeFiles(key)
-                            }
-                          }
-                        },
-                        [_vm._v("Remove")]
+              _c(
+                "div",
+                {},
+                [
+                  _vm._l(_vm.allUploaded, function(images, idx) {
+                    return _c("div", { key: idx }, [
+                      _c("img", {
+                        staticClass: "img-fluid",
+                        attrs: { src: "storage/uploads/" }
+                      }),
+                      _vm._v(
+                        "\n               " + _vm._s(images.name) + "\n        "
                       )
                     ])
-              ])
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    ref: "preview" + parseInt(key),
+                    refInFor: true,
+                    staticClass: "preview img-fluid"
+                  }),
+                  _vm._v(" "),
+                  file.id > 0
+                    ? _c("div", { staticClass: "success-container" }, [
+                        _vm._v("\n            Success\n        ")
+                      ])
+                    : _c("div", { staticClass: "remove-container" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "remove btn btn-danger btn-sm my-2",
+                            staticStyle: { cursor: "pointer" },
+                            on: {
+                              click: function($event) {
+                                return _vm.removeFiles(key)
+                              }
+                            }
+                          },
+                          [_vm._v("Remove")]
+                        )
+                      ])
+                ],
+                2
+              )
             ])
           }),
           0

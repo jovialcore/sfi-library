@@ -37,15 +37,9 @@
           <button class="btn btn-success mt-4" @click="addCatbtn">Add</button>
         </div>
 
-<<<<<<< HEAD
-        <form >
-          <label class="text-white">Select a Category: </label>
-          <div>
-=======
 
           <div class="col">
              <label class="text-white">Select a category: </label>
->>>>>>> 5f1bc8f3d036857792e65d893f6fd9beacdc5e5c
             <select
               class="custom-select w-100 "
               v-model="cat.name"
@@ -83,11 +77,14 @@
 
 
       <div class="" style="">
+          <div class="" v-for="(images, idx) in allUploaded" :key="idx">
+    <img class="img-fluid"  src='storage/uploads/'/>
+                 {{images.name}}
+          </div>
           <img class="preview img-fluid" v-bind:ref="'preview'+parseInt(key)" />
 
           <div class="success-container" v-if="file.id > 0">
               Success
-
           </div>
              <div class="remove-container" v-else>
                 <button class="remove btn btn-danger btn-sm my-2" style="cursor: pointer" v-on:click="removeFiles(key)">Remove</button>
@@ -164,11 +161,10 @@ export default {
           this.errorMsg = error.response.data.message;
         });
     },
-
-    getImagePreviews() {
-      for (let i = 0; i < this.files.length; i++) {
+    getImagePreviews(images) {
+      for (let i = 0; i < images.length; i++) {
         //check to see if it is an image
-        if (/\.(jpe?g|png|gif)$/i.test(this.files[i].name)) {
+        if (/\.(jpe?g|png|gif)$/i.test(images[i].name)) {
           let reader = new FileReader();
              //once the image has been loaded ('on-load') in the local storage, pick it up and display
           reader.addEventListener(
@@ -178,7 +174,7 @@ export default {
             }.bind(this),
             false
           );
-          reader.readAsDataURL(this.files[i]);
+          reader.readAsDataURL(images[i]);
         } else {
              //before the dom is updated to the recent changes, pick the image up immediately
              //setTimeOut() can perform this operation but it is slower compared to how fast $nextTick is
@@ -190,7 +186,7 @@ export default {
     },
     removeFiles(key) {
       this.files.splice(key, 1)
-      this.getImagePreviews()
+      this.getImagePreviews(this.files)
         this.errors = "";
         this.errorMsg = "";
          this.$refs.file.value = null;
@@ -198,34 +194,26 @@ export default {
     uponUpload(e) {
       //i should have use computed properties here...so everything happens by default;
       this.success = "";
-      this.isActive = false;
-      this.hasError = false;
-
-
+      this.isActive = false
+      this.hasError = false
+      this.errors = {}
       let uploadedFiles = this.$refs.file.files;
-
-
       for (let i = 0; i < uploadedFiles.length; i++) {
         this.files.push(uploadedFiles[i]);
-
       }
-      this.getImagePreviews();
+      this.getImagePreviews(this.files);
        this.$refs.file.value = "";
     },
     submitFile() {
-
-    //append all the file to the form data this.$refs.file.files.length;
-      for (let i = 0; i <  this.files.length;   i++) {
-
+      //append all the file to the form data
+      if(this.$refs.file.value == "" && this.files.length) {
+      for (let i = 0; i < this.files.length; i++) {
         // we are simply saying that if the file has an ID, it should terminate the looping of it and continue the loop
         if (this.files[i].id) {
           continue;
         }
-        this.form.append('pic[' + i + ']', this.files[i]);
-
+        this.form.append("pic[" + i + "]", this.files[i]);
       }
-
-
       //without the JSON.stringify() you will have an object.object 'error'
       this.form.append("cats", JSON.stringify(this.cat.name));
       //lets set the file to multipart/form data for content type
@@ -238,26 +226,42 @@ export default {
         .post("/submit", this.form, config)
         .then((response) => {
           //success
-          if ((response.status == 201)) {
-            // this.files[i].id = response["data"]["id"];
+          if ((response.status = 201)) {
+            // this.files[i].id = response['response']['id'];
             // this.files.splice(i, 1, this.files[i]);
-            // console.log(this.files[i].id);
+            // console.log(this.files[i].id); https://stackoverflow.com/questions/45919837/move-object-from-one-array-to-another
             this.isActive = true;
             this.notifDisplay = true;
             this.success = response.data.success;
-            this.$refs.file.value = ""
-            this.files = []
-        }
+            this.$refs.file.value = "";
+
+
+         for(var i = 0; i < this.files.length; i++) {
+            this.allUploaded.push(this.files[i]);
+             this.files.splice(i, 1);
+                 i--;
+                }
+                console.log(this.files);
+                console.log(this.allUploaded);
+ //decrement i IF we remove an item
+            // for(let i = 0; i <  this.files.length; i++){
+            //     for(let i = 0; i < this.allUploaded.length; i++){ }
+            //         if (this.allUploaded[i].name == this.files[i].name) {
+            //         console.log(this.allUploaded[i].name + " is same as " + this.files[i].name )
+            //     } else {
+            //         console.log('did not work ooh')
+            //     }
+            // }
+            //remove the one that has been uploaded here
+            //this.files = []
+          }
         })
         .catch((error) => {
-          if ((error.status == 422 || 413 )) {
-            this.hasError = true
-            this.notifDisplay = true
-            this.errors = error.response.data.errors
-            this.$refs.file.value = ""
+            this.hasError = true;
+            this.notifDisplay = true;
+            console.log(error)
+            this.$refs.file.value = null;
             this.files = []
-
-            }
         });
     }else {
         console.log('please have some values')
