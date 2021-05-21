@@ -80,7 +80,7 @@
           <img class="preview img-fluid" v-bind:ref="'preview'+parseInt(key)" />
 
           <div class="success-container" v-if="file.id > 0">
-              Success
+              <button class="btn btn-success my-2"> Succesfully uploaded </button>
 
           </div>
              <div class="remove-container" v-else>
@@ -214,7 +214,7 @@ export default {
         if (this.files[i].id) {
           continue;
         }
-        this.form.append("pic[" + i + "]", this.files[i]);
+        this.form.append("pic[]", this.files[i]);
       }
 
 
@@ -231,46 +231,26 @@ export default {
         .then((response) => {
           //success
           if ((response.status = 201)) {
-            // this.files[i].id = response['response']['id'];
-            // this.files.splice(i, 1, this.files[i]);
-            // console.log(this.files[i].id); https://stackoverflow.com/questions/45919837/move-object-from-one-array-to-another
             this.isActive = true;
             this.notifDisplay = true;
             this.success = response.data.success;
             this.$refs.file.value = "";
-            this.allUploaded = this.files
+            //this is one of the key features: it loops through the files and appends the given number from database to it
+            for(let i= 0; i < this.files.length; i++){
+                this.files[i].id = response.data.ids[i]
+                console.log(this.files[i].id)
+            }
 
-         for(var i = 0; i < this.files.length; i++) {
-            this.allUploaded.push(this.files[i]);
-             this.files.splice(i, 1);
-                 i--;
-                }
-
-                console.log(this.files);
-                console.log(this.allUploaded);
- //decrement i IF we remove an item
-            // for(let i = 0; i <  this.files.length; i++){
-            //     for(let i = 0; i < this.allUploaded.length; i++){ }
-
-            //         if (this.allUploaded[i].name == this.files[i].name) {
-            //         console.log(this.allUploaded[i].name + " is same as " + this.files[i].name )
-            //     } else {
-            //         console.log('did not work ooh')
-
-            //     }
-            // }
-            //remove the one that has been uploaded here
-            this.files = []
           }
         })
         .catch((error) => {
-
+        if((error.status = 422)){
             this.hasError = true;
-            this.notifDisplay = true;
-            console.log(error)
+            this.notifDisplay = true
+            this.errors =  error.response.data.errors
             this.$refs.file.value = null;
-            this.files = []
-
+            // this.files = []
+        }
         });
     }else {
         console.log('please have some values')

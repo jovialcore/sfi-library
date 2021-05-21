@@ -2062,7 +2062,7 @@ __webpack_require__.r(__webpack_exports__);
             continue;
           }
 
-          this.form.append("pic[" + i + "]", this.files[i]);
+          this.form.append("pic[]", this.files[i]);
         } //without the JSON.stringify() you will have an object.object 'error'
 
 
@@ -2076,43 +2076,23 @@ __webpack_require__.r(__webpack_exports__);
         axios.post("/submit", this.form, config).then(function (response) {
           //success
           if (response.status = 201) {
-            // this.files[i].id = response['response']['id'];
-            // this.files.splice(i, 1, this.files[i]);
-            // console.log(this.files[i].id); https://stackoverflow.com/questions/45919837/move-object-from-one-array-to-another
             _this3.isActive = true;
             _this3.notifDisplay = true;
             _this3.success = response.data.success;
-            _this3.$refs.file.value = "";
-            _this3.allUploaded = _this3.files;
+            _this3.$refs.file.value = ""; //this is one of the key features: it loops through the files and appends the given number from database to it
 
-            for (var i = 0; i < _this3.files.length; i++) {
-              _this3.allUploaded.push(_this3.files[i]);
-
-              _this3.files.splice(i, 1);
-
-              i--;
+            for (var _i = 0; _i < _this3.files.length; _i++) {
+              _this3.files[_i].id = response.data.ids[_i];
+              console.log(_this3.files[_i].id);
             }
-
-            console.log(_this3.files);
-            console.log(_this3.allUploaded); //decrement i IF we remove an item
-            // for(let i = 0; i <  this.files.length; i++){
-            //     for(let i = 0; i < this.allUploaded.length; i++){ }
-            //         if (this.allUploaded[i].name == this.files[i].name) {
-            //         console.log(this.allUploaded[i].name + " is same as " + this.files[i].name )
-            //     } else {
-            //         console.log('did not work ooh')
-            //     }
-            // }
-            //remove the one that has been uploaded here
-
-            _this3.files = [];
           }
         })["catch"](function (error) {
-          _this3.hasError = true;
-          _this3.notifDisplay = true;
-          console.log(error);
-          _this3.$refs.file.value = null;
-          _this3.files = [];
+          if (error.status = 422) {
+            _this3.hasError = true;
+            _this3.notifDisplay = true;
+            _this3.errors = error.response.data.errors;
+            _this3.$refs.file.value = null; // this.files = []
+          }
         });
       } else {
         console.log('please have some values');
@@ -37996,7 +37976,9 @@ var render = function() {
                 _vm._v(" "),
                 file.id > 0
                   ? _c("div", { staticClass: "success-container" }, [
-                      _vm._v("\n            Success\n\n        ")
+                      _c("button", { staticClass: "btn btn-success my-2" }, [
+                        _vm._v(" Succesfully uploaded ")
+                      ])
                     ])
                   : _c("div", { staticClass: "remove-container" }, [
                       _c(
