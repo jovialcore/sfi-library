@@ -2007,31 +2007,30 @@ __webpack_require__.r(__webpack_exports__);
     getImagePreviews: function getImagePreviews() {
       var _this2 = this;
 
-      var _loop = function _loop(i) {
+      var _loop = function _loop(_i) {
         //check to see if it is an image
-        if (/\.(jpe?g|png|gif)$/i.test(_this2.files[i].name)) {
+        if (/\.(jpe?g|png|gif)$/i.test(_this2.files[_i].name)) {
           var reader = new FileReader(); //once the image has been loaded ('on-load') in the local storage, pick it up and display
 
           reader.addEventListener("load", function () {
-            this.$refs["preview" + parseInt(i)][0].src = reader.result;
+            this.$refs["preview" + parseInt(_i)][0].src = reader.result;
           }.bind(_this2), false);
-          reader.readAsDataURL(_this2.files[i]);
+          reader.readAsDataURL(_this2.files[_i]);
         } else {
           //before the dom is updated to the recent changes, pick the image up immediately
           //setTimeOut() can perform this operation but it is slower compared to how fast $nextTick is
           _this2.$nextTick(function () {
-            this.$refs["preview" + parseInt(i)][0].src = "images/header.jpg";
+            this.$refs["preview" + parseInt(_i)][0].src = "images/header.jpg";
           });
         }
       };
 
-      for (var i = 0; i < this.files.length; i++) {
-        _loop(i);
+      for (var _i = 0; _i < this.files.length; _i++) {
+        _loop(_i);
       }
     },
     removeFiles: function removeFiles(key) {
       this.files.splice(key, 1);
-      this.getImagePreviews();
       this.errors = "";
       this.errorMsg = "";
       this.$refs.file.value = null;
@@ -2044,25 +2043,33 @@ __webpack_require__.r(__webpack_exports__);
       this.errors = {};
       var uploadedFiles = this.$refs.file.files;
 
-      for (var i = 0; i < uploadedFiles.length; i++) {
-        this.files.push(uploadedFiles[i]);
+      for (var _i2 = 0; _i2 < uploadedFiles.length; _i2++) {
+        this.files.push(uploadedFiles[_i2]);
       }
 
-      this.getImagePreviews();
       this.$refs.file.value = "";
+      this.getImagePreviews();
+      console.log(this.deleteUploaded());
+    },
+    deleteUploaded: function deleteUploaded() {
+      var _this$files$i$df;
+
+      for (var _i3 = 0; this.files.length; _i3++) {}
+
+      console.log((_this$files$i$df = this.files[i].df) !== null && _this$files$i$df !== void 0 ? _this$files$i$df : "notfound");
     },
     submitFile: function submitFile() {
       var _this3 = this;
 
       //append all the file to the form data
       if (this.$refs.file.value == "" && this.files.length) {
-        for (var i = 0; i < this.files.length; i++) {
+        for (var _i4 = 0; _i4 < this.files.length; _i4++) {
           // we are simply saying that if the file has an ID, it should terminate the looping of it and continue the loop
-          if (this.files[i].id) {
+          if (this.files[_i4].id) {
             continue;
           }
 
-          this.form.append("pic[]", this.files[i]);
+          this.form.append("pic[]", this.files[_i4]);
         } //without the JSON.stringify() you will have an object.object 'error'
 
 
@@ -2081,9 +2088,11 @@ __webpack_require__.r(__webpack_exports__);
             _this3.success = response.data.success;
             _this3.$refs.file.value = ""; //this is one of the key features: it loops through the files and appends the given number from database to it
 
-            for (var _i = 0; _i < _this3.files.length; _i++) {
-              _this3.files[_i].id = response.data.ids[_i];
-              console.log(_this3.files[_i].id);
+            console.log(_this3.files);
+
+            for (var _i5 = 0; _i5 < _this3.files.length; _i5++) {
+              _this3.files[_i5].df = response.data.ids[_i5];
+              _this3.stuff = _this3.files[_i5].df;
             }
           }
         })["catch"](function (error) {
@@ -37974,7 +37983,7 @@ var render = function() {
                   staticClass: "preview img-fluid"
                 }),
                 _vm._v(" "),
-                file.id > 0
+                file.df > 0
                   ? _c("div", { staticClass: "success-container" }, [
                       _c("button", { staticClass: "btn btn-success my-2" }, [
                         _vm._v(" Succesfully uploaded ")

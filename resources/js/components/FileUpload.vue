@@ -79,7 +79,7 @@
       <div class="" style="">
           <img class="preview img-fluid" v-bind:ref="'preview'+parseInt(key)" />
 
-          <div class="success-container" v-if="file.id > 0">
+          <div class="success-container" v-if="file.df > 0">
               <button class="btn btn-success my-2"> Succesfully uploaded </button>
 
           </div>
@@ -184,7 +184,6 @@ export default {
     },
     removeFiles(key) {
       this.files.splice(key, 1)
-      this.getImagePreviews()
         this.errors = "";
         this.errorMsg = "";
          this.$refs.file.value = null;
@@ -196,18 +195,24 @@ export default {
       this.hasError = false
       this.errors = {}
       let uploadedFiles = this.$refs.file.files;
-
-
       for (let i = 0; i < uploadedFiles.length; i++) {
         this.files.push(uploadedFiles[i]);
-
       }
-      this.getImagePreviews();
-       this.$refs.file.value = "";
+
+        this.$refs.file.value = "";
+         this.getImagePreviews();
+         console.log(this.deleteUploaded())
+    },
+
+    deleteUploaded(){
+
+        for(let i=0; this.files.length; i++) { }
+
+            console.log(this.files.[i].df ?? "notfound" )
     },
     submitFile() {
       //append all the file to the form data
-      if(this.$refs.file.value == "" && this.files.length) {
+      if(this.$refs.file.value == "" && this.files.length ) {
 
       for (let i = 0; i < this.files.length; i++) {
         // we are simply saying that if the file has an ID, it should terminate the looping of it and continue the loop
@@ -236,9 +241,10 @@ export default {
             this.success = response.data.success;
             this.$refs.file.value = "";
             //this is one of the key features: it loops through the files and appends the given number from database to it
+            console.log(this.files);
             for(let i= 0; i < this.files.length; i++){
-                this.files[i].id = response.data.ids[i]
-                console.log(this.files[i].id)
+                this.files[i].df = response.data.ids[i]
+                this.stuff = this.files[i].df
             }
 
           }
