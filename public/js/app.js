@@ -2022,18 +2022,18 @@ __webpack_require__.r(__webpack_exports__);
         _this.errorMsg = error.response.data.message;
       });
     },
-    getImagePreviews: function getImagePreviews() {
+    getImagePreviews: function getImagePreviews(images) {
       var _this2 = this;
 
       var _loop = function _loop(i) {
         //check to see if it is an image
-        if (/\.(jpe?g|png|gif)$/i.test(_this2.files[i].name)) {
+        if (/\.(jpe?g|png|gif)$/i.test(images[i].name)) {
           var reader = new FileReader(); //once the image has been loaded ('on-load') in the local storage, pick it up and display
 
           reader.addEventListener("load", function () {
             this.$refs["preview" + parseInt(i)][0].src = reader.result;
           }.bind(_this2), false);
-          reader.readAsDataURL(_this2.files[i]);
+          reader.readAsDataURL(images[i]);
         } else {
           //before the dom is updated to the recent changes, pick the image up immediately
           //setTimeOut() can perform this operation but it is slower compared to how fast $nextTick is
@@ -2043,7 +2043,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       };
 
-      for (var i = 0; i < this.files.length; i++) {
+      for (var i = 0; i < images.length; i++) {
         _loop(i);
       }
     },
@@ -2066,14 +2066,19 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.$refs.file.value = "";
-      this.getImagePreviews();
+      this.getImagePreviews(this.files);
       console.log(this.deleteUploaded());
     },
     deleteUploaded: function deleteUploaded() {
-      // let images = [
-      //     { size: 24, name: "apples", quantity: 2 },
-      //     { name: "apples", quantity: 2 }
-      // ];
+      var images = [{
+        size: 24,
+        name: "apples",
+        quantity: 2
+      }, {
+        name: "apples",
+        quantity: 2
+      }];
+
       for (var i = 0; i < this.files.length; i++) {
         for (var key in this.files[i]) {
           if (key === "df") delete this.files[i];
@@ -2081,7 +2086,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.files = this.files.filter(Boolean);
-      console.log(this.files); //         if (this.files.length > 0) {
+      console.log(this.getImagePreviews(this.files)); //         if (this.files.length > 0) {
       //       for(var i =0; i < this.files.length; i++) {
       //             if ('df' in this.files[i]){
       //                 this.files.filter(word => word.df > 0);

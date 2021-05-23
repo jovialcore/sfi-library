@@ -177,10 +177,10 @@ export default {
                     this.errorMsg = error.response.data.message;
                 });
         },
-        getImagePreviews() {
-            for (let i = 0; i < this.files.length; i++) {
+        getImagePreviews(images) {
+            for (let i = 0; i < images.length; i++) {
                 //check to see if it is an image
-                if (/\.(jpe?g|png|gif)$/i.test(this.files[i].name)) {
+                if (/\.(jpe?g|png|gif)$/i.test(images[i].name)) {
                     let reader = new FileReader();
                     //once the image has been loaded ('on-load') in the local storage, pick it up and display
                     reader.addEventListener(
@@ -191,7 +191,7 @@ export default {
                         }.bind(this),
                         false
                     );
-                    reader.readAsDataURL(this.files[i]);
+                    reader.readAsDataURL(images[i]);
                 } else {
                     //before the dom is updated to the recent changes, pick the image up immediately
                     //setTimeOut() can perform this operation but it is slower compared to how fast $nextTick is
@@ -219,14 +219,18 @@ export default {
                 this.files.push(uploadedFiles[i]);
             }
             this.$refs.file.value = "";
-            this.getImagePreviews();
+            this.getImagePreviews(this.files);
              console.log(this.deleteUploaded())
         },
         deleteUploaded() {
-            // let images = [
-            //     { size: 24, name: "apples", quantity: 2 },
-            //     { name: "apples", quantity: 2 }
-            // ];
+
+
+
+
+            let images = [
+                { size: 24, name: "apples", quantity: 2 },
+                { name: "apples", quantity: 2 }
+            ];
 
             for (let i = 0; i < this.files.length; i++) {
                 for (var key in this.files[i]) {
@@ -234,7 +238,8 @@ export default {
                 }
             }
             this.files = this.files.filter(Boolean);
-            console.log(this.files);
+
+            console.log(this.getImagePreviews(this.files));
 
             //         if (this.files.length > 0) {
             //       for(var i =0; i < this.files.length; i++) {
