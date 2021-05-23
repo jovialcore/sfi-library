@@ -1945,6 +1945,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -1967,6 +1979,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     computedCats: function computedCats() {
       return this.categories;
+    },
+    filesLa: function filesLa() {
+      return this.files;
     }
   },
   methods: {
@@ -2007,18 +2022,18 @@ __webpack_require__.r(__webpack_exports__);
         _this.errorMsg = error.response.data.message;
       });
     },
-    getImagePreviews: function getImagePreviews(images) {
+    getImagePreviews: function getImagePreviews() {
       var _this2 = this;
 
       var _loop = function _loop(i) {
         //check to see if it is an image
-        if (/\.(jpe?g|png|gif)$/i.test(images[i].name)) {
+        if (/\.(jpe?g|png|gif)$/i.test(_this2.files[i].name)) {
           var reader = new FileReader(); //once the image has been loaded ('on-load') in the local storage, pick it up and display
 
           reader.addEventListener("load", function () {
             this.$refs["preview" + parseInt(i)][0].src = reader.result;
           }.bind(_this2), false);
-          reader.readAsDataURL(images[i]);
+          reader.readAsDataURL(_this2.files[i]);
         } else {
           //before the dom is updated to the recent changes, pick the image up immediately
           //setTimeOut() can perform this operation but it is slower compared to how fast $nextTick is
@@ -2028,13 +2043,12 @@ __webpack_require__.r(__webpack_exports__);
         }
       };
 
-      for (var i = 0; i < images.length; i++) {
+      for (var i = 0; i < this.files.length; i++) {
         _loop(i);
       }
     },
     removeFiles: function removeFiles(key) {
       this.files.splice(key, 1);
-      this.getImagePreviews(this.files);
       this.errors = "";
       this.errorMsg = "";
       this.$refs.file.value = null;
@@ -2051,8 +2065,52 @@ __webpack_require__.r(__webpack_exports__);
         this.files.push(uploadedFiles[i]);
       }
 
-      this.getImagePreviews(this.files);
       this.$refs.file.value = "";
+      this.getImagePreviews();
+      console.log(this.deleteUploaded());
+    },
+    deleteUploaded: function deleteUploaded() {
+      // let images = [
+      //     { size: 24, name: "apples", quantity: 2 },
+      //     { name: "apples", quantity: 2 }
+      // ];
+      for (var i = 0; i < this.files.length; i++) {
+        for (var key in this.files[i]) {
+          if (key === "df") delete this.files[i];
+        }
+      }
+
+      this.files = this.files.filter(Boolean);
+      console.log(this.files); //         if (this.files.length > 0) {
+      //       for(var i =0; i < this.files.length; i++) {
+      //             if ('df' in this.files[i]){
+      //                 this.files.filter(word => word.df > 0);
+      //               this.files.splice(i, this.files.length);
+      //               i--;
+      //             }
+      //       }
+      // }
+      //         if (this.files.length > 0) {
+      //             for (var i = this.files.length; i--;) {
+      //                 if(this.files[i].df > 0){
+      //                     this.files.splice(i,2)
+      //                 }
+      //             }
+      // }
+      //
+      // let words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
+      // const result = words.filter(word => word.length > 6);
+      // console.log(result);
+      // words = []
+      // console.log(words.push(result))
+      // console.log(words)
+      // expected output: Array ["exuberant", "destruction", "present"]
+      //   console.log(this.files)
+      //console.log(this.files.filter(element => element.df > 0).splice(0,0));\
+      // this.files.filter(e => e.df > 0);
+      //         this.files.forEach(f => this.files.splice(this.files.findIndex(e => e.df > 0),1));
+      //         console.log(this.files.forEach(f => this.files.splice(this.files.findIndex(e => e.df > 0),0)));
+      // }
     },
     submitFile: function submitFile() {
       var _this3 = this;
@@ -2061,11 +2119,11 @@ __webpack_require__.r(__webpack_exports__);
       if (this.$refs.file.value == "" && this.files.length) {
         for (var i = 0; i < this.files.length; i++) {
           // we are simply saying that if the file has an ID, it should terminate the looping of it and continue the loop
-          if (this.files[i].id) {
+          if (this.files[i].df) {
             continue;
           }
 
-          this.form.append("pic[" + i + "]", this.files[i]);
+          this.form.append("pic[]", this.files[i]);
         } //without the JSON.stringify() you will have an object.object 'error'
 
 
@@ -2079,44 +2137,27 @@ __webpack_require__.r(__webpack_exports__);
         axios.post("/submit", this.form, config).then(function (response) {
           //success
           if (response.status = 201) {
-            // this.files[i].id = response['response']['id'];
-            // this.files.splice(i, 1, this.files[i]);
-            // console.log(this.files[i].id); https://stackoverflow.com/questions/45919837/move-object-from-one-array-to-another
             _this3.isActive = true;
             _this3.notifDisplay = true;
             _this3.success = response.data.success;
-            _this3.$refs.file.value = "";
-
-            for (var i = 0; i < _this3.files.length; i++) {
-              _this3.allUploaded.push(_this3.files[i]);
-
-              _this3.files.splice(i, 1);
-
-              i--;
-            }
+            _this3.$refs.file.value = ""; //this is one of the key features: it loops through the files and appends the given number from database to it
 
             console.log(_this3.files);
-            console.log(_this3.allUploaded); //decrement i IF we remove an item
-            // for(let i = 0; i <  this.files.length; i++){
-            //     for(let i = 0; i < this.allUploaded.length; i++){ }
-            //         if (this.allUploaded[i].name == this.files[i].name) {
-            //         console.log(this.allUploaded[i].name + " is same as " + this.files[i].name )
-            //     } else {
-            //         console.log('did not work ooh')
-            //     }
-            // }
-            //remove the one that has been uploaded here
-            //this.files = []
+
+            for (var _i = 0; _i < _this3.files.length; _i++) {
+              _this3.files[_i].df = response.data.ids[_i];
+            }
           }
         })["catch"](function (error) {
-          _this3.hasError = true;
-          _this3.notifDisplay = true;
-          console.log(error);
-          _this3.$refs.file.value = null;
-          _this3.files = [];
+          if (error.status = 422) {
+            _this3.hasError = true;
+            _this3.notifDisplay = true;
+            _this3.errors = error.response.data.errors;
+            _this3.$refs.file.value = null; // this.files = []
+          }
         });
       } else {
-        console.log('please have some values');
+        console.log("please have some values");
       }
     }
   },
@@ -37816,11 +37857,11 @@ var render = function() {
           },
           [
             _vm._v(
-              "\n        " +
+              "\n            " +
                 _vm._s(_vm.success) +
                 " " +
                 _vm._s(_vm.errorMsg) +
-                "\n        "
+                "\n            "
             ),
             _vm._l(_vm.errors, function(errorArray, idx) {
               return _c(
@@ -37829,7 +37870,9 @@ var render = function() {
                 _vm._l(errorArray, function(allErrors, idx) {
                   return _c("div", { key: idx }, [
                     _vm._v(
-                      "\n            " + _vm._s(allErrors) + "\n          "
+                      "\n                    " +
+                        _vm._s(allErrors) +
+                        "\n                "
                     )
                   ])
                 }),
@@ -37903,7 +37946,7 @@ var render = function() {
               staticClass: "btn btn-success mt-4",
               on: { click: _vm.addCatbtn }
             },
-            [_vm._v("Add")]
+            [_vm._v("\n                Add\n            ")]
           )
         ]),
         _vm._v(" "),
@@ -37946,7 +37989,9 @@ var render = function() {
             _vm._l(_vm.computedCats, function(allCats, idx) {
               return _c("option", { key: idx.id }, [
                 _vm._v(
-                  "\n              " + _vm._s(allCats.name) + "\n            "
+                  "\n                    " +
+                    _vm._s(allCats.name) +
+                    "\n                "
                 )
               ])
             }),
@@ -37975,7 +38020,7 @@ var render = function() {
               staticClass: "btn btn-success mt-4",
               on: { click: _vm.submitFile }
             },
-            [_vm._v("Upload")]
+            [_vm._v("\n                Upload\n            ")]
           )
         ])
       ]
@@ -37986,52 +38031,43 @@ var render = function() {
         _c(
           "div",
           { staticClass: "row mt-2" },
-          _vm._l(_vm.files, function(file, key) {
-            return _c("div", { key: key, staticClass: "col-3" }, [
-              _c(
-                "div",
-                {},
-                [
-                  _vm._l(_vm.allUploaded, function(images, idx) {
-                    return _c("div", { key: idx }, [
-                      _c("img", {
-                        staticClass: "img-fluid",
-                        attrs: { src: "storage/uploads/" }
-                      }),
-                      _vm._v(
-                        "\n               " + _vm._s(images.name) + "\n        "
-                      )
-                    ])
-                  }),
-                  _vm._v(" "),
-                  _c("img", {
-                    ref: "preview" + parseInt(key),
-                    refInFor: true,
-                    staticClass: "preview img-fluid"
-                  }),
-                  _vm._v(" "),
-                  file.id > 0
-                    ? _c("div", { staticClass: "success-container" }, [
-                        _vm._v("\n            Success\n        ")
-                      ])
-                    : _c("div", { staticClass: "remove-container" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "remove btn btn-danger btn-sm my-2",
-                            staticStyle: { cursor: "pointer" },
-                            on: {
-                              click: function($event) {
-                                return _vm.removeFiles(key)
-                              }
-                            }
-                          },
-                          [_vm._v("Remove")]
+          _vm._l(_vm.files, function(file, stuff) {
+            return _c("div", { key: stuff, staticClass: "col-3" }, [
+              _c("div", {}, [
+                _c("img", {
+                  ref: "preview" + parseInt(stuff),
+                  refInFor: true,
+                  staticClass: "preview img-fluid"
+                }),
+                _vm._v(" "),
+                file.df > 0
+                  ? _c("div", { staticClass: "success-container" }, [
+                      _c("button", { staticClass: "btn btn-success my-2" }, [
+                        _vm._v(
+                          "\n                                Succesfully uploaded\n                            "
                         )
                       ])
-                ],
-                2
-              )
+                    ])
+                  : _c("div", { staticClass: "remove-container" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "remove btn btn-danger btn-sm my-2",
+                          staticStyle: { cursor: "pointer" },
+                          on: {
+                            click: function($event) {
+                              return _vm.removeFiles(stuff)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                                Remove\n                            "
+                          )
+                        ]
+                      )
+                    ])
+              ])
             ])
           }),
           0

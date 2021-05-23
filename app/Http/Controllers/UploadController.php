@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use  App\Models\files;
-
 use App\Models\category;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,7 +37,7 @@ class UploadController extends Controller
     public function storeFile(Request $req)
     {
 
-        $fileUploadModel = new files;
+
         if ($req->hasFile('pic')) {
 
         $req->validate([
@@ -51,6 +49,7 @@ class UploadController extends Controller
             $category = json_decode($req->cats);
             // name attribute of files is pic
             $theUploadedFiles = $req->pic;
+        $noOfFilesUploaded = count($theUploadedFiles);
             //get the id that of the category that came with the form
             $catId = category::where('name', $category)->value('id');
             $user = Auth::user()->id;
@@ -70,6 +69,7 @@ class UploadController extends Controller
 
                 return round($bytes, $precision) . ' ' . $units[$pow];
             }
+            $fileUploadModel = new files;
 
             foreach ($theUploadedFiles as $files) {
 
@@ -87,8 +87,11 @@ class UploadController extends Controller
                     'size' =>  $fileSize,
                     'user_id' => $user
                 ]);
-                return response()->json(['success' => 'File was successfully uploaded', 'id' => true  ], 201);
+
             }
+            //here we are fetching the latest id from the database using the number of incoming request as a counter which when we are done, we send the details to our frontend
+           $ids =  $fileUploadModel->latest()->take($noOfFilesUploaded)->pluck('id');
+              return response()->json(['success' => 'Files were successfully uploaded', 'ids' =>  $ids ], 201);
 
         } else  {
 
