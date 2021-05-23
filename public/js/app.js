@@ -2070,23 +2070,19 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.deleteUploaded());
     },
     deleteUploaded: function deleteUploaded() {
-      var images = [{
-        size: 24,
-        name: "apples",
-        quantity: 2
-      }, {
-        name: "apples",
-        quantity: 2
-      }];
-
+      // let images = [
+      //     { size: 24, name: "apples", quantity: 2 },
+      //     { name: "apples", quantity: 2 }
+      // ];
       for (var i = 0; i < this.files.length; i++) {
         for (var key in this.files[i]) {
           if (key === "df") delete this.files[i];
         }
-      }
+      } //this removes the undefined in the files...very important
+
 
       this.files = this.files.filter(Boolean);
-      console.log(this.getImagePreviews(this.files)); //         if (this.files.length > 0) {
+      this.getImagePreviews(this.files); //         if (this.files.length > 0) {
       //       for(var i =0; i < this.files.length; i++) {
       //             if ('df' in this.files[i]){
       //                 this.files.filter(word => word.df > 0);
