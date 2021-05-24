@@ -2077,7 +2077,8 @@ __webpack_require__.r(__webpack_exports__);
       } //this removes the undefined in the files...very important
 
 
-      this.files = this.files.filter(Boolean);
+      this.files = this.files.filter(Boolean); // this calls al the images once they have been uploaded
+
       this.getImagePreviews(this.files);
     },
     submitFile: function submitFile() {

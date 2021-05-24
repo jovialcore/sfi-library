@@ -223,6 +223,7 @@ export default {
              console.log(this.deleteUploaded())
         },
         deleteUploaded() {
+
             for (let i = 0; i < this.files.length; i++) {
                 for (var key in this.files[i]) {
                     if (key === "df") delete this.files[i];
@@ -230,7 +231,7 @@ export default {
             }
             //this removes the undefined in the files...very important
             this.files = this.files.filter(Boolean);
-
+            // this calls al the images once they have been uploaded
             this.getImagePreviews(this.files);
         },
         submitFile() {
