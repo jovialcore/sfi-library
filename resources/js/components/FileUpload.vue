@@ -223,61 +223,15 @@ export default {
              console.log(this.deleteUploaded())
         },
         deleteUploaded() {
-
-
-
-
-            // let images = [
-            //     { size: 24, name: "apples", quantity: 2 },
-            //     { name: "apples", quantity: 2 }
-            // ];
-
-            // for (let i = 0; i < this.files.length; i++) {
-            //     for (var key in this.files[i]) {
-            //         if (key === "df") delete this.files[i];
-            //     }
-            // }
-            // //this removes the undefined in the files...very important
-            // this.files = this.files.filter(Boolean);
-
-                    if (this.files.length > 0) {
-                  for(var i =0; i < this.files.length; i++) {
-                        if ('df' in this.files[i]){
-                            this.files.filter(word => word.df > 0);
-                          this.files.splice(i, this.files.length);
-                          i--;
-                        }
-                  }
+            for (let i = 0; i < this.files.length; i++) {
+                for (var key in this.files[i]) {
+                    if (key === "df") delete this.files[i];
+                }
             }
-                       this.getImagePreviews(this.files);
+            //this removes the undefined in the files...very important
+            this.files = this.files.filter(Boolean);
 
-            //         if (this.files.length > 0) {
-            //             for (var i = this.files.length; i--;) {
-            //                 if(this.files[i].df > 0){
-            //                     this.files.splice(i,2)
-            //                 }
-            //             }
-            // }
-            //
-
-            // let words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
-
-            // const result = words.filter(word => word.length > 6);
-
-            // console.log(result);
-            // words = []
-            // console.log(words.push(result))
-            // console.log(words)
-            // expected output: Array ["exuberant", "destruction", "present"]
-
-            //   console.log(this.files)
-            //console.log(this.files.filter(element => element.df > 0).splice(0,0));\
-
-            // this.files.filter(e => e.df > 0);
-            //         this.files.forEach(f => this.files.splice(this.files.findIndex(e => e.df > 0),1));
-            //         console.log(this.files.forEach(f => this.files.splice(this.files.findIndex(e => e.df > 0),0)));
-
-            // }
+            this.getImagePreviews(this.files);
         },
         submitFile() {
             //append all the file to the form data
