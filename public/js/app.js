@@ -2038,7 +2038,7 @@ __webpack_require__.r(__webpack_exports__);
           //before the dom is updated to the recent changes, pick the image up immediately
           //setTimeOut() can perform this operation but it is slower compared to how fast $nextTick is
           _this2.$nextTick(function () {
-            this.$refs["preview" + parseInt(i)][0].src = "images/header.jpg";
+            this.$refs["preview" + parseInt(i)][0].src = "images/notImage.png";
           });
         }
       };

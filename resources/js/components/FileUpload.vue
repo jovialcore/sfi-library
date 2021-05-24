@@ -197,7 +197,7 @@ export default {
                     //setTimeOut() can perform this operation but it is slower compared to how fast $nextTick is
                     this.$nextTick(function() {
                         this.$refs["preview" + parseInt(i)][0].src =
-                            "images/header.jpg";
+                            "images/notImage.png";
                     });
                 }
             }
@@ -232,25 +232,24 @@ export default {
             //     { name: "apples", quantity: 2 }
             // ];
 
-            for (let i = 0; i < this.files.length; i++) {
-                for (var key in this.files[i]) {
-                    if (key === "df") delete this.files[i];
-                }
-            }
-            //this removes the undefined in the files...very important
-            this.files = this.files.filter(Boolean);
-
-            this.getImagePreviews(this.files);
-
-            //         if (this.files.length > 0) {
-            //       for(var i =0; i < this.files.length; i++) {
-            //             if ('df' in this.files[i]){
-            //                 this.files.filter(word => word.df > 0);
-            //               this.files.splice(i, this.files.length);
-            //               i--;
-            //             }
-            //       }
+            // for (let i = 0; i < this.files.length; i++) {
+            //     for (var key in this.files[i]) {
+            //         if (key === "df") delete this.files[i];
+            //     }
             // }
+            // //this removes the undefined in the files...very important
+            // this.files = this.files.filter(Boolean);
+
+                    if (this.files.length > 0) {
+                  for(var i =0; i < this.files.length; i++) {
+                        if ('df' in this.files[i]){
+                            this.files.filter(word => word.df > 0);
+                          this.files.splice(i, this.files.length);
+                          i--;
+                        }
+                  }
+            }
+                       this.getImagePreviews(this.files);
 
             //         if (this.files.length > 0) {
             //             for (var i = this.files.length; i--;) {
