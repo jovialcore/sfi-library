@@ -211,7 +211,7 @@ export default {
             this.hasError = false;
             this.errors = {};
             const files = e.target.files
-    //i want to understand this Array.from() method
+    //i want to understand this Array.from() metho
           Array.from(files).forEach(file => this.getImagePreviews(file))
 
             // let uploadedFiles = this.$refs.file.files;
