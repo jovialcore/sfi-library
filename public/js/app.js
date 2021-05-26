@@ -2062,7 +2062,7 @@ __webpack_require__.r(__webpack_exports__);
       this.isActive = false;
       this.hasError = false;
       this.errors = {};
-      var files = e.target.files; //i want to understand this Array.from() method
+      var files = e.target.files; //i want to understand this Array.from() metho
 
       Array.from(files).forEach(function (file) {
         return _this3.getImagePreviews(file);
