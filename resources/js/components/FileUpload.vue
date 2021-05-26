@@ -92,13 +92,13 @@
 
                             />
 
-                            <div class="success-container" >
+                            <div class="success-container" v-if="checker > 0">
                                 <button class="btn btn-success my-2">
                                     Succesfully uploaded
 
                                 </button>
                             </div>
-                            <div class="remove-container" >
+                            <div class="remove-container" v-else>
                                 <button
                                     class="remove btn btn-danger btn-sm my-2"
                                     style="cursor: pointer"
@@ -121,6 +121,7 @@ import VueToastr from "vue-toastr";
 export default {
     data() {
         return {
+            checker : 0,
             notifDisplay: false,
             imageFiles: [],
             images: [],
@@ -206,6 +207,13 @@ export default {
         },
         uponUpload(e) {
             //i should have use computed properties here...so everything happens by default;
+            if(this.checker) {
+
+                this.images  = []
+                this.imageFiles = []
+                console.log(this.imageFiles)
+            }
+             this.checker = 0
             this.success = "";
             this.isActive = false;
             this.hasError = false;
@@ -282,13 +290,13 @@ export default {
         },
         submitFile() {
             //append all the file to the form data
-            if (this.$refs.file.value == "" && this.files.length) {
-                for (let i = 0; i < this.files.length; i++) {
+            if (this.$refs.file.value == "" && this.imageFiles.length) {
+                for (let i = 0; i < this.imageFiles.length; i++) {
                     // we are simply saying that if the file has an ID, it should terminate the looping of it and continue the loop
-                    if (this.files[i].df) {
+                    if (this.imageFiles[i].df) {
                         continue;
                     }
-                    this.form.append("pic[]", this.files[i]);
+                    this.form.append("pic[]", this.imageFiles[i]);
                 }
                 //without the JSON.stringify() you will have an object.object 'error'
                 this.form.append("cats", JSON.stringify(this.cat.name));
@@ -307,21 +315,18 @@ export default {
                             this.notifDisplay = true;
                             this.success = response.data.success;
                             this.$refs.file.value = "";
-                            //this is one of the key features: it loops through the files and appends the given number from database to it
-                            console.log(this.files);
-                            for (let i = 0; i < this.files.length; i++) {
-                                this.files[i].df = response.data.ids[i];
-                            }
+                            if(response.data.ids){ this.checker++}
                         }
                     })
                     .catch(error => {
-                        if ((error.status = 422)) {
-                            this.hasError = true;
-                            this.notifDisplay = true;
-                            this.errors = error.response.data.errors;
-                            this.$refs.file.value = null;
-                            // this.files = []
-                        }
+                        console.log(error)
+                        // if ((error.status = 422)) {
+                        //     this.hasError = true;
+                        //     this.notifDisplay = true;
+                        //     this.errors = error.response.data.errors;
+                        //     this.$refs.file.value = null;
+                        //     // this.files = []
+                        // }
                     });
             } else {
                 console.log("please have some values");

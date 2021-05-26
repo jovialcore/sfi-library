@@ -1967,6 +1967,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      checker: 0,
       notifDisplay: false,
       imageFiles: [],
       images: [],
@@ -2058,6 +2059,13 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       //i should have use computed properties here...so everything happens by default;
+      if (this.checker) {
+        this.images = [];
+        this.imageFiles = [];
+        console.log(this.imageFiles);
+      }
+
+      this.checker = 0;
       this.success = "";
       this.isActive = false;
       this.hasError = false;
@@ -2122,14 +2130,14 @@ __webpack_require__.r(__webpack_exports__);
       var _this4 = this;
 
       //append all the file to the form data
-      if (this.$refs.file.value == "" && this.files.length) {
-        for (var i = 0; i < this.files.length; i++) {
+      if (this.$refs.file.value == "" && this.imageFiles.length) {
+        for (var i = 0; i < this.imageFiles.length; i++) {
           // we are simply saying that if the file has an ID, it should terminate the looping of it and continue the loop
-          if (this.files[i].df) {
+          if (this.imageFiles[i].df) {
             continue;
           }
 
-          this.form.append("pic[]", this.files[i]);
+          this.form.append("pic[]", this.imageFiles[i]);
         } //without the JSON.stringify() you will have an object.object 'error'
 
 
@@ -2146,21 +2154,20 @@ __webpack_require__.r(__webpack_exports__);
             _this4.isActive = true;
             _this4.notifDisplay = true;
             _this4.success = response.data.success;
-            _this4.$refs.file.value = ""; //this is one of the key features: it loops through the files and appends the given number from database to it
+            _this4.$refs.file.value = "";
 
-            console.log(_this4.files);
-
-            for (var _i = 0; _i < _this4.files.length; _i++) {
-              _this4.files[_i].df = response.data.ids[_i];
+            if (response.data.ids) {
+              _this4.checker++;
             }
           }
         })["catch"](function (error) {
-          if (error.status = 422) {
-            _this4.hasError = true;
-            _this4.notifDisplay = true;
-            _this4.errors = error.response.data.errors;
-            _this4.$refs.file.value = null; // this.files = []
-          }
+          console.log(error); // if ((error.status = 422)) {
+          //     this.hasError = true;
+          //     this.notifDisplay = true;
+          //     this.errors = error.response.data.errors;
+          //     this.$refs.file.value = null;
+          //     // this.files = []
+          // }
         });
       } else {
         console.log("please have some values");
@@ -38049,27 +38056,33 @@ var render = function() {
                   attrs: { src: image }
                 }),
                 _vm._v(" "),
-                _vm._m(0, true),
-                _vm._v(" "),
-                _c("div", { staticClass: "remove-container" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "remove btn btn-danger btn-sm my-2",
-                      staticStyle: { cursor: "pointer" },
-                      on: {
-                        click: function($event) {
-                          return _vm.removeFiles(id)
-                        }
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                                Remove\n                            "
+                _vm.checker > 0
+                  ? _c("div", { staticClass: "success-container" }, [
+                      _c("button", { staticClass: "btn btn-success my-2" }, [
+                        _vm._v(
+                          "\n                                Succesfully uploaded\n\n                            "
+                        )
+                      ])
+                    ])
+                  : _c("div", { staticClass: "remove-container" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "remove btn btn-danger btn-sm my-2",
+                          staticStyle: { cursor: "pointer" },
+                          on: {
+                            click: function($event) {
+                              return _vm.removeFiles(id)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                                Remove\n                            "
+                          )
+                        ]
                       )
-                    ]
-                  )
-                ])
+                    ])
               ])
             ])
           }),
@@ -38079,20 +38092,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "success-container" }, [
-      _c("button", { staticClass: "btn btn-success my-2" }, [
-        _vm._v(
-          "\n                                Succesfully uploaded\n\n                            "
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

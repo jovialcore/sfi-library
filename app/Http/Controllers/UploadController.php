@@ -91,7 +91,7 @@ class UploadController extends Controller
             }
             //here we are fetching the latest id from the database using the number of incoming request as a counter which when we are done, we send the details to our frontend
            $ids =  $fileUploadModel->latest()->take($noOfFilesUploaded)->pluck('id');
-              return response()->json(['success' => 'Files were successfully uploaded', 'ids' =>  $ids ], 201);
+              return response()->json(['success' => 'Files were successfully uploaded', 'ids' => $ids ], 201);
 
         } else  {
 
