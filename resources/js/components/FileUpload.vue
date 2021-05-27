@@ -211,7 +211,7 @@ export default {
                 this.images  = []
                 this.imageFiles = []
             }
-             this.checker = 0
+            this.checker = 0
             this.success = "";
             this.isActive = false;
             this.hasError = false;

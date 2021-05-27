@@ -49,7 +49,7 @@ class UploadController extends Controller
             $category = json_decode($req->cats);
             // name attribute of files is pic
             $theUploadedFiles = $req->pic;
-        $noOfFilesUploaded = count($theUploadedFiles);
+            $noOfFilesUploaded = count($theUploadedFiles);
             //get the id that of the category that came with the form
             $catId = category::where('name', $category)->value('id');
             $user = Auth::user()->id;
@@ -76,7 +76,7 @@ class UploadController extends Controller
                 $fileName =  $files->getClientOriginalName();
                 $fileExtension = $files->getClientOriginalExtension();
                 $fileSize = format_bytes($files->getSize(), 2);
-                $filePath = $files->storeAs('uploads', $fileName, 'public');
+                $filePath = $files->storeAs($category, $fileName, 'public');
 
                 $fileUploadModel->create([
                     'name' => $fileName,
