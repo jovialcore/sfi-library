@@ -1958,15 +1958,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      progress: 0,
       checker: 0,
       notifDisplay: false,
       imageFiles: [],
@@ -2034,7 +2030,7 @@ __webpack_require__.r(__webpack_exports__);
     getImagePreviews: function getImagePreviews(image) {
       var _this2 = this;
 
-      if (!image.type.match('image.*')) {
+      if (!image.type.match("image.*")) {
         this.$toastr.e("".concat(image.name, " is not an image"));
         return;
       }
@@ -2098,8 +2094,12 @@ __webpack_require__.r(__webpack_exports__);
         var config = {
           headers: {
             "Content-Type": "multipart/form-data"
+          },
+          onUploadProgress: function onUploadProgress(uploadEvent) {
+            _this4.progress = Math.round(uploadEvent.loaded / uploadEvent.total * 100);
           }
         };
+        console.log('upld prges:' + Math.round(uploadEvent.loaded / uploadEvent.total * 100) + '%');
         axios.post("/submit", this.form, config).then(function (response) {
           //success
           if (response.status = 201) {
@@ -37803,11 +37803,11 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-fluid " }, [
+  return _c("div", { staticClass: "container-fluid" }, [
     _c(
       "div",
       {
-        staticClass: "row bg-dark p-5 ",
+        staticClass: "row bg-dark p-5",
         staticStyle: { "border-top": "1px solid green" }
       },
       [
@@ -37822,11 +37822,11 @@ var render = function() {
           },
           [
             _vm._v(
-              "\n            " +
+              "\n      " +
                 _vm._s(_vm.success) +
                 " " +
                 _vm._s(_vm.errorMsg) +
-                "\n            "
+                "\n      "
             ),
             _vm._l(_vm.errors, function(errorArray, idx) {
               return _c(
@@ -37834,11 +37834,7 @@ var render = function() {
                 { key: idx },
                 _vm._l(errorArray, function(allErrors, idx) {
                   return _c("div", { key: idx }, [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(allErrors) +
-                        "\n                "
-                    )
+                    _vm._v("\n          " + _vm._s(allErrors) + "\n        ")
                   ])
                 }),
                 0
@@ -37878,7 +37874,7 @@ var render = function() {
           2
         ),
         _vm._v(" "),
-        _c("div", { staticClass: " col" }, [
+        _c("div", { staticClass: "col" }, [
           _c("label", { staticClass: "text-white" }, [
             _vm._v("Select a category: ")
           ]),
@@ -37911,7 +37907,7 @@ var render = function() {
               staticClass: "btn btn-success mt-4",
               on: { click: _vm.addCatbtn }
             },
-            [_vm._v("\n                Add\n            ")]
+            [_vm._v("Add")]
           )
         ]),
         _vm._v(" "),
@@ -37931,7 +37927,7 @@ var render = function() {
                   expression: "cat.name"
                 }
               ],
-              staticClass: "custom-select w-100 ",
+              staticClass: "custom-select w-100",
               attrs: { value: "dropdown", placeholder: "add a category" },
               on: {
                 change: function($event) {
@@ -37953,11 +37949,7 @@ var render = function() {
             },
             _vm._l(_vm.computedCats, function(allCats, idx) {
               return _c("option", { key: idx.id }, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(allCats.name) +
-                    "\n                "
-                )
+                _vm._v("\n          " + _vm._s(allCats.name) + "\n        ")
               ])
             }),
             0
@@ -37984,7 +37976,30 @@ var render = function() {
               staticClass: "btn btn-success mt-4",
               on: { click: _vm.submitFile }
             },
-            [_vm._v("\n                Upload\n            ")]
+            [_vm._v("Upload")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-12 mt-3" }, [
+          _c(
+            "div",
+            { staticClass: "progress", staticStyle: { height: "40px" } },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "progress-bar progress-bar-striped bg-dark",
+                  style: { width: _vm.progress + "%" },
+                  attrs: {
+                    role: "progressbar",
+                    "aria-valuenow": "40",
+                    "aria-valuemin": "0",
+                    "aria-valuemax": "100"
+                  }
+                },
+                [_vm._v("\n        " + _vm._s(_vm.progress) + "%\n      ")]
+              )
+            ]
           )
         ])
       ]
@@ -38007,7 +38022,7 @@ var render = function() {
                   ? _c("div", { staticClass: "success-container" }, [
                       _c("button", { staticClass: "btn btn-success my-2" }, [
                         _vm._v(
-                          "\n                                Succesfully uploaded\n\n                            "
+                          "\n                Succesfully uploaded\n              "
                         )
                       ])
                     ])
@@ -38023,11 +38038,7 @@ var render = function() {
                             }
                           }
                         },
-                        [
-                          _vm._v(
-                            "\n                                Remove\n                            "
-                          )
-                        ]
+                        [_vm._v("\n                Remove\n              ")]
                       )
                     ])
               ])

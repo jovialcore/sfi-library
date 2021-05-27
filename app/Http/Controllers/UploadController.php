@@ -55,7 +55,6 @@ class UploadController extends Controller
             $user = Auth::user()->id;
             //note that i could have used  category::where('name', $category)->pluck('id'); but pluck returns an array [1] instead...so the best soltuion according to SO, is value
 
-
             //function to check for the file fize and store in database
             function format_bytes($bytes, $precision = 2)
             {
