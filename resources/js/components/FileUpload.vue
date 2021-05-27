@@ -206,12 +206,9 @@ export default {
             this.$refs.file.value = null;
         },
         uponUpload(e) {
-            //i should have use computed properties here...so everything happens by default;
             if(this.checker) {
-
                 this.images  = []
                 this.imageFiles = []
-                console.log(this.imageFiles)
             }
              this.checker = 0
             this.success = "";
@@ -219,74 +216,11 @@ export default {
             this.hasError = false;
             this.errors = {};
             const files = e.target.files
-    //i want to understand this Array.from() metho
+    //i want to understand this Array.from() method
           Array.from(files).forEach(file => this.getImagePreviews(file))
 
-            // let uploadedFiles = this.$refs.file.files;
-            // for (let i = 0; i < uploadedFiles.length; i++) {
-            //     this.files.push(uploadedFiles[i]);
-            // }
             this.$refs.file.value = "";
-            // this.getImagePreviews(this.files);
-            //  console.log(this.deleteUploaded())
-        },
-        deleteUploaded() {
 
-
-
-
-            // let images = [
-            //     { size: 24, name: "apples", quantity: 2 },
-            //     { name: "apples", quantity: 2 }
-            // ];
-
-            for (let i = 0; i < this.files.length; i++) {
-                for (var key in this.files[i]) {
-                    if (key === "df") delete this.files[i];
-                }
-            }
-            //this removes the undefined in the files...very important
-            this.files = this.files.filter(Boolean);
-
-            this.getImagePreviews(this.files);
-
-            //         if (this.files.length > 0) {
-            //       for(var i =0; i < this.files.length; i++) {
-            //             if ('df' in this.files[i]){
-            //                 this.files.filter(word => word.df > 0);
-            //               this.files.splice(i, this.files.length);
-            //               i--;
-            //             }
-            //       }
-            // }
-
-            //         if (this.files.length > 0) {
-            //             for (var i = this.files.length; i--;) {
-            //                 if(this.files[i].df > 0){
-            //                     this.files.splice(i,2)
-            //                 }
-            //             }
-            // }
-            //
-
-            // let words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
-
-            // const result = words.filter(word => word.length > 6);
-
-            // console.log(result);
-            // words = []
-            // console.log(words.push(result))
-            // console.log(words)
-            // expected output: Array ["exuberant", "destruction", "present"]
-
-            //   console.log(this.files)
-            //console.log(this.files.filter(element => element.df > 0).splice(0,0));\
-
-            // this.files.filter(e => e.df > 0);
-            //         this.files.forEach(f => this.files.splice(this.files.findIndex(e => e.df > 0),1));
-            //         console.log(this.files.forEach(f => this.files.splice(this.files.findIndex(e => e.df > 0),0)));
-
-            // }
         },
         submitFile() {
             //append all the file to the form data
