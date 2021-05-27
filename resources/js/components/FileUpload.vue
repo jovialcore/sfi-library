@@ -200,7 +200,8 @@ export default {
 
         },
         removeFiles(key) {
-            this.images.splice(key, 1);
+            this.images.splice(key, 1);//delete in images array
+            this.imageFiles.splice(key, 1); //delete in ImageFiles array too
             this.errors = "";
             this.errorMsg = "";
             this.$refs.file.value = null;
