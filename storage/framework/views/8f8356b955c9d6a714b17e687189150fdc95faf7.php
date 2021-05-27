@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('content'); ?>
  <div class="container mx-auto">
 
@@ -10,8 +8,9 @@
 
         <?php $__currentLoopData = $category->files; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe ">
-                <a href="<?php echo e(route('showPicture', ['id'=> $cat])); ?>" class="no-underline text-white"> <img src="<?php echo e(asset('storage/uploads/' . $cat->name)); ?>" class="img-responsive img-fluid"> </a>
+                <a href="<?php echo e(route('showPicture', ['id'=> $cat])); ?>" class="no-underline text-white"><img src="<?php echo e(url('/uploads/uploads/'.$cat->name)); ?>" alt="Image" class="img-responsive img-fluid"> </a>
             </div>
+
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
     </div>

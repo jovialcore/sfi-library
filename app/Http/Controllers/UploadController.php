@@ -80,7 +80,7 @@ class UploadController extends Controller
 
                 $fileUploadModel->create([
                     'name' => $fileName,
-                    'path' => '/storage/' . $filePath,
+                    'path' => '/public/' . $filePath,
                     'size' => $fileSize,
                     'file_type' => $fileExtension,
                     'category_id' => $catId,

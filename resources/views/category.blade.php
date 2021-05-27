@@ -10,8 +10,9 @@
 
         @foreach ($category->files as $cat )
             <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe ">
-                <a href="{{route('showPicture', ['id'=> $cat])}}" class="no-underline text-white"> <img src="{{ asset('storage/uploads/' . $cat->name) }}" class="img-responsive img-fluid"> </a>
+                <a href="{{route('showPicture', ['id'=> $cat])}}" class="no-underline text-white"><img src="{{ url('/uploads/uploads/'.$cat->name)}}" alt="Image" class="img-responsive img-fluid"> </a>
             </div>
+
             @endforeach
 
     </div>

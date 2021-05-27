@@ -9,7 +9,7 @@
         <div class="row ">
             <div class="col-12 col-md-9 image-wrapper">
 
-                <img src="<?php echo e(asset('storage/uploads/' . $pic->name)); ?>" class="img-fluid img-page" alt="flower image">
+                <img  src="<?php echo e(url('/uploads/uploads/'.$pic->name)); ?>" class="img-fluid img-page" alt="flower image">
             </div>
             <div class="col-12 col-md-3">
                 <h4 class="mt-md-0 mt-4"> Image description</h4>
