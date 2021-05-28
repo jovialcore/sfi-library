@@ -1966,6 +1966,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       checker: 0,
+      progress: 0,
       notifDisplay: false,
       imageFiles: [],
       images: [],

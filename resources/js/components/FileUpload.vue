@@ -112,12 +112,14 @@
 
 <script>
 import VueToastr from "vue-toastr";
-import axios from 'axios'
+
+import axios from 'axios';
 
 export default {
   data() {
     return {
       checker: 0,
+      progress: 0,
       notifDisplay: false,
       imageFiles: [],
       images: [],
