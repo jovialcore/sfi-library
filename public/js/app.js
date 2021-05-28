@@ -1965,7 +1965,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      progress: 0,
       checker: 0,
       notifDisplay: false,
       imageFiles: [],
@@ -2063,6 +2062,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.checker) {
         this.images = [];
         this.imageFiles = [];
+        this.progress = 0;
       }
 
       this.checker = 0;
@@ -37997,13 +37997,14 @@ var render = function() {
                 }
               ],
               staticClass: "progress",
-              staticStyle: { height: "40px" }
+              staticStyle: { height: "30px" }
             },
             [
               _c(
                 "div",
                 {
-                  staticClass: "progress-bar progress-bar-striped bg-success",
+                  staticClass:
+                    "progress-bar progress-bar-striped bg-success fade",
                   style: { width: _vm.progress + "%" },
                   attrs: {
                     role: "progressbar",
