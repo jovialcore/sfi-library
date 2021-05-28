@@ -1987,13 +1987,11 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     computedCats: function computedCats() {
       return this.categories;
-    },
-    filesLa: function filesLa() {
-      return this.files;
     }
   },
   methods: {
     OnClose: function OnClose() {
+      this.progress = 0;
       this.hasError = false;
       this.isActive = false;
       this.errors = "";
@@ -2065,6 +2063,7 @@ __webpack_require__.r(__webpack_exports__);
         this.imageFiles = [];
       }
 
+      this.progress = 0;
       this.checker = 0;
       this.success = "";
       this.isActive = false;
@@ -2101,9 +2100,7 @@ __webpack_require__.r(__webpack_exports__);
           onUploadProgress: function onUploadProgress(uploadEvent) {
             _this4.progress = Math.round(uploadEvent.loaded / uploadEvent.total * 100);
           }
-        }; // console.log('upld prges:'+ Math.round(uploadEvent.loaded/uploadEvent.total*100)+'%')
-        //console.log('upld prges:'+ Math.round(uploadEvent.loaded/uploadEvent.total*100)+'%')
-
+        };
         axios__WEBPACK_IMPORTED_MODULE_1___default().post("/submit", this.form, config).then(function (response) {
           //success
           if (response.status = 201) {
@@ -2111,6 +2108,7 @@ __webpack_require__.r(__webpack_exports__);
             _this4.notifDisplay = true;
             _this4.success = response.data.success;
             _this4.$refs.file.value = "";
+            _this4.imageFiles = [];
 
             if (response.data.ids) {
               _this4.checker++;
@@ -37987,23 +37985,12 @@ var render = function() {
         _c("div", { staticClass: "col-12 mt-3" }, [
           _c(
             "div",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.images.length,
-                  expression: "images.length"
-                }
-              ],
-              staticClass: "progress",
-              staticStyle: { height: "40px" }
-            },
+            { staticStyle: { height: "40px" }, attrs: { show: _vm.progress } },
             [
               _c(
                 "div",
                 {
-                  staticClass: "progress-bar progress-bar-striped bg-success",
+                  staticClass: "progress-bar progress-bar-striped  bg-success",
                   style: { width: _vm.progress + "%" },
                   attrs: {
                     role: "progressbar",

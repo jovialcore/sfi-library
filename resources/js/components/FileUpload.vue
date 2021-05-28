@@ -66,9 +66,9 @@
         <button class="btn btn-success mt-4" @click="submitFile">Upload</button>
       </div>
       <div class="col-12 mt-3">
-            <div class="progress" style="height: 40px;"   v-show= "images.length">
+            <div class="" style="height: 40px;" :show="progress">
         <div
-         class="progress-bar progress-bar-striped bg-success"
+         class="progress-bar progress-bar-striped  bg-success"
           role="progressbar"
           aria-valuenow="40"
           aria-valuemin="0"
@@ -138,22 +138,19 @@ export default {
   props: ["categories"],
   computed: {
     computedCats: function () {
-      return this.categories;
-    },
-
-    filesLa: function () {
-      return this.files;
+      return this.categories
     },
   },
   methods: {
     OnClose() {
-      this.hasError = false;
-      this.isActive = false;
-      this.errors = "";
-      this.errorMsg = "";
-      this.success = "";
-      this.notifDisplay = false;
-      this.$refs.file.value = null;
+        this.progress = 0
+      this.hasError = false
+      this.isActive = false
+      this.errors = ""
+      this.errorMsg = ""
+      this.success = ""
+      this.notifDisplay = false
+      this.$refs.file.value = null
     },
     addCatbtn() {
       if (this.category == "") return;
@@ -207,6 +204,7 @@ export default {
         this.images = [];
         this.imageFiles = [];
       }
+      this.progress = 0
       this.checker = 0;
       this.success = "";
       this.isActive = false;
@@ -235,11 +233,9 @@ export default {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-           onUploadProgress:uploadEvent=>{ this.progress=Math.round(uploadEvent.loaded/uploadEvent.total*100 )}
+        onUploadProgress:uploadEvent=>{ this.progress=Math.round(uploadEvent.loaded/uploadEvent.total*100 )}
+            }
 
-                   }                    // console.log('upld prges:'+ Math.round(uploadEvent.loaded/uploadEvent.total*100)+'%')
-
-            //console.log('upld prges:'+ Math.round(uploadEvent.loaded/uploadEvent.total*100)+'%')
         axios
           .post("/submit", this.form, config)
           .then((response) => {
@@ -249,6 +245,7 @@ export default {
               this.notifDisplay = true;
               this.success = response.data.success;
               this.$refs.file.value = "";
+              this.imageFiles = []
               if (response.data.ids) {
                 this.checker++;
               }
