@@ -66,9 +66,9 @@
         <button class="btn btn-success mt-4" @click="submitFile">Upload</button>
       </div>
       <div class="col-12 mt-3">
-            <div class="progress" style="height: 40px;">
+            <div class="progress" style="height: 40px;"   v-show= "images.length">
         <div
-          class="progress-bar progress-bar-striped bg-dark"
+         class="progress-bar progress-bar-striped bg-success"
           role="progressbar"
           aria-valuenow="40"
           aria-valuemin="0"
@@ -112,6 +112,7 @@
 
 <script>
 import VueToastr from "vue-toastr";
+import axios from 'axios'
 
 export default {
   data() {
@@ -234,12 +235,11 @@ export default {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-          onUploadProgress:uploadEvent=>{this.progress = Math.round(uploadEvent.loaded/uploadEvent.total*100)}
+           onUploadProgress:uploadEvent=>{ this.progress=Math.round(uploadEvent.loaded/uploadEvent.total*100 )}
 
+                   }                    // console.log('upld prges:'+ Math.round(uploadEvent.loaded/uploadEvent.total*100)+'%')
 
-
-        };
-            console.log('upld prges:'+ Math.round(uploadEvent.loaded/uploadEvent.total*100)+'%')
+            //console.log('upld prges:'+ Math.round(uploadEvent.loaded/uploadEvent.total*100)+'%')
         axios
           .post("/submit", this.form, config)
           .then((response) => {
@@ -248,6 +248,7 @@ export default {
               this.isActive = true;
               this.notifDisplay = true;
               this.success = response.data.success;
+              
               this.$refs.file.value = "";
               if (response.data.ids) {
                 this.checker++;

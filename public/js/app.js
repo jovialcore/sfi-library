@@ -1846,6 +1846,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue_toastr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-toastr */ "./node_modules/vue-toastr/dist/vue-toastr.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -1958,6 +1960,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -2003,7 +2006,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       if (this.category == "") return;
-      axios.post("/addcategory", {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post("/addcategory", {
         name: this.category
       }).then(function (response) {
         if (response.status = 201) {
@@ -2098,9 +2101,10 @@ __webpack_require__.r(__webpack_exports__);
           onUploadProgress: function onUploadProgress(uploadEvent) {
             _this4.progress = Math.round(uploadEvent.loaded / uploadEvent.total * 100);
           }
-        };
-        console.log('upld prges:' + Math.round(uploadEvent.loaded / uploadEvent.total * 100) + '%');
-        axios.post("/submit", this.form, config).then(function (response) {
+        }; // console.log('upld prges:'+ Math.round(uploadEvent.loaded/uploadEvent.total*100)+'%')
+        //console.log('upld prges:'+ Math.round(uploadEvent.loaded/uploadEvent.total*100)+'%')
+
+        axios__WEBPACK_IMPORTED_MODULE_1___default().post("/submit", this.form, config).then(function (response) {
           //success
           if (response.status = 201) {
             _this4.isActive = true;
@@ -37983,12 +37987,23 @@ var render = function() {
         _c("div", { staticClass: "col-12 mt-3" }, [
           _c(
             "div",
-            { staticClass: "progress", staticStyle: { height: "40px" } },
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.images.length,
+                  expression: "images.length"
+                }
+              ],
+              staticClass: "progress",
+              staticStyle: { height: "40px" }
+            },
             [
               _c(
                 "div",
                 {
-                  staticClass: "progress-bar progress-bar-striped bg-dark",
+                  staticClass: "progress-bar progress-bar-striped bg-success",
                   style: { width: _vm.progress + "%" },
                   attrs: {
                     role: "progressbar",
@@ -51066,6 +51081,18 @@ Vue.compile = compileToFunctions;
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
 /******/ 		};
 /******/ 	})();
 /******/ 	
