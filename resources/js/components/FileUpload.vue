@@ -66,9 +66,9 @@
         <button class="btn btn-success mt-4" @click="submitFile">Upload</button>
       </div>
       <div class="col-12 mt-3">
-            <div class="progress" style="height: 30px;"   v-show= "images.length">
+            <div class="progress" style="height: 40px;"   v-show= "images.length">
         <div
-         class="progress-bar progress-bar-striped bg-success fade"
+         class="progress-bar progress-bar-striped bg-success"
           role="progressbar"
           aria-valuenow="40"
           aria-valuemin="0"
@@ -112,14 +112,13 @@
 
 <script>
 import VueToastr from "vue-toastr";
-
-import axios from 'axios';
+import axios from 'axios'
 
 export default {
   data() {
     return {
-      checker: 0,
       progress: 0,
+      checker: 0,
       notifDisplay: false,
       imageFiles: [],
       images: [],
@@ -207,7 +206,6 @@ export default {
       if (this.checker) {
         this.images = [];
         this.imageFiles = [];
-        this.progress = 0
       }
       this.checker = 0;
       this.success = "";
