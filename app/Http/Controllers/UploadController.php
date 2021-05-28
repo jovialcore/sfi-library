@@ -49,7 +49,7 @@ class UploadController extends Controller
             $category = json_decode($req->cats);
             // name attribute of files is pic
             $theUploadedFiles = $req->pic;
-            $noOfFilesUploaded = count($theUploadedFiles);
+           // $noOfFilesUploaded = count($theUploadedFiles);
             //get the id that of the category that came with the form
             $catId = category::where('name', $category)->value('id');
             $user = Auth::user()->id;
@@ -89,8 +89,8 @@ class UploadController extends Controller
 
             }
             //here we are fetching the latest id from the database using the number of incoming request as a counter which when we are done, we send the details to our frontend
-           $ids =  $fileUploadModel->latest()->take($noOfFilesUploaded)->pluck('id');
-              return response()->json(['success' => 'Files were successfully uploaded', 'ids' => $ids ], 201);
+           //$ids =  $fileUploadModel->latest()->take($noOfFilesUploaded)->pluck('id');
+              return response()->json(['success' => 'Files were successfully uploaded', 'ids' => 1 ], 201);
 
         } else  {
 
