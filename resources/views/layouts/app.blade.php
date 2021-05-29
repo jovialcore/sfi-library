@@ -139,14 +139,7 @@
 
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
-        // init Masonry after all images have loaded
-        // const grid = document.querySelector('.grid');
-
-        // imagesLoaded(grid).on('progress', function() {
-        //     // layout Masonry after each image loads
-        //     msnry.layout();
-        // });
-
+    
 
         var grid = document.querySelector('.grid');
         var msnry;
